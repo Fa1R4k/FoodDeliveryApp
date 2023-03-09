@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.open_product.ProductDescriptionFragment">
+
+    <ImageView
+        android:id="@+id/ivProductImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_baseline_shopping_basket_24"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="100dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/rgFirstSelect"
+        app:layout_constraintTop_toBottomOf="@id/ivProductImage" />
+
+    <TextView
+        android:id="@+id/tvProductDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@id/rgFirstSelect"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+
+    <RadioGroup
+        android:id="@+id/rgFirstSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/control_switch_background_border"
+        android:checkedButton="@id/r_btn_prise1"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tvProductDescription"
+        android:layout_margin="25dp">
+
+        <RadioButton
+            android:id="@+id/r_btn_prise1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:minHeight="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:layout_margin="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Маленькая"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/r_btn_prise2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:minHeight="0dp"
+
+            android:layout_margin="4dp"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Средняя"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/r_btn_prise3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Большая"
+            android:textColor="@color/black" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rgSecondSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/control_switch_background_border"
+        android:checkedButton="@id/r_btn_type1"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/rgFirstSelect"
+        android:layout_margin="25dp">
+
+        <RadioButton
+            android:id="@+id/r_btn_type1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:minHeight="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:layout_margin="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Пышное"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/r_btn_type2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/control_switch_background_selector_middle"
+            android:button="@null"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="Тонкое"
+            android:textColor="@color/black" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/in_cart"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgSecondSelect" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
