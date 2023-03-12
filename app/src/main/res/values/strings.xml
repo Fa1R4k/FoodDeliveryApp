@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">FoodDeliveryApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_profile">Profile</string>
-    <string name="title_contacts">Contacts</string>
-    <string name="title_cart">Cart</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Меню</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_contacts">Контакты</string>
+    <string name="title_cart">Корзина</string>
     <string name="fatal">фатал</string>
     <string name="unknown">неизв</string>
     <string name="in_cart">В корзину за</string>
+    <string name="buy">Купить за</string>
+    <string name="min_price">от</string>
+    <string name="currency">руб.</string>
+    <string name="loading_error">Ошибка загрузки</string>
     <string name="category">Category</string>
+    <string name="product">Product</string>
+    <string name="product_price">Product price</string>
+    <string name="product_description">Product desription</string>
 </resources>

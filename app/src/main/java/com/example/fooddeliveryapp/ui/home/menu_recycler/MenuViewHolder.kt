@@ -22,7 +22,11 @@ class MenuViewHolder(
         setImage(item.imageUrl, image)
         name.text = item.name
         description.text = item.description
-        btnPrise.text = "от ${item.prise} р."
+        var prise = "0.0"
+        try {
+            prise = item.prise.values.first().toString()
+        } catch (_: Exception){}
+        btnPrise.text = "${itemView.resources.getText(R.string.min_price)} $prise ${itemView.resources.getText(R.string.currency)}"
 
         itemView.setOnClickListener {
             openProductItemClick(item.id)

@@ -3,6 +3,9 @@
     android:id="@+id/text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Primer"
-    android:textColor="@color/black"
-    android:textSize="20sp" />
+    android:background="@color/orange_100"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="14dp"
+    android:textColor="@color/grey_700"
+    android:textSize="36sp" />

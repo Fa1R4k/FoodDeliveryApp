@@ -10,7 +10,7 @@
         android:id="@+id/ivProductImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="5dp"
+        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,7 +19,8 @@
         android:id="@+id/tvProductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/montserrat"
         android:maxWidth="200dp"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -27,34 +28,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/ivProductImage"
-        app:layout_constraintTop_toTopOf="@id/ivProductImage"
-       />
+        app:layout_constraintTop_toTopOf="@id/ivProductImage" />
 
     <TextView
         android:id="@+id/tvProductDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="left"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat"
         android:maxWidth="200dp"
-        android:maxHeight="57dp"
-        app:layout_constraintVertical_bias="0"
+        android:maxHeight="58dp"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/btnPrise"
         app:layout_constraintStart_toStartOf="@id/tvProductName"
-        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+        app:layout_constraintTop_toBottomOf="@id/tvProductName"
+        app:layout_constraintVertical_bias="0" />
 
     <Button
         android:id="@+id/btnPrise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange_300"
+        android:fontFamily="@font/montserrat"
         android:minHeight="45dp"
-        android:text="от "
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="13sp"
+        android:textSize="16sp"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="@id/ivProductImage"
         app:layout_constraintStart_toStartOf="@id/tvProductName" />

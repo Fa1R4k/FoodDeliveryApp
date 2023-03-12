@@ -1,7 +1,5 @@
 package com.example.fooddeliveryapp.domain
 
-import com.example.fooddeliveryapp.data.database.CartEntity
-
 interface Repository {
 
     suspend fun getMenu(): List<ProductItem>
@@ -17,9 +15,13 @@ interface Repository {
 
     suspend fun addProductToCart(
         productItem: ProductItem.ProductData,
+        productPrice: Double,
         productCount: Int,
-        productParameter: String
+        productParameter: String,
     )
 
     suspend fun getAllProductFromCart(): List<ProductInCart>
+
+    suspend fun getPriceByParameter(id: Int, parameter: String): Double
+    suspend fun deleteCartFromDataBase()
 }

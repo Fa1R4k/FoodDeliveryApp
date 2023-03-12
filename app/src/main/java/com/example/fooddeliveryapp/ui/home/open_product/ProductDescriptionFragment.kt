@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.fooddeliveryapp.R
@@ -17,6 +19,8 @@ class ProductDescriptionFragment : Fragment() {
 
     private val viewModel by viewModels<ProductDescriptionViewModel>()
     private val args: ProductDescriptionFragmentArgs by navArgs()
+    private var price = 0.0
+    private var parameter = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,33 +31,58 @@ class ProductDescriptionFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         val productName = view.findViewById<TextView>(R.id.tvProductName)
         val productDescription = view.findViewById<TextView>(R.id.tvProductDescription)
         val productImage = view.findViewById<ImageView>(R.id.ivProductImage)
         val productBtnToCart = view.findViewById<Button>(R.id.btnToCart)
-        val firstProductParameter = view.findViewById<RadioGroup>(R.id.rgFirstSelect)
-        val secondProductParameter = view.findViewById<RadioGroup>(R.id.rgSecondSelect)
-        val productPrice = 0.0
-        val productParameter = ""
+        val productParameter = view.findViewById<RadioGroup>(R.id.rgFirstSelect)
 
-        firstProductParameter.setOnCheckedChangeListener { _, checkedId ->
-            val button = view.findViewById<RadioButton>(checkedId)
-            Toast.makeText(requireContext(), "Выбран вариант ${button.text}", Toast.LENGTH_SHORT).show()
-        }
 
         viewModel.liveData.observe(viewLifecycleOwner) {
             productBtnToCart.setOnClickListener {
                 viewModel.liveData.value?.let { product ->
-                    viewModel.addToCard(product, 1, "sd")
+                    viewModel.addToCard(product, price, 1, parameter)
                 }
+                val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+                val navOptions = NavOptions.Builder()
+                    .setExitAnim(R.anim.add_to_cart_anim)
+                    .build()
+                navHostFragment.navController.navigate(R.id.navigation_home, null, navOptions)
             }
-
             productName.text = it.name
             productDescription.text = it.description
-            productBtnToCart.text = it.prise.toString()
             setImage(it.imageUrl, productImage)
         }
+
+        viewModel.firstPriceLiveData.observe(viewLifecycleOwner) {
+            price = it
+            productBtnToCart.text =
+                "${resources.getText(R.string.in_cart)} $price ${resources.getText(R.string.currency)}"
+
+        }
+
+        viewModel.parametersLiveData.observe(viewLifecycleOwner) { parametersList ->
+            for (buttonNumber in 0 until productParameter.childCount) {
+                val radioButton = productParameter.getChildAt(buttonNumber) as RadioButton
+                radioButton.text = parametersList[buttonNumber]
+            }
+            parameter = parametersList[0]
+        }
+
+        viewModel.priceLiveData.observe(viewLifecycleOwner) { price ->
+            productBtnToCart.text =
+                "${resources.getText(R.string.in_cart)} $price ${resources.getText(R.string.currency)}"
+            this.price = price
+        }
+
+        productParameter.setOnCheckedChangeListener { _, checkedId ->
+            parameter = view.findViewById<RadioButton>(checkedId).text.toString()
+            viewModel.getPriceByParameter(args.id, parameter)
+        }
+
+
         viewModel.getProduct(args.id)
     }
 
@@ -61,14 +90,5 @@ class ProductDescriptionFragment : Fragment() {
         Glide.with(image)
             .load(url)
             .into(image)
-    }
-
-
-
-    private fun checkButton(v : View){
-        val firstProductParameter = v.findViewById<RadioGroup>(R.id.rgFirstSelect)
-        val rad = v.findViewById<RadioButton>(firstProductParameter.checkedRadioButtonId)
-
-        Toast.makeText(requireContext(), rad.text.toString(),Toast.LENGTH_SHORT).show()
     }
 }

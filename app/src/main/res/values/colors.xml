@@ -19,4 +19,6 @@
     <color name="controlBackground">#C6C6C6</color>
     <color name="selectedBtn">#FFFFFF</color>
     <color name="grey_100">#FAF8F8</color>
+    <color name="orange_100">#FFF3E0</color>
+    <color name="grey_400">#4E4E4E</color>
 </resources>
