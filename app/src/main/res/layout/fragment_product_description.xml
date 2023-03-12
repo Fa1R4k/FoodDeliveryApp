@@ -47,95 +47,55 @@
         android:id="@+id/rgFirstSelect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:layout_marginBottom="248dp"
         android:background="@drawable/control_switch_background_border"
         android:checkedButton="@id/r_btn_prise1"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvProductDescription"
-        android:layout_margin="25dp">
+        app:layout_constraintBottom_toTopOf="@+id/btnToCart"
+        app:layout_constraintTop_toBottomOf="@id/tvProductDescription">
 
         <RadioButton
             android:id="@+id/r_btn_prise1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:minHeight="0dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="@drawable/control_switch_background_selector_middle"
             android:button="@null"
-            android:layout_margin="4dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Маленькая"
+            android:minHeight="0dp"
             android:textColor="@color/black" />
 
         <RadioButton
             android:id="@+id/r_btn_prise2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:minHeight="0dp"
-
             android:layout_margin="4dp"
+            android:layout_weight="1"
+
             android:background="@drawable/control_switch_background_selector_middle"
             android:button="@null"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Средняя"
+            android:minHeight="0dp"
             android:textColor="@color/black" />
 
         <RadioButton
             android:id="@+id/r_btn_prise3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:minHeight="30dp"
             android:layout_margin="4dp"
+            android:layout_weight="1"
             android:background="@drawable/control_switch_background_selector_middle"
             android:button="@null"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Большая"
-            android:textColor="@color/black" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/rgSecondSelect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/control_switch_background_border"
-        android:checkedButton="@id/r_btn_type1"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/rgFirstSelect"
-        android:layout_margin="25dp">
-
-        <RadioButton
-            android:id="@+id/r_btn_type1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:minHeight="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/control_switch_background_selector_middle"
-            android:button="@null"
-            android:layout_margin="5dp"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="Пышное"
-            android:textColor="@color/black" />
-
-        <RadioButton
-            android:id="@+id/r_btn_type2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:minHeight="30dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/control_switch_background_selector_middle"
-            android:button="@null"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="Тонкое"
             android:textColor="@color/black" />
-
     </RadioGroup>
+
 
     <Button
         android:id="@+id/btnToCart"
@@ -144,11 +104,11 @@
         android:text="@string/in_cart"
         android:textAllCaps="false"
         android:textSize="18dp"
+        android:layout_margin="50dp"
         app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgSecondSelect" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

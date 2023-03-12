@@ -1,6 +1,5 @@
 package com.example.fooddeliveryapp.data
 
-import com.example.fooddeliveryapp.data.database.CartEntity
 import com.example.fooddeliveryapp.data.mappers.CartEntityMapper
 import com.example.fooddeliveryapp.data.mappers.ProductInCartMapper
 import com.example.fooddeliveryapp.domain.CategoryData
@@ -47,11 +46,12 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun addProductToCart(
         productItem: ProductItem.ProductData,
+        productPrice: Double,
         productCount: Int,
         productParameter: String,
     ) {
         withContext(Dispatchers.IO) {
-            cartDataBase.insert(cartEntityMapper(productItem, 1.0, productCount, productParameter))
+            cartDataBase.insert(cartEntityMapper(productItem, productPrice, productCount, productParameter))
         }
     }
 
@@ -59,4 +59,15 @@ class RepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             (cartDataBase.getAll().map { productInCartMapper(it) }.toList())
         }
+
+    override suspend fun getPriceByParameter(id: Int, parameter: String): Double =
+        withContext(Dispatchers.IO) {
+            server.getPrice(id, parameter)
+        }
+
+    override suspend fun deleteCartFromDataBase(){
+        withContext(Dispatchers.IO) {
+            cartDataBase.delete(cartDataBase.getAll())
+        }
+    }
 }

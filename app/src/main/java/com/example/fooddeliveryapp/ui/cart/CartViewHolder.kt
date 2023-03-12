@@ -19,9 +19,13 @@ class CartViewHolder(
         val image = itemView.findViewById<ImageView>(R.id.ivProductImage)
         val name = itemView.findViewById<TextView>(R.id.tvProductName)
         val price = itemView.findViewById<TextView>(R.id.tvPrice)
+        val parameter = itemView.findViewById<TextView>(R.id.tvParameter)
+
         setImage(item.imageUrl, image)
         name.text = item.name
-        price.text = item.prise.toString()
+        price.text = "${item.prise} ${itemView.resources.getText(R.string.currency)}"
+        parameter.text = item.productParameter
+
     }
 
     private fun setImage(url: String, image: ImageView) {

@@ -36,4 +36,10 @@ class CartViewModel @Inject constructor(
         _liveData.value?.map { price += it.prise }
         _priceLiveData.value = price
     }
+
+    fun deleteCart() {
+        viewModelScope.launch {
+            repository.deleteCartFromDataBase()
+        }
+    }
 }

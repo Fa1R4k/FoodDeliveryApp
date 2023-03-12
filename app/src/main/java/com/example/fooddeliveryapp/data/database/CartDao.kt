@@ -12,6 +12,6 @@ interface CartDao {
 
 
     @Delete
-    fun delete(product: CartEntity)
+    fun delete(products: List<CartEntity>)
 
 }
