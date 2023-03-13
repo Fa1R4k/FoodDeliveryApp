@@ -12,8 +12,7 @@ import com.example.fooddeliveryapp.domain.ProductItem
 class MenuViewHolder(
     itemView: View,
     private val openProductItemClick: (Int) -> Unit,
-) :
-    RecyclerView.ViewHolder(itemView) {
+) : RecyclerView.ViewHolder(itemView) {
     fun onBind(item: ProductItem.ProductData) {
         val image = itemView.findViewById<ImageView>(R.id.ivProductImage)
         val name = itemView.findViewById<TextView>(R.id.tvProductName)
@@ -25,17 +24,16 @@ class MenuViewHolder(
         var prise = "0.0"
         try {
             prise = item.prise.values.first().toString()
-        } catch (_: Exception){}
-        btnPrise.text = "${itemView.resources.getText(R.string.min_price)} $prise ${itemView.resources.getText(R.string.currency)}"
-
-        itemView.setOnClickListener {
-            openProductItemClick(item.id)
+        } catch (_: Exception) {
         }
+        btnPrise.text =
+            "${itemView.resources.getText(R.string.min_price)} $prise ${itemView.resources.getText(R.string.currency)}"
+
+        btnPrise.setOnClickListener { openProductItemClick(item.id) }
+        itemView.setOnClickListener { openProductItemClick(item.id) }
     }
 
     private fun setImage(url: String, image: ImageView) {
-        Glide.with(image)
-            .load(url)
-            .into(image)
+        Glide.with(image).load(url).into(image)
     }
 }

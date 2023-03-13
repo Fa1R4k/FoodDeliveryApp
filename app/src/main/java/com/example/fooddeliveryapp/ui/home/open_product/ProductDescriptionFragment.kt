@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.fooddeliveryapp.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,7 +32,6 @@ class ProductDescriptionFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         val productName = view.findViewById<TextView>(R.id.tvProductName)
         val productDescription = view.findViewById<TextView>(R.id.tvProductDescription)

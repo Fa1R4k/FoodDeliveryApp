@@ -45,7 +45,19 @@ class ProductDescriptionViewModel @Inject constructor(
         productParameter: String,
     ) {
         viewModelScope.launch {
-            repository.addProductToCart(productItem, productPrise, productCount, productParameter)
+            val product = repository.getProductFromDataBase(productItem.id, productParameter)
+            if (product.id == -1) {
+                repository.addProductToCart(productItem,
+                    productPrise,
+                    productCount,
+                    productParameter)
+            } else {
+                val addProductCount = product.countProductInCart + 1
+                repository.addProductToCart(productItem,
+                    productPrise,
+                    addProductCount,
+                    productParameter)
+            }
         }
     }
 

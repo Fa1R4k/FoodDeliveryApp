@@ -8,5 +8,5 @@ data class ProductInCart(
     val imageUrl: String,
     val prise: Double,
     val productParameter: String,
-    val countProductInCart: Int,
+    var countProductInCart: Int,
 )

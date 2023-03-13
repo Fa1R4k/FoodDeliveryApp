@@ -49,7 +49,9 @@ class HomeViewModel @Inject constructor(
 
     fun getProduct(category: String) {
         if (category == "Все") {
-            getProduct()
+            viewModelScope.launch(exceptionHandler) {
+                _liveData.value = repository.getMenu()
+            }
         } else {
             _loadingLiveData.value = true
             viewModelScope.launch(exceptionHandler) {

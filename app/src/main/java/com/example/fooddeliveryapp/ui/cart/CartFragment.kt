@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fooddeliveryapp.R
-import com.example.fooddeliveryapp.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,10 +30,9 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val cartRecyclerView = view.findViewById<RecyclerView>(R.id.cartRecyclerView)
         val btnForBuy = view.findViewById<Button>(R.id.btnForBuy)
-
         viewModel.apply {
             liveData.observe(viewLifecycleOwner) {
-                cartRecyclerView.adapter = CartAdapter(it, openProductItemClick())
+                cartRecyclerView.adapter = CartAdapter(it, changeCart())
                 cartRecyclerView.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             }
@@ -42,17 +40,17 @@ class CartFragment : Fragment() {
                 btnForBuy.text = "${resources.getText(R.string.buy)} ${
                     String.format("%.2f", it)
                 } ${resources.getText(R.string.currency)}"
-
             }
         }
         viewModel.getCartFromData()
+
         btnForBuy.setOnClickListener {
             viewModel.deleteCart()
         }
+
     }
 
-    private fun openProductItemClick(): (Int) -> Unit = { id ->
-        val action = HomeFragmentDirections.actionNavigationHomeToProductDescriptionFragment(id)
-        findNavController().navigate(action)
+    private fun changeCart(): (Int, String, CART_CHANGES) -> Unit = { id, parameter, change ->
+        viewModel.changeCart(id,parameter, change)
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.ProductInCart
-import com.example.fooddeliveryapp.domain.ProductItem
 import com.example.fooddeliveryapp.domain.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,20 +25,47 @@ class CartViewModel @Inject constructor(
 
     fun getCartFromData() {
         viewModelScope.launch {
-            _liveData.value = repository.getAllProductFromCart()
+            _liveData.value = repository.getAllProductFromCart().sortedBy { it.hashCode() }
             getCartPrice()
         }
     }
 
     private fun getCartPrice() {
-        price = 0.0
-        _liveData.value?.map { price += it.prise }
-        _priceLiveData.value = price
+        viewModelScope.launch {
+            price = 0.0
+            repository.getAllProductFromCart().map { price += it.prise * it.countProductInCart }
+            _priceLiveData.value = price
+        }
     }
 
     fun deleteCart() {
         viewModelScope.launch {
-            repository.deleteCartFromDataBase()
+            repository.deleteCartsFromDataBase()
+        }
+    }
+
+    fun changeCart(id: Int, parameter: String, changes: CART_CHANGES) {
+        viewModelScope.launch {
+            val productInCart =
+                _liveData.value?.first { it.id == id && it.productParameter == parameter }
+                    ?: ProductInCart(0,
+                        "",
+                        "",
+                        1.0,
+                        "",
+                        1)
+            when (changes) {
+                CART_CHANGES.ADD -> {
+                    productInCart.countProductInCart++
+                    repository.changeCountForProduct(productInCart)
+                }
+                CART_CHANGES.REMOVE -> {
+                    productInCart.countProductInCart--
+                    repository.changeCountForProduct(productInCart)
+                }
+                CART_CHANGES.DELETE -> repository.deleteCartFromDataBase(productInCart)
+            }
+            getCartPrice()
         }
     }
 }
