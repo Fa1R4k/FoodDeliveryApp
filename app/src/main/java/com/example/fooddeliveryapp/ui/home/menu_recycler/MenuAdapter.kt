@@ -3,7 +3,8 @@ package com.example.fooddeliveryapp.ui.home.menu_recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fooddeliveryapp.R
+import com.example.fooddeliveryapp.databinding.RvItemProductBinding
+import com.example.fooddeliveryapp.databinding.TextItemBinding
 import com.example.fooddeliveryapp.domain.ProductItem
 import java.lang.Exception
 
@@ -14,14 +15,14 @@ class MenuAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             PRODUCT_TYPE -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.rv_item_product, parent, false)
-                MenuViewHolder(view, openProductItemClick)
+                val item =
+                    RvItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                MenuViewHolder(item, openProductItemClick)
             }
             TITLE_TYPE -> {
-                val view =
-                    LayoutInflater.from(parent.context).inflate(R.layout.text_item, parent, false)
-                TitleViewHolder(view)
+                val item =
+                    TextItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TitleViewHolder(item)
             }
             else -> throw Exception("Invalid Type!")
         }
