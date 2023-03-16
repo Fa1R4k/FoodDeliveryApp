@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.fooddeliveryapp.R
@@ -37,9 +36,8 @@ class CartViewHolder(
     }
 
     private fun clickAdd(item: ProductInCart, count: TextView, price: TextView) {
-        if (item.countProductInCart == 99) {
-        } else {
-            addCountForProduct(item.id,item.productParameter, CART_CHANGES.ADD)
+        if (item.countProductInCart != 99) {
+            addCountForProduct(item.id, item.productParameter, CART_CHANGES.ADD)
             count.text = item.countProductInCart.toString()
             price.text =
                 "${item.prise * item.countProductInCart} ${itemView.resources.getText(R.string.currency)}"
@@ -48,10 +46,10 @@ class CartViewHolder(
 
     private fun clickRemove(item: ProductInCart, count: TextView, price: TextView) {
         if (item.countProductInCart == 1) {
-            addCountForProduct(item.id, item.productParameter,CART_CHANGES.DELETE)
+            addCountForProduct(item.id, item.productParameter, CART_CHANGES.DELETE)
             cartAdapter.updateList(item, itemView)
         } else {
-            addCountForProduct(item.id, item.productParameter,CART_CHANGES.REMOVE)
+            addCountForProduct(item.id, item.productParameter, CART_CHANGES.REMOVE)
             count.text = item.countProductInCart.toString()
             price.text =
                 "${item.prise * item.countProductInCart} ${itemView.resources.getText(R.string.currency)}"

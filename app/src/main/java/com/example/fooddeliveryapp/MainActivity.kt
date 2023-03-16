@@ -1,12 +1,10 @@
 package com.example.fooddeliveryapp
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.fooddeliveryapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,5 +23,16 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.productDescriptionFragment -> {
+                    navView.isVisible = false
+                }
+                else -> {
+                    navView.isVisible = true
+                }
+            }
+        }
     }
 }
