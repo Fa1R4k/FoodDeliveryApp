@@ -8,9 +8,7 @@ import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.domain.CategoryData
 import com.example.fooddeliveryapp.domain.Repository
 import com.example.fooddeliveryapp.domain.ProductItem
-import com.google.android.material.badge.BadgeDrawable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException

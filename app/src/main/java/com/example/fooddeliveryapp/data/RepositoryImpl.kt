@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.data
 
+import com.example.fooddeliveryapp.data.database.CartEntity
 import com.example.fooddeliveryapp.data.mappers.CartEntityMapper
 import com.example.fooddeliveryapp.data.mappers.ProductInCartMapper
 import com.example.fooddeliveryapp.domain.CategoryData
@@ -44,6 +45,18 @@ class RepositoryImpl @Inject constructor(
             productItemMapper(server.getProductById(id))
         }
 
+    override suspend fun getProductFromDataBase(id: Int, parameter: String): ProductInCart {
+        var productInCart = ProductInCart(-1, "", "", 0.0, "", 0)
+        withContext(Dispatchers.IO) {
+            try {
+                productInCart = productInCartMapper(cartDataBase.getAll()
+                    .first { it.productId == id && it.productParameter == parameter })
+            } catch (_: Exception) {
+            }
+        }
+        return productInCart
+    }
+
     override suspend fun addProductToCart(
         productItem: ProductItem.ProductData,
         productPrice: Double,
@@ -51,7 +64,10 @@ class RepositoryImpl @Inject constructor(
         productParameter: String,
     ) {
         withContext(Dispatchers.IO) {
-            cartDataBase.insert(cartEntityMapper(productItem, productPrice, productCount, productParameter))
+            cartDataBase.insert(cartEntityMapper(productItem,
+                productPrice,
+                productCount,
+                productParameter))
         }
     }
 
@@ -65,9 +81,21 @@ class RepositoryImpl @Inject constructor(
             server.getPrice(id, parameter)
         }
 
-    override suspend fun deleteCartFromDataBase(){
+    override suspend fun deleteCartsFromDataBase() {
         withContext(Dispatchers.IO) {
             cartDataBase.delete(cartDataBase.getAll())
+        }
+    }
+
+    override suspend fun deleteCartFromDataBase(productInCart: ProductInCart) {
+        withContext(Dispatchers.IO) {
+            cartDataBase.delete(listOf(cartEntityMapper(productInCart)))
+        }
+    }
+
+    override suspend fun changeCountForProduct(productInCart: ProductInCart) {
+        withContext(Dispatchers.IO) {
+            cartDataBase.insert(cartEntityMapper(productInCart))
         }
     }
 }

@@ -13,9 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment"
-            app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/fading"
-            app:popEnterAnim="@anim/dlsldsl"
+            app:enterAnim="@anim/from_bottom"
+            app:exitAnim="@anim/to_invisible"
+            app:popEnterAnim="@anim/to_visible"
             app:popExitAnim="@anim/slide_out_down" />
     </fragment>
 
@@ -31,7 +31,7 @@
         android:label="@string/title_contacts"
         tools:layout="@layout/fragment_contacts" />
     <fragment
-        android:id="@+id/navigation_basket"
+        android:id="@+id/navigation_cart"
         android:name="com.example.fooddeliveryapp.ui.cart.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" />

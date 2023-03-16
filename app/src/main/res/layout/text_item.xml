@@ -3,9 +3,4 @@
     android:id="@+id/text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/orange_100"
-    android:paddingStart="20dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="14dp"
-    android:textColor="@color/grey_700"
-    android:textSize="36sp" />
+    android:textSize="0dp" />

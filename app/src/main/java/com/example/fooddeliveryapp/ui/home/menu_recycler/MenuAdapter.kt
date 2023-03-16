@@ -16,7 +16,7 @@ class MenuAdapter(
             PRODUCT_TYPE -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.rv_item_product, parent, false)
-                MenuViewHolder(view,openProductItemClick)
+                MenuViewHolder(view, openProductItemClick)
             }
             TITLE_TYPE -> {
                 val view =
