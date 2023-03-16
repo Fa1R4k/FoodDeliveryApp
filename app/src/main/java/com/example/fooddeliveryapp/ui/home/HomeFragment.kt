@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.databinding.FragmentHomeBinding
-import com.example.fooddeliveryapp.ui.home.category_have_problems.CategoryAdapter
+import com.example.fooddeliveryapp.ui.home.category.CategoryAdapter
 import com.example.fooddeliveryapp.ui.home.menu_recycler.MenuAdapter
 import dagger.hilt.android.AndroidEntryPoint
 

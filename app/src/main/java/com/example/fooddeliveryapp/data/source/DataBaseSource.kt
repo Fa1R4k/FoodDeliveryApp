@@ -12,5 +12,4 @@ class DataBaseSource @Inject constructor(
     fun insert(product: CartEntity) = cartDao.insert(product)
 
     fun delete(products: List<CartEntity>) = cartDao.delete(products)
-
 }

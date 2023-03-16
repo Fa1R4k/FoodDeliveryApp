@@ -3,7 +3,6 @@ package com.example.fooddeliveryapp.domain
 interface Repository {
 
     suspend fun getMenu(): List<ProductItem>
-    suspend fun getUser(): List<ProductItem.ProductData>
     suspend fun getCategory(): MutableList<CategoryData>
     suspend fun getProductByCategory(category: String): List<ProductItem>
     suspend fun getProductById(id: String): ProductItem.ProductData
