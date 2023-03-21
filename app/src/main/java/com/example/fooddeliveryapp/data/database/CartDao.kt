@@ -10,7 +10,6 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(products: CartEntity)
 
-
     @Delete
     fun delete(products: List<CartEntity>)
 }
