@@ -17,6 +17,9 @@
             app:exitAnim="@anim/to_invisible"
             app:popEnterAnim="@anim/to_visible"
             app:popExitAnim="@anim/slide_out_down" />
+        <action
+            android:id="@+id/action_navigation_home_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -46,5 +49,9 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <dialog
+        android:id="@+id/searchFragment"
+        android:name="com.example.fooddeliveryapp.ui.home.search.SearchFragment"
+        android:label="SearchFragment" />
 
 </navigation>
