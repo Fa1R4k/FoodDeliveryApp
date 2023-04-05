@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.domain
+package com.example.fooddeliveryapp.domain.model
 
 sealed class ProductItem {
     data class ProductData(
@@ -6,7 +6,7 @@ sealed class ProductItem {
         val name: String,
         val description: String,
         val imageUrl: String,
-        var prise: Map<String,Double>,
+        var price: Map<String,Double>,
     ) : ProductItem()
 
     data class ProductTitleItem(val title: String) : ProductItem()

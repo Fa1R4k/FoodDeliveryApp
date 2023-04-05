@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.R
-import com.example.fooddeliveryapp.domain.CategoryData
-import com.example.fooddeliveryapp.domain.Repository
-import com.example.fooddeliveryapp.domain.ProductItem
+import com.example.fooddeliveryapp.domain.model.CategoryData
+import com.example.fooddeliveryapp.domain.ProductRepository
+import com.example.fooddeliveryapp.domain.model.ProductItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: Repository,
+    private val repository: ProductRepository,
 ) : ViewModel() {
 
     private val _liveData = MutableLiveData<List<ProductItem>>()
@@ -31,7 +31,6 @@ class HomeViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
-
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         when (throwable) {
             is SocketTimeoutException -> _errorLiveData.value = R.string.fatal
@@ -41,20 +40,16 @@ class HomeViewModel @Inject constructor(
 
     fun getCategory() {
         viewModelScope.launch(exceptionHandler) {
-            _categoryLiveData.value = repository.getCategory()
+            _categoryLiveData.value = repository.getCategory().toMutableList()
         }
     }
 
     fun getProduct(category: String) {
-        if (category == "Все") {
-            getProduct()
-        } else {
             _loadingLiveData.value = true
             viewModelScope.launch(exceptionHandler) {
                 _liveData.value = repository.getProductByCategory(category)
                 _loadingLiveData.value = false
             }
-        }
     }
 
     fun getProduct() {

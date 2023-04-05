@@ -8,14 +8,13 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.RvItemCartBinding
-import com.example.fooddeliveryapp.domain.ProductInCart
+import com.example.fooddeliveryapp.domain.model.CartProduct
 
 class CartAdapter(
-    listProductData: List<ProductInCart>,
-    private val addCountForProduct: (Int, String, CART_CHANGES) -> Unit,
+    private val addCountForProduct: (Int, String, CartChanges) -> Unit,
 ) : RecyclerView.Adapter<CartViewHolder>() {
 
-    private val listProduct = listProductData.toMutableList()
+    private val listProduct: MutableList<CartProduct> = mutableListOf()
     private lateinit var holder: CartViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
@@ -31,7 +30,7 @@ class CartAdapter(
         this.holder = holder
     }
 
-    fun updateList(productInCart: ProductInCart, rowView: View) {
+    fun updateList(productInCart: CartProduct, rowView: View) {
         val anim = AnimationUtils.loadAnimation(rowView.context, R.anim.to_right)
         rowView.startAnimation(anim)
 
@@ -47,4 +46,9 @@ class CartAdapter(
         })
     }
 
+    fun setItems(newListProductData: List<CartProduct>) {
+        listProduct.clear()
+        listProduct.addAll(newListProductData)
+        notifyDataSetChanged()
+    }
 }

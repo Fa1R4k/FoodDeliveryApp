@@ -23,10 +23,29 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.productDescriptionFragment -> {
                     navView.isVisible = false
+                }
+                R.id.successAuthenticationFragment->{
+                    navView.isVisible = false
+                }
+                R.id.needAuthenticationFragment -> {
+                    navView.isVisible = false
+                }
+                R.id.logInFragment -> {
+                    navView.isVisible = false
+                }
+                R.id.searchFragment -> {
+                    navView.isVisible = false
+                }
+                R.id.singUpFragment -> {
+                    navView.isVisible = false
+                }
+                R.id.navigation_profile ->{
+                    navView.isVisible = true
                 }
                 else -> {
                     navView.isVisible = true

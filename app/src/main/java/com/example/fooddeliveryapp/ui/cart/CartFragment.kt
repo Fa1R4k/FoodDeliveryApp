@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentCartBinding
@@ -17,6 +18,7 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<CartViewModel>()
+    private var userIsAuthentication = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +27,9 @@ class CartFragment : Fragment() {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    private var purchasePrice = 0.0
+    private var adapter = CartAdapter(changeCart())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,26 +42,43 @@ class CartFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.cartRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.cartRecyclerView.adapter = adapter
+
     }
 
     private fun setupButton() {
         binding.btnForBuy.setOnClickListener {
-            viewModel.deleteCart()
+            viewModel.getUserAuthorizationState()
+            if (userIsAuthentication) {
+                viewModel.updateUser(purchasePrice)
+                viewModel.deleteCart()
+            } else {
+                navigateToNeedAuthentication()
+            }
         }
+    }
+
+    private fun navigateToNeedAuthentication() {
+        val action = CartFragmentDirections.actionNavigationCartToNeedAuthenticationFragment()
+        findNavController().navigate(action)
     }
 
     private fun observeViewModel() {
         viewModel.liveData.observe(viewLifecycleOwner) {
-            binding.cartRecyclerView.adapter = CartAdapter(it, changeCart())
+            adapter.setItems(it)
         }
         viewModel.priceLiveData.observe(viewLifecycleOwner) {
+            purchasePrice = it
             binding.btnForBuy.text = "${resources.getText(R.string.buy)} ${
                 String.format("%.2f", it)
             } ${resources.getText(R.string.currency)}"
         }
+        viewModel.authorizedLiveData.observe(viewLifecycleOwner) {
+            userIsAuthentication = it
+        }
     }
 
-    private fun changeCart(): (Int, String, CART_CHANGES) -> Unit = { id, parameter, change ->
+    private fun changeCart(): (Int, String, CartChanges) -> Unit = { id, parameter, change ->
         viewModel.changeCart(id, parameter, change)
     }
 
@@ -64,4 +86,6 @@ class CartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

@@ -11,7 +11,7 @@
         android:id="@+id/ivProductImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="42dp"
         android:src="@drawable/ic_baseline_shopping_basket_24"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
         app:layout_constraintBottom_toTopOf="@+id/horizontalGuidelineForBack"
-        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineForBack"
+        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineForDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,21 +40,23 @@
 
     <TextView
         android:id="@+id/tvProductName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="32sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/rgFirstSelect"
         app:layout_constraintStart_toStartOf="@id/rgFirstSelect"
         app:layout_constraintTop_toBottomOf="@id/ivProductImage" />
 
     <TextView
         android:id="@+id/tvProductDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/black"
         android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvProductName"
         app:layout_constraintStart_toStartOf="@id/rgFirstSelect"
         app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
@@ -126,7 +128,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/verticalGuidelineForBack"
+        android:id="@+id/verticalGuidelineForDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -138,6 +140,4 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

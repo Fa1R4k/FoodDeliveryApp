@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.open_product.ProductDescriptionFragment">
 
+
     <ImageView
         android:id="@+id/ivHomeSearch"
         android:layout_width="wrap_content"

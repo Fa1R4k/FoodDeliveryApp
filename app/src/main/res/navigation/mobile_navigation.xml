@@ -9,7 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.example.fooddeliveryapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_productDescriptionFragment"
             app:destination="@id/productDescriptionFragment"
@@ -23,10 +23,17 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_profile"
         android:name="com.example.fooddeliveryapp.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_dashboard_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_navigation_dashboard_to_needAuthenticationFragment"
+            app:destination="@id/needAuthenticationFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -37,21 +44,86 @@
         android:id="@+id/navigation_cart"
         android:name="com.example.fooddeliveryapp.ui.cart.CartFragment"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_navigation_cart_to_needAuthenticationFragment"
+            app:destination="@id/needAuthenticationFragment" />
+    </fragment>
     <fragment
 
         android:id="@+id/productDescriptionFragment"
         android:name="com.example.fooddeliveryapp.ui.home.open_product.ProductDescriptionFragment"
         android:label="fragment_product_description"
-        tools:layout="@layout/fragment_product_description" >
+        tools:layout="@layout/fragment_product_description">
         <argument
-            android:name="id"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="product_id"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
-    <dialog
+    <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.fooddeliveryapp.ui.home.search.SearchFragment"
-        android:label="SearchFragment" />
-
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_productDescriptionFragment"
+            app:destination="@id/productDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.fooddeliveryapp.ui.profile.user_profile.UserProfileFragment"
+        android:label="UserProfileFragment"
+        tools:layout="@layout/fragment_user_profile">
+        <argument
+            android:name="user_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/singUpFragment"
+        android:name="com.example.fooddeliveryapp.ui.authentication.SignUpFragment"
+        android:label="SingUpFragment"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_singUpFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_singUpFragment_to_successAuthenticationFragment"
+            app:destination="@id/successAuthenticationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/needAuthenticationFragment"
+        android:name="com.example.fooddeliveryapp.ui.authentication.NeedAuthenticationFragment"
+        android:label="NeedAuthenticationFragment"
+        tools:layout="@layout/fragment_need_authentication">
+        <action
+            android:id="@+id/action_needAuthenticationFragment_to_singUpFragment"
+            app:destination="@id/singUpFragment" />
+        <action
+            android:id="@+id/action_needAuthenticationFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.example.fooddeliveryapp.ui.authentication.LogInFragment"
+        android:label="LogInFragment"
+        tools:layout="@layout/fragment_log_in">
+        <action
+            android:id="@+id/action_logInFragment_to_singUpFragment"
+            app:destination="@id/singUpFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_successAuthenticationFragment"
+            app:destination="@id/successAuthenticationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successAuthenticationFragment"
+        android:name="com.example.fooddeliveryapp.ui.authentication.SuccessAuthenticationFragment"
+        android:label="SuccessAuthenticationFragment"
+        tools:layout="@layout/fragment_authentication_success">
+        <action
+            android:id="@+id/action_successAuthenticationFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+        <action
+            android:id="@+id/action_successAuthenticationFragment_to_navigation_cart"
+            app:destination="@id/navigation_cart" />
+    </fragment>
 </navigation>

@@ -1,8 +1,8 @@
 package com.example.fooddeliveryapp.data.mappers
 
 import com.example.fooddeliveryapp.data.database.CartEntity
-import com.example.fooddeliveryapp.domain.ProductInCart
-import com.example.fooddeliveryapp.domain.ProductItem
+import com.example.fooddeliveryapp.domain.model.CartProduct
+import com.example.fooddeliveryapp.domain.model.ProductItem
 import javax.inject.Inject
 
 class CartEntityMapper @Inject constructor() {
@@ -19,12 +19,11 @@ class CartEntityMapper @Inject constructor() {
             productImageLink = response.imageUrl,
             productPrice = productPrice,
             productParameter = productParameter,
-            countProductInCart = productCount,
-            user = 1
+            countProductInCart = productCount
         )
     }
     operator fun invoke(
-        response : ProductInCart
+        response : CartProduct
     ): CartEntity {
         return CartEntity(
             productId = response.id,
@@ -32,8 +31,7 @@ class CartEntityMapper @Inject constructor() {
             productImageLink = response.imageUrl,
             productPrice = response.prise,
             productParameter = response.productParameter,
-            countProductInCart = response.countProductInCart,
-            user = 1
+            countProductInCart = response.countProductInCart
         )
     }
 }

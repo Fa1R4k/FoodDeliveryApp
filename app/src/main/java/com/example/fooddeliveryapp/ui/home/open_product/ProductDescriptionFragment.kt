@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProductDescriptionBinding
+import com.example.fooddeliveryapp.domain.model.ProductItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,12 +36,23 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
 
     private var price = 0.0
     private var selectedParameter = ""
+    private lateinit var productItem: ProductItem.ProductData
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpListeners()
         observeLiveData()
-        viewModel.getProduct(args.id)
+        viewModel.getProduct(args.productId)
+
+        viewModel.liveData.observe(viewLifecycleOwner) {
+            productItem = it
+            binding.tvProductName.text = productItem.name
+            binding.tvProductDescription.text = productItem.description
+            setImage(productItem.imageUrl, binding.ivProductImage)
+            price = productItem.price.values.first()
+            binding.btnToCart.text = getString(R.string.in_cart, price.toString())
+        }
+
     }
 
     private fun setUpListeners() {
@@ -52,10 +64,14 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
         }
 
         binding.rgFirstSelect.setOnCheckedChangeListener { _, checkedId ->
-            val selectedRadioButton = view?.findViewById<RadioButton>(checkedId)
+            val selectedRadioButton = binding.rgFirstSelect.findViewById<RadioButton>(checkedId)
             selectedParameter = selectedRadioButton?.text.toString()
-            viewModel.getPriceByParameter(args.id, selectedParameter)
+            this.price = productItem.price[selectedParameter] ?: 0.0
+
+            binding.btnToCart.text =
+                getString(R.string.in_cart, price.toString())
         }
+
 
         binding.ivBack.setOnClickListener {
             backToHome()
@@ -69,11 +85,6 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
             setImage(product.imageUrl, binding.ivProductImage)
         }
 
-        viewModel.firstPriceLiveData.observe(viewLifecycleOwner) { price ->
-            this.price = price
-            binding.btnToCart.text =
-                "${resources.getText(R.string.in_cart)} $price ${resources.getText(R.string.currency)}"
-        }
 
         viewModel.parametersLiveData.observe(viewLifecycleOwner) { parametersList ->
             setRadioBottom(parametersList)
@@ -81,8 +92,7 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
 
         viewModel.priceLiveData.observe(viewLifecycleOwner) { price ->
             this.price = price
-            binding.btnToCart.text =
-                "${resources.getText(R.string.in_cart)} $price ${resources.getText(R.string.currency)}"
+            binding.btnToCart.text = getString(R.string.in_cart, price.toString())
         }
     }
 
@@ -99,13 +109,20 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
     }
 
     private fun backToHome() {
-        requireActivity().onBackPressed()
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun navigateToHomeScreen() {
+        binding.tvProductDescription.alpha = 0.0f
+        binding.tvProductName.alpha = 0.0f
+        binding.btnToCart.alpha = 0.0f
+        binding.ivBack.alpha = 0.0f
+        binding.rgFirstSelect.alpha = 0.0f
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navOptions = NavOptions.Builder().setExitAnim(R.anim.add_to_cart_anim).build()
+        val navOptions =
+            NavOptions.Builder().setExitAnim(R.anim.from_bottom).setEnterAnim(R.anim.to_visible)
+                .setPopExitAnim(R.anim.slide_out_down).setExitAnim(R.anim.add_to_cart_anim).build()
         navHostFragment.navController.navigate(R.id.navigation_home, null, navOptions)
     }
 
