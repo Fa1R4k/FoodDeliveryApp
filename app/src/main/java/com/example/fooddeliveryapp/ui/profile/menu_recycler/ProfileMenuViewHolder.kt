@@ -9,23 +9,24 @@ class ProfileMenuViewHolder(
     private val binding: RvItemProfileBinding,
     private val user: User,
     private val openUserItemClick: (String) -> Unit,
-    private val NAME_MAX_LENGTH: Int = 15
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind(item: HashMap<String, String>) {
-        if (item.contains("UserName")) {
-            binding.root.setOnClickListener {
-                openUserItemClick(user.id)
+    fun onBind(item: Pair<String, String>) {
+        when (item.first) {
+            "UserName" -> {
+                binding.root.setOnClickListener {
+                    openUserItemClick(user.id)
+                }
+                binding.imageView.isVisible = true
+                binding.userName.text = item.second
             }
-            val userName = item["UserName"]
-            binding.imageView.isVisible = true
-            binding.userName.text = if ((userName?.length ?: 0) < NAME_MAX_LENGTH) userName
-            else userName?.split(" ")?.first()
-        } else if (item.contains("История заказов")) {
-            binding.title.text = "История\nзаказов"
-            binding.count.text = item["История заказов"]
-        } else if (item.contains("Адрес доставки")) {
-            binding.title.text = "Адрес\nдоставки"
-            binding.count.text = item["Адрес доставки"]
+            "История заказов" -> {
+                binding.title.text = "История\nзаказов"
+                binding.count.text = item.second
+            }
+            "Адрес доставки" -> {
+                binding.title.text = "Адрес\nдоставки"
+                binding.count.text = item.second
+            }
         }
     }
 }

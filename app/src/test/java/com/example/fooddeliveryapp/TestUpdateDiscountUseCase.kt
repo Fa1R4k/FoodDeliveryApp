@@ -1,6 +1,6 @@
 package com.example.fooddeliveryapp
 
-import com.example.fooddeliveryapp.domain.UseCase.UpdateDiscountUseCase
+import com.example.fooddeliveryapp.domain.use_case.UpdateDiscountUseCase
 import com.example.fooddeliveryapp.domain.model.User
 import org.junit.Test
 
@@ -16,9 +16,7 @@ class TestUpdateDiscountUseCase {
     fun `test update discount use case`() {
 
         val user = User("max","123","123","","", totalSpend = 175000.0)
-        println(user.totalSpend)
         val useCase = UpdateDiscountUseCase()
-        println(useCase.execute(user).nextDiscountSum.toString() + "!!!!!!!!!!!!!!!")
         assertEquals("-1.0", useCase.execute(user).nextDiscountSum.toString())
     }
 }

@@ -16,22 +16,17 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
 
     override suspend fun getMenu(): List<ProductItem> = withContext(Dispatchers.IO) {
-        productItemMapper(productService.getMenu().execute().body() ?: throw Exception())
+        productItemMapper(productService.getMenu())
     }
 
     override suspend fun getCategory(): List<CategoryData> = withContext(Dispatchers.IO) {
-        productService.getCategories().execute().body()?.map { categoryDataMapper(it) }
-            ?: throw Exception()
+        productService.getCategories().map { categoryDataMapper(it) }
     }
 
     override suspend fun getProductByCategory(category: String): List<ProductItem> =
         withContext(Dispatchers.IO) {
-            if (productService.getCategories().execute().body()?.contains(category)
-                    ?: throw Exception()
-            ) {
-                productService.getProductByCategory(category).execute().body()
-                    ?.map { productItemMapper(it) }
-                    ?: throw Exception()
+            if (productService.getCategories().contains(category)) {
+                productService.getProductByCategory(category).map { productItemMapper(it) }
             } else {
                 getMenu()
             }
@@ -39,7 +34,6 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun getProductById(id: Int): ProductItem.ProductData =
         withContext(Dispatchers.IO) {
-            productItemMapper(productService.getProductById(id).execute().body()
-                ?: throw Exception())
+            productItemMapper(productService.getProductById(id))
         }
 }

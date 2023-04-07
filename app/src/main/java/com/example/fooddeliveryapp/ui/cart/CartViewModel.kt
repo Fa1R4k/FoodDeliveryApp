@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.CartRepository
-import com.example.fooddeliveryapp.domain.UseCase.UpdateDiscountUseCase
-import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.domain.UserRepository
+import com.example.fooddeliveryapp.domain.model.CartProduct
+import com.example.fooddeliveryapp.domain.use_case.GetPriceFromCartDataBaseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,10 +16,8 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val userRepository: UserRepository,
-    private val updateDiscountUseCase: UpdateDiscountUseCase
+    private val getPriceFromCartDataBase: GetPriceFromCartDataBaseUseCase,
 ) : ViewModel() {
-
-    private var price = 0.0
 
     private val _liveData = MutableLiveData<List<CartProduct>>()
     val liveData: LiveData<List<CartProduct>> get() = _liveData
@@ -29,6 +27,13 @@ class CartViewModel @Inject constructor(
 
     private val _authorizedLiveData = MutableLiveData<Boolean>()
     val authorizedLiveData: LiveData<Boolean> get() = _authorizedLiveData
+
+    private val _isEmptyCartViewModel = MutableLiveData<Boolean>()
+    val isEmptyCartViewModel: LiveData<Boolean> get() = _isEmptyCartViewModel
+
+    private val _changeLiveData = MutableLiveData<Boolean>()
+    val changeLiveData: LiveData<Boolean> get() = _changeLiveData
+
 
     fun getUserAuthorizationState() {
         _authorizedLiveData.value = userRepository.isAuthorized()
@@ -43,19 +48,13 @@ class CartViewModel @Inject constructor(
 
     private fun getCartPrice() {
         viewModelScope.launch {
-            price = 0.0
-            cartRepository.getAllProductFromCart().map { price += it.prise * it.countProductInCart }
-            _priceLiveData.value = price
-        }
-    }
-
-    fun deleteCart() {
-        viewModelScope.launch {
-            cartRepository.deleteCartsFromDataBase()
+            _priceLiveData.value =
+                getPriceFromCartDataBase.execute(cartRepository.getAllProductFromCart())
         }
     }
 
     fun changeCart(id: Int, parameter: String, changes: CartChanges) {
+        _changeLiveData.value = true
         viewModelScope.launch {
             val productInCart =
                 _liveData.value?.first { it.id == id && it.productParameter == parameter }
@@ -77,14 +76,13 @@ class CartViewModel @Inject constructor(
                 CartChanges.DELETE -> cartRepository.deleteCartFromDataBase(productInCart)
             }
             getCartPrice()
+            _changeLiveData.value = false
         }
     }
 
-    fun updateUser(purchasePrice: Double) {
+    fun isEmptyCart() {
         viewModelScope.launch {
-            val user = userRepository.getUser()
-            user.totalSpend += purchasePrice
-            userRepository.updateUser(updateDiscountUseCase.execute(user))
+            _isEmptyCartViewModel.value = cartRepository.isCartEmpty()
         }
     }
 }

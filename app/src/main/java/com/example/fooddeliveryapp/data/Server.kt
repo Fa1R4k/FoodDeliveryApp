@@ -341,15 +341,7 @@ class Server @Inject constructor() {
 
     }
 
-    fun getCategory(): List<CategoryData> = listOf(
-        CategoryData("Все", false),
-        CategoryData("Пицца", false),
-        CategoryData("Бургеры", false),
-        CategoryData("Роллы", false),
-        CategoryData("Закуски", false),
-        CategoryData("Напитки", false),
-        CategoryData("Соусы", false),
-    )
+    fun getCategory(): List<CategoryData> = listOf()
 
     fun getProductByCategory(category: String): List<ProductItemResponse> {
         val firstList = getMenu()

@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.domain.UseCase
+package com.example.fooddeliveryapp.domain.use_case
 
 import java.security.MessageDigest
 import javax.inject.Inject

@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.domain
 
+import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.domain.model.User
 
 interface UserRepository {
@@ -10,4 +11,5 @@ interface UserRepository {
     suspend fun getUser(): User
     fun logout()
     suspend fun updateUser(user: User): Boolean
+    suspend fun updateUser(user: User, order: List<CartProduct>, date: String): Boolean
 }

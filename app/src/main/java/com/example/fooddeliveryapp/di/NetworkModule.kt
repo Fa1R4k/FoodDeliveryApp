@@ -2,21 +2,32 @@ package com.example.fooddeliveryapp.di
 
 import com.example.fooddeliveryapp.data.ProductService
 import com.example.fooddeliveryapp.data.UserService
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Provides
-    fun getRetrofit(): Retrofit {
+    fun getRetrofit(moshi: Moshi): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://android-api.herokuapp.com/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
+    }
+
+    @Provides
+    fun getMoshi(): Moshi {
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
             .build()
     }
 

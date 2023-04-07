@@ -50,8 +50,13 @@
     <string name="search_hint">Введите имя продукта</string>
     <string name="cart">Корзина</string>
     <string name="buy_cart">Купить</string>
-    <string name="from_discount">ДО СКИДКИ</string>
-    <string name="amount_for_discount">Осталось</string>
-    <string name="spend_user">Вы заказали на</string>
+    <string name="from_discount">До скидки </string>
+    <string name="amount_for_discount">Осталось </string>
+    <string name="spend_user">Вы заказали на </string>
     <string name="max_discount">Максимальная скидка: 15%</string>
+    <string name="percent">%</string>
+    <string name="new_address">Улица: %1$s, Дом: %2$s, Кв %3$s.</string>
+    <string name="please_add_new_address">Пожалуйста добавьте новый адрес</string>
+    <string name="empty_cart">Ваша корзина пуста</string>
+    <string name="go_to_menu">Перейти в меню</string>
 </resources>

@@ -18,22 +18,17 @@ class UserProfileViewModel @Inject constructor(
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> get() = _userLiveData
 
-    init {
-
-    }
+    private val _loadingLiveData = MutableLiveData<Boolean>()
+    val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
     fun getUser() {
+        _loadingLiveData.value = true
         viewModelScope.launch {
             _userLiveData.value = userRepository.getUser()
+            _loadingLiveData.value = false
         }
-    }
-
-    fun logout() {
-        userRepository.logout()
     }
 
     private val _liveData = MutableLiveData<String>()
     val liveData: LiveData<String> get() = _liveData
-
-
 }

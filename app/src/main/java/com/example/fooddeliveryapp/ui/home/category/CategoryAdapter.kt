@@ -14,7 +14,6 @@ class CategoryAdapter(
     private var isNewRadioButtonChecked = false
     private var lastCheckedPosition = 0
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val item = RvItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CategoryViewHolder(item,

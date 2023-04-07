@@ -1,15 +1,18 @@
 package com.example.fooddeliveryapp.ui.cart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentCartBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,6 +22,7 @@ class CartFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<CartViewModel>()
     private var userIsAuthentication = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +39,17 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupButton()
-        observeViewModel()
+        observeLiveData()
+        observeIsEmptyCartLiveData()
+        viewModel.isEmptyCart()
         viewModel.getCartFromData()
+    }
+
+    private fun observeIsEmptyCartLiveData() {
+        viewModel.isEmptyCartViewModel.observe(viewLifecycleOwner) {
+            binding.cartEmpty.isVisible = it
+            binding.cartNotEmpty.isVisible = !it
+        }
     }
 
     private fun setupRecyclerView() {
@@ -50,12 +63,28 @@ class CartFragment : Fragment() {
         binding.btnForBuy.setOnClickListener {
             viewModel.getUserAuthorizationState()
             if (userIsAuthentication) {
-                viewModel.updateUser(purchasePrice)
-                viewModel.deleteCart()
+                navigateConfirmPurchase()
             } else {
                 navigateToNeedAuthentication()
             }
         }
+
+        binding.btnNavigateToMenu.setOnClickListener {
+            navigateToMenu()
+        }
+    }
+
+    private fun navigateToMenu() {
+        val navController =
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+
+        navController.popBackStack(R.id.navigation_cart, false)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.findItem(R.id.navigation_home).let {
+            it.isChecked = true
+        }
+        bottomNavigationView.selectedItemId = R.id.navigation_home
     }
 
     private fun navigateToNeedAuthentication() {
@@ -63,7 +92,12 @@ class CartFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun observeViewModel() {
+    private fun navigateConfirmPurchase() {
+        val action = CartFragmentDirections.actionNavigationCartToConfirmPurchaseFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun observeLiveData() {
         viewModel.liveData.observe(viewLifecycleOwner) {
             adapter.setItems(it)
         }
@@ -76,6 +110,10 @@ class CartFragment : Fragment() {
         viewModel.authorizedLiveData.observe(viewLifecycleOwner) {
             userIsAuthentication = it
         }
+
+        viewModel.changeLiveData.observe(viewLifecycleOwner) {
+            if (!it) viewModel.isEmptyCart()
+        }
     }
 
     private fun changeCart(): (Int, String, CartChanges) -> Unit = { id, parameter, change ->
@@ -86,6 +124,4 @@ class CartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

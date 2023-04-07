@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.domain.UseCase
+package com.example.fooddeliveryapp.domain.use_case
 
 import com.example.fooddeliveryapp.domain.model.User
 import javax.inject.Inject

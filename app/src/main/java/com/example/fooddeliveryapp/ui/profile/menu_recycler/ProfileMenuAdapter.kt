@@ -7,11 +7,10 @@ import com.example.fooddeliveryapp.databinding.RvItemProfileBinding
 import com.example.fooddeliveryapp.domain.model.User
 
 class ProfileMenuAdapter(
-    private val categoryList: MutableList<HashMap<String, String>>,
+    private val categoryList: MutableList<Pair<String, String>>,
     private val user: User,
     private val openUserItemClick: (String) -> Unit,
-) :
-    RecyclerView.Adapter<ProfileMenuViewHolder>() {
+) : RecyclerView.Adapter<ProfileMenuViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileMenuViewHolder {
         val item = RvItemProfileBinding.inflate(LayoutInflater.from(parent.context), parent, false)

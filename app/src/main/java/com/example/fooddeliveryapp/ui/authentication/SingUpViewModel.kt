@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fooddeliveryapp.domain.UseCase.CreateNewUserUseCase
+import com.example.fooddeliveryapp.domain.use_case.CreateNewUserUseCase
 import com.example.fooddeliveryapp.domain.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,12 +23,5 @@ class SingUpViewModel @Inject constructor(
         viewModelScope.launch {
             _liveData.value = userRepository.createUser(createNewUserUseCase.execute(name, phone, password, date))
         }
-    }
-
-    private val _authorizedLiveData = MutableLiveData<Boolean>()
-    val authorizedLiveData: LiveData<Boolean> get() = _authorizedLiveData
-
-    fun getUserAuthorizationState() {
-        _authorizedLiveData.value = userRepository.isAuthorized()
     }
 }

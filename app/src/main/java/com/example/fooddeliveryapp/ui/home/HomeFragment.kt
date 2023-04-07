@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,16 +31,26 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeLiveData()
         setupMenuRecyclerView()
         setupCategoryRecyclerView()
+        observeLoadingLiveData()
+
         binding.ivHomeSearch.setOnClickListener {
             openSearchItemClick()
         }
         viewModel.getCategory()
         viewModel.getProduct()
+    }
+
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.loading.isVisible = it
+            binding.fragment.isVisible = !it
+        }
     }
 
     private fun setupMenuRecyclerView() {

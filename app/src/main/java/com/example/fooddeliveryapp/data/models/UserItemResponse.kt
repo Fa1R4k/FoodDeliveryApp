@@ -1,18 +1,18 @@
 package com.example.fooddeliveryapp.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class UserItemResponse(
-    @SerializedName("name") var name: String? = null,
-    @SerializedName("number") var number: String? = null,
-    @SerializedName("hashPassword") var hashPassword: String? = null,
-    @SerializedName("date") val date: String? = null,
-    @SerializedName("dateRegistration") val dateRegistration: String? = null,
-    @SerializedName("totalSpend") val totalSpend: Double? = null,
-    @SerializedName("orderHistory") var orderHistory: List<HistoryOrderResponse>? = null,
-    @SerializedName("orderCount") var orderCount: Int? = null,
-    @SerializedName("address") var address: List<String>? = null,
-    @SerializedName("nextDiscountSum") var nextDiscountSum: Double? = null,
-    @SerializedName("discount") var discount: Int? = null,
-    @SerializedName("id") var id: String? = null,
+    @Json(name = "name") var name: String? = null,
+    @Json(name = "number") var number: String? = null,
+    @Json(name = "hashPassword") var hashPassword: String? = null,
+    @Json(name = "date") val date: String? = null,
+    @Json(name = "dateRegistration") val dateRegistration: String? = null,
+    @Json(name = "totalSpend") val totalSpend: Double? = null,
+    @Json(name = "orderHistory") var orderHistory: MutableList<HistoryOrderResponse>? = null,
+    @Json(name = "orderCount") var orderCount: Int? = null,
+    @Json(name = "address") var address: List<String>? = null,
+    @Json(name = "nextDiscountSum") var nextDiscountSum: Double? = null,
+    @Json(name = "discount") var discount: Int? = null,
+    @Json(name = "id") var id: String? = null,
 )

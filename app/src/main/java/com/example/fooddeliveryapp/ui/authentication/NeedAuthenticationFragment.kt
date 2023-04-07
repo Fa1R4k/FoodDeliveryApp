@@ -11,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NeedAuthenticationFragment : Fragment() {
-
     private var _binding: FragmentNeedAuthenticationBinding? = null
     private val binding get() = _binding!!
 

@@ -9,6 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.example.fooddeliveryapp.ui.home.HomeFragment"
         android:label="@string/title_home"
+        android:saveEnabled="true"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_productDescriptionFragment"
@@ -16,10 +17,12 @@
             app:enterAnim="@anim/from_bottom"
             app:exitAnim="@anim/to_invisible"
             app:popEnterAnim="@anim/to_visible"
-            app:popExitAnim="@anim/slide_out_down" />
+            app:popExitAnim="@anim/slide_out_down"
+            app:popUpToSaveState="true" />
         <action
             android:id="@+id/action_navigation_home_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:popUpToSaveState="true" />
     </fragment>
 
     <fragment
@@ -48,6 +51,9 @@
         <action
             android:id="@+id/action_navigation_cart_to_needAuthenticationFragment"
             app:destination="@id/needAuthenticationFragment" />
+        <action
+            android:id="@+id/action_navigation_cart_to_confirmPurchaseFragment"
+            app:destination="@id/confirmPurchaseFragment" />
     </fragment>
     <fragment
 
@@ -59,6 +65,7 @@
             android:name="product_id"
             android:defaultValue="0"
             app:argType="integer" />
+
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -82,7 +89,7 @@
         android:id="@+id/singUpFragment"
         android:name="com.example.fooddeliveryapp.ui.authentication.SignUpFragment"
         android:label="SingUpFragment"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_singUpFragment_to_logInFragment"
             app:destination="@id/logInFragment" />
@@ -126,4 +133,9 @@
             android:id="@+id/action_successAuthenticationFragment_to_navigation_cart"
             app:destination="@id/navigation_cart" />
     </fragment>
+    <fragment
+        android:id="@+id/confirmPurchaseFragment"
+        android:name="com.example.fooddeliveryapp.ui.cart.confirm_purchase.ConfirmPurchaseFragment"
+        android:label="ConfirmPurchaseFragment"
+        tools:layout="@layout/fragment_confirm_purchase" />
 </navigation>

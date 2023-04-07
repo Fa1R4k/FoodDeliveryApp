@@ -64,4 +64,9 @@ class CartRepositoryImpl @Inject constructor(
             cartDataBase.insert(cartEntityMapper(productInCart))
         }
     }
+
+    override suspend fun isCartEmpty(): Boolean =
+        withContext(Dispatchers.IO) {
+            cartDataBase.getAll().isEmpty()
+        }
 }

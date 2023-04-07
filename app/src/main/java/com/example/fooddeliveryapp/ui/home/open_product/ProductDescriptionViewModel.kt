@@ -26,9 +26,15 @@ class ProductDescriptionViewModel @Inject constructor(
     private val _parametersLiveData = MutableLiveData<List<String>>()
     val parametersLiveData: LiveData<List<String>> get() = _parametersLiveData
 
+    private val _loadingLiveData = MutableLiveData<Boolean>()
+    val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
+
+
     fun getProduct(id: Int) {
+        _loadingLiveData.value = true
         viewModelScope.launch {
             _liveData.value = productRepository.getProductById(id)
+            _loadingLiveData.value = false
             _parametersLiveData.value = _liveData.value?.price?.keys?.toList()
         }
     }
@@ -55,5 +61,4 @@ class ProductDescriptionViewModel @Inject constructor(
             }
         }
     }
-
 }

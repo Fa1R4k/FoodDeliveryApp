@@ -1,8 +1,8 @@
 package com.example.fooddeliveryapp.data.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class AuthenticationResponse(
-    @SerializedName("result")val user: UserItemResponse? = null,
-    @SerializedName("isSuccess")val isSuccess: Boolean = false,
+    @Json(name = "result")val user: UserItemResponse? = null,
+    @Json(name ="isSuccess")val isSuccess: Boolean = false,
 )

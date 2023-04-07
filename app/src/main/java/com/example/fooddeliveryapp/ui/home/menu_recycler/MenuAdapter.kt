@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fooddeliveryapp.databinding.RvItemProductBinding
 import com.example.fooddeliveryapp.databinding.TextItemBinding
 import com.example.fooddeliveryapp.domain.model.ProductItem
-import java.lang.Exception
 
 class MenuAdapter(
     private val openProductItemClick: (Int) -> Unit,

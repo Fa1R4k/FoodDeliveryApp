@@ -21,10 +21,15 @@ class ProfileViewModel @Inject constructor(
     private val _authorizedLiveData = MutableLiveData<Boolean>()
     val authorizedLiveData: LiveData<Boolean> get() = _authorizedLiveData
 
+    private val _loadingLiveData = MutableLiveData<Boolean>()
+    val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
-    fun updateUser() {
+
+    fun getUser() {
+        _loadingLiveData.value = true
         viewModelScope.launch {
             _userLiveData.value = userRepository.getUser()
+            _loadingLiveData.value = false
         }
     }
 
@@ -38,6 +43,4 @@ class ProfileViewModel @Inject constructor(
 
     private val _liveData = MutableLiveData<String>()
     val liveData: LiveData<String> get() = _liveData
-
-
 }

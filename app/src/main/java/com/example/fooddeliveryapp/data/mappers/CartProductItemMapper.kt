@@ -5,7 +5,7 @@ import com.example.fooddeliveryapp.domain.model.CartProduct
 import javax.inject.Inject
 
 class CartProductItemMapper @Inject constructor() {
-    fun inject(response: CartProduct): CartProductItemResponse = with(response) {
+    operator fun invoke(response: CartProduct): CartProductItemResponse = with(response) {
         CartProductItemResponse(
             id = id,
             name = name,

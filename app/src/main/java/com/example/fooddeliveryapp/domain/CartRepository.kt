@@ -11,10 +11,11 @@ interface CartRepository {
         productCount: Int,
         productParameter: String,
     )
+
     suspend fun getAllProductFromCart(): List<CartProduct>
     suspend fun deleteCartsFromDataBase()
     suspend fun changeCountForProduct(productInCart: CartProduct)
     suspend fun deleteCartFromDataBase(productInCart: CartProduct)
     suspend fun getProductFromDataBase(id: Int, parameter: String): CartProduct
-
+    suspend fun isCartEmpty(): Boolean
 }

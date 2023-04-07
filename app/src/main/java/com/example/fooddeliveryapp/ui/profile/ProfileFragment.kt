@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProfileBinding
 import com.example.fooddeliveryapp.domain.model.User
-import com.example.fooddeliveryapp.ui.profile.menu_recycler.ProfileMenuAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +19,6 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<ProfileViewModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,16 +34,16 @@ class ProfileFragment : Fragment() {
         viewModel.getUserAuthorizationState()
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeLoadingLiveData()
         observeLiveData()
         setupButtonExit()
     }
 
     private fun observeLiveData() {
         viewModel.authorizedLiveData.observe(viewLifecycleOwner) {
-            if (it) viewModel.updateUser() else navigateToNeedAuthentication()
+            if (it) viewModel.getUser() else navigateToNeedAuthentication()
         }
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             setupRecyclerView(it)
@@ -61,12 +59,19 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.loading.isVisible = it
+            binding.fragment.isVisible = !it
+
+        }
+    }
+
     private fun setupButtonExit() {
         binding.ivLogout.setOnClickListener {
             logout()
         }
     }
-
 
     private fun setInvisibleDiscountView() {
         val color = context?.getColor(R.color.white_back)
@@ -86,14 +91,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupRecyclerView(user: User) {
-        binding.rvProfileMenu.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvProfileMenu.adapter =
-            ProfileMenuAdapter(mutableListOf(hashMapOf("UserName" to user.name),
-                hashMapOf("История заказов" to user.orderCount.toString()),
-                hashMapOf("Адрес доставки" to user.address.size.toString())),
-                user,
-                openProductItemClick())
+
     }
 
     private fun openProductItemClick(): (String) -> Unit = { id ->
@@ -101,7 +99,6 @@ class ProfileFragment : Fragment() {
             ProfileFragmentDirections.actionNavigationDashboardToUserProfileFragment(id)
         findNavController().navigate(action)
     }
-
 
     private fun navigateToNeedAuthentication() {
         val action =

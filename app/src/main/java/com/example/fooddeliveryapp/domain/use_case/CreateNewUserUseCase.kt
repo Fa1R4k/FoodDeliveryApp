@@ -1,12 +1,11 @@
-package com.example.fooddeliveryapp.domain.UseCase
+package com.example.fooddeliveryapp.domain.use_case
 
 import com.example.fooddeliveryapp.domain.model.User
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 class CreateNewUserUseCase @Inject constructor(
-    private val hashingPasswordUseCase: HashingPasswordUseCase
+    private val hashingPasswordUseCase: HashingPasswordUseCase,
+    private val getCurrentDate: GetCurrentDateUseCase,
 ) {
     fun execute(userName: String, userNumber: String, userPassword: String, date: String): User {
         val hashPassword = hashingPasswordUseCase.execute(userPassword)
@@ -14,12 +13,6 @@ class CreateNewUserUseCase @Inject constructor(
             userNumber,
             hashPassword,
             date,
-            getCurrentData())
-    }
-
-    private fun getCurrentData(): String {
-        val dateReg = Date()
-        val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        return formatter.format(dateReg)
+            getCurrentDate.execute())
     }
 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.example.fooddeliveryapp.databinding.FragmentUserProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +33,7 @@ class UserProfileFragment : Fragment() {
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             binding.tvUserName.text = it.name
         }
+
 
     }
 

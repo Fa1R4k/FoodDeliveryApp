@@ -35,11 +35,9 @@ class SignUpFragment : Fragment() {
             after: Int,
         ) {
         }
-
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             checkButton()
         }
-
         override fun afterTextChanged(s: Editable?) {
         }
 

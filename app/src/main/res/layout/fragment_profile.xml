@@ -23,27 +23,149 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/rvProfileMenu" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewProfile" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProfileMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+
+    <HorizontalScrollView
+        android:id="@+id/scrollViewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:background="@drawable/gradient_profile"
-        android:clipToPadding="false"
-        android:padding="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="@id/guideline12"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-85dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
+            <!-- Первый элемент -->
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/profile_rv_item"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/user_square_svgrepo_com" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:text="Имя пользователя"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <!-- Второй элемент -->
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/profile_rv_item"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="Активные заказы"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="start"
+                    android:text="0"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <!-- Третий элемент -->
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/profile_rv_item"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="История заказов"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="start"
+                    android:text="0"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <!-- Четвертый элемент -->
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/profile_rv_item"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="Адрес доставки"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="start"
+                    android:text="0"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <TextView
         android:id="@+id/tvProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3%"
+        android:text="@string/percent"
         android:textColor="@color/text_user"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -70,11 +192,10 @@
         android:id="@+id/ivLogout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/icon_logout"
-        android:layout_marginTop="8dp"
-        android:padding="10dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"
+        app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline13"
         app:layout_constraintTop_toTopOf="parent" />
@@ -98,8 +219,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
         android:gravity="end"
         android:text="@string/from_discount"
+        android:textAllCaps="true"
         android:textColor="@color/text_user"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -145,6 +268,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         android:gravity="end"
         android:text="@string/amount_for_discount"
         android:textAllCaps="true"
@@ -162,6 +286,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="2dp"
         android:gravity="end"
         android:text="@string/spend_user"
         android:textSize="14sp"
@@ -186,7 +311,7 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvMaxDiscount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -225,7 +350,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.07890744" />
+        app:layout_constraintGuide_percent="0.32" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline13"
@@ -233,6 +358,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.8" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingLottie"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineLoadingBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineLoadingTop"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoadingTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoadingBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="ivLogout, tvProgress, tvMaxDiscount,
+         tvAllPrice, tvMoneyDiscount, tvUserNextDiscount, tvUserNextDiscount,
+          tvUserAmountFromDiscount, tvAdvertising, progressBar, tvDiscountNow, tvFromDiscount, tvUserSpend" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="loadingLottie" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="41dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
