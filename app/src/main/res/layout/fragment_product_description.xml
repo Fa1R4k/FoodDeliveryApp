@@ -11,8 +11,7 @@
         android:id="@+id/ivProductImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_baseline_shopping_basket_24"
+        android:layout_marginTop="42dp"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,11 +19,11 @@
         android:id="@+id/ivBack"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="2dp"
         android:layout_marginTop="16dp"
+        android:padding="2dp"
         android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
         app:layout_constraintBottom_toTopOf="@+id/horizontalGuidelineForBack"
-        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineForBack"
+        app:layout_constraintEnd_toStartOf="@+id/verticalGuidelineForDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,21 +39,23 @@
 
     <TextView
         android:id="@+id/tvProductName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="32sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/rgFirstSelect"
         app:layout_constraintStart_toStartOf="@id/rgFirstSelect"
         app:layout_constraintTop_toBottomOf="@id/ivProductImage" />
 
     <TextView
         android:id="@+id/tvProductDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/black"
         android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvProductName"
         app:layout_constraintStart_toStartOf="@id/rgFirstSelect"
         app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
@@ -89,7 +90,6 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-
             android:background="@drawable/control_switch_background_selector_middle"
             android:button="@null"
             android:fontFamily="sans-serif-medium"
@@ -111,13 +111,11 @@
             android:textColor="@color/black" />
     </RadioGroup>
 
-
     <Button
         android:id="@+id/btnToCart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
-        android:text="@string/in_cart"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:cornerRadius="15dp"
@@ -126,7 +124,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/verticalGuidelineForBack"
+        android:id="@+id/verticalGuidelineForDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -139,5 +137,41 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingLottie"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineLoadingBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineLoadingTop"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoadingTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLoadingBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="rgFirstSelect, btnToCart, ivBack, ivProductImage, tvProductDescription, tvProductName" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="loadingLottie" />
 </androidx.constraintlayout.widget.ConstraintLayout>

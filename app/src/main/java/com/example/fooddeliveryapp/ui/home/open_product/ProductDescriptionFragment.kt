@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.RadioButton
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProductDescriptionBinding
+import com.example.fooddeliveryapp.domain.model.ProductItem
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class ProductDescriptionFragment : Fragment(R.layout.fragment_product_description) {
@@ -32,15 +36,23 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
         _binding = FragmentProductDescriptionBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     private var price = 0.0
     private var selectedParameter = ""
+    private lateinit var productItem: ProductItem.ProductData
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpListeners()
+        observeLoadingLiveData()
         observeLiveData()
-        viewModel.getProduct(args.id)
+        setUpListeners()
+        viewModel.getProduct(args.productId)
+    }
+
+    private fun observeLoadingLiveData() {
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.loading.isVisible = it
+            binding.fragment.isVisible = !it
+        }
     }
 
     private fun setUpListeners() {
@@ -48,31 +60,36 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
             viewModel.liveData.value?.let { product ->
                 viewModel.addToCard(product, price, 1, selectedParameter)
             }
-            navigateToHomeScreen()
+            backToHomeWithAnimateToCart()
         }
 
         binding.rgFirstSelect.setOnCheckedChangeListener { _, checkedId ->
-            val selectedRadioButton = view?.findViewById<RadioButton>(checkedId)
+            val selectedRadioButton = binding.rgFirstSelect.findViewById<RadioButton>(checkedId)
             selectedParameter = selectedRadioButton?.text.toString()
-            viewModel.getPriceByParameter(args.id, selectedParameter)
+            this.price = productItem.price[selectedParameter] ?: 0.0
+
+            binding.btnToCart.text =
+                getString(R.string.in_cart, price.toString())
         }
+
 
         binding.ivBack.setOnClickListener {
             backToHome()
         }
     }
 
-    private fun observeLiveData() {
-        viewModel.liveData.observe(viewLifecycleOwner) { product ->
-            binding.tvProductName.text = product.name
-            binding.tvProductDescription.text = product.description
-            setImage(product.imageUrl, binding.ivProductImage)
-        }
+    private fun backToHomeWithAnimateToCart() {
+        navigateToHomeScreen()
+    }
 
-        viewModel.firstPriceLiveData.observe(viewLifecycleOwner) { price ->
-            this.price = price
-            binding.btnToCart.text =
-                "${resources.getText(R.string.in_cart)} $price ${resources.getText(R.string.currency)}"
+    private fun observeLiveData() {
+        viewModel.liveData.observe(viewLifecycleOwner) {
+            productItem = it
+            binding.tvProductName.text = productItem.name
+            binding.tvProductDescription.text = productItem.description
+            setImage(productItem.imageUrl, binding.ivProductImage)
+            price = productItem.price.values.first()
+            binding.btnToCart.text = getString(R.string.in_cart, price.toString())
         }
 
         viewModel.parametersLiveData.observe(viewLifecycleOwner) { parametersList ->
@@ -81,33 +98,34 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
 
         viewModel.priceLiveData.observe(viewLifecycleOwner) { price ->
             this.price = price
-            binding.btnToCart.text =
-                "${resources.getText(R.string.in_cart)} $price ${resources.getText(R.string.currency)}"
+            binding.btnToCart.text = getString(R.string.in_cart, price.toString())
         }
     }
 
     private fun setRadioBottom(parametersList: List<String>) {
-        try {
+        if (parametersList.size == 1) {
+            binding.rgFirstSelect.isVisible = false
+        } else {
             for (buttonNumber in 0 until binding.rgFirstSelect.childCount) {
                 val radioButton = binding.rgFirstSelect.getChildAt(buttonNumber) as RadioButton
                 radioButton.text = parametersList[buttonNumber]
             }
             selectedParameter = parametersList[0]
-        } catch (_: Exception) {
-            binding.rgFirstSelect.isVisible = false
         }
     }
 
     private fun backToHome() {
-        requireActivity().onBackPressed()
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun navigateToHomeScreen() {
-        val navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navOptions = NavOptions.Builder().setExitAnim(R.anim.add_to_cart_anim).build()
-        navHostFragment.navController.navigate(R.id.navigation_home, null, navOptions)
+        binding.fragment.isVisible
+        val animation: Animation =
+            AnimationUtils.loadAnimation(context, R.anim.add_to_cart_anim)
+        binding.ivProductImage.startAnimation(animation)
+        findNavController().popBackStack()
     }
+
 
     private fun setImage(url: String, image: ImageView) {
         Glide.with(image).load(url).into(image)

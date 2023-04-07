@@ -1,7 +1,11 @@
 package com.example.fooddeliveryapp.di
 
-import com.example.fooddeliveryapp.data.RepositoryImpl
-import com.example.fooddeliveryapp.domain.Repository
+import com.example.fooddeliveryapp.data.CartRepositoryImpl
+import com.example.fooddeliveryapp.data.ProductRepositoryImpl
+import com.example.fooddeliveryapp.data.UserRepositoryImpl
+import com.example.fooddeliveryapp.domain.CartRepository
+import com.example.fooddeliveryapp.domain.ProductRepository
+import com.example.fooddeliveryapp.domain.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +16,14 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataModule {
 
     @Binds
-    abstract fun getProduct(impl: RepositoryImpl): Repository
+    abstract fun getProductRepository(impl: ProductRepositoryImpl): ProductRepository
+
+
+    @Binds
+    abstract fun getCartRepository(impl: CartRepositoryImpl): CartRepository
+
+
+    @Binds
+    abstract fun getUserRepository(impl: UserRepositoryImpl): UserRepository
+
 }

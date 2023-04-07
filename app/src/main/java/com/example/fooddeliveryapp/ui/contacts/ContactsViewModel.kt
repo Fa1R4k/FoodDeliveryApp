@@ -13,6 +13,4 @@ class ContactsViewModel @Inject constructor(
 
     private val _liveData = MutableLiveData<String>()
     val liveData: LiveData<String> get() = _liveData
-
-
 }

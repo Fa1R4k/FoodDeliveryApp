@@ -4,7 +4,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.RvItemCategoryBinding
-import com.example.fooddeliveryapp.domain.CategoryData
+import com.example.fooddeliveryapp.domain.model.CategoryData
 
 class CategoryViewHolder(
     private val binding: RvItemCategoryBinding,
@@ -13,6 +13,7 @@ class CategoryViewHolder(
     private val isNewRadioButtonChecked: () -> Boolean,
     private val setNewRadioButton: (Boolean) -> Unit,
     private val getCategoryFromList: (Int) -> Boolean,
+    private val firstElement: CategoryData,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: CategoryData) {
         val categoryRadioButton = itemView.findViewById<Button>(R.id.rbCategory)
@@ -28,7 +29,13 @@ class CategoryViewHolder(
 
         categoryRadioButton.setOnClickListener {
             handleRadioButtonChecks(adapterPosition)
-            itemCategoryCLick(item.categoryName)
+            var categoryName = item.categoryName
+
+
+            if (item.categoryName == firstElement.categoryName) {
+                categoryName = ""
+            }
+            itemCategoryCLick(categoryName)
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.example.fooddeliveryapp.ui.cart
 
-enum class CART_CHANGES {
+enum class CartChanges {
     ADD,
     REMOVE,
     DELETE

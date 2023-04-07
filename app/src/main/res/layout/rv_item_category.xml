@@ -1,28 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rvFilm"
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rbCategory"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingEnd="5dp">
-
-    <RadioButton
-        android:id="@+id/rbCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/control_switch_background_selector_middle2"
-        android:button="@null"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:minHeight="25dp"
-        android:minWidth="60dp"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:text="@string/category"
-        android:textColor="@color/grey_700"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:layout_marginEnd="5dp"
+    android:background="@drawable/control_switch_background_selector_middle2"
+    android:button="@null"
+    android:gravity="center"
+    android:minWidth="60dp"
+    android:minHeight="25dp"
+    android:paddingStart="15dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="15dp"
+    android:paddingBottom="5dp"
+    android:text="@string/category"
+    android:textColor="@color/grey_700" />

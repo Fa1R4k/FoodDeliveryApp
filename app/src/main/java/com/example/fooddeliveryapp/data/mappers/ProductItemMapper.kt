@@ -1,8 +1,7 @@
 package com.example.fooddeliveryapp.data.mappers
 
-import com.example.fooddeliveryapp.data.database.CartEntity
 import com.example.fooddeliveryapp.data.models.ProductItemResponse
-import com.example.fooddeliveryapp.domain.ProductItem
+import com.example.fooddeliveryapp.domain.model.ProductItem
 import javax.inject.Inject
 
 class ProductItemMapper @Inject constructor() {
@@ -31,7 +30,7 @@ class ProductItemMapper @Inject constructor() {
         val imageUrl = imageUrl.orEmpty()
         val name = name.orEmpty()
         val description = description.orEmpty()
-        val price = prise ?: mapOf()
+        val price = price ?: mapOf()
         return ProductItem.ProductData(id,name, description, imageUrl, price)
     }
 }

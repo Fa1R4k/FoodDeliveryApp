@@ -1,8 +1,6 @@
-package com.example.fooddeliveryapp.domain
+package com.example.fooddeliveryapp.data.models
 
-import androidx.room.ColumnInfo
-
-data class ProductInCart(
+data class CartProductItemResponse(
     val id: Int,
     val name: String,
     val imageUrl: String,

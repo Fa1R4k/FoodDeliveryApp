@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fooddeliveryapp.databinding.RvItemCategoryBinding
-import com.example.fooddeliveryapp.domain.CategoryData
+import com.example.fooddeliveryapp.domain.model.CategoryData
 
 class CategoryAdapter(
     private val categoryList: MutableList<CategoryData>,
@@ -14,7 +14,6 @@ class CategoryAdapter(
     private var isNewRadioButtonChecked = false
     private var lastCheckedPosition = 0
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val item = RvItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CategoryViewHolder(item,
@@ -22,7 +21,9 @@ class CategoryAdapter(
             ::handleRadioButtonChecks,
             ::getStateNewRadioButtonChecked,
             ::setNewRadioButton,
-            ::getIsSelectedByPosition)
+            ::getIsSelectedByPosition,
+            categoryList.first()
+            )
     }
 
     override fun getItemCount(): Int = categoryList.size
