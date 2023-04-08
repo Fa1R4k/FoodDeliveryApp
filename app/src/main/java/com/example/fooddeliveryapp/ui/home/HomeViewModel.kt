@@ -4,16 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.ProductRepository
 import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: ProductRepository,
+    private val productRepository: ProductRepository,
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
 
     private val _liveData = MutableLiveData<List<ProductItem>>()
@@ -25,6 +28,10 @@ class HomeViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val _countProductInCartLiveData = MutableLiveData<Int>()
+    val countProductInCartData: LiveData<Int> get() = _countProductInCartLiveData
+
+
     /*private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         when (throwable) {
             is SocketTimeoutException -> _errorLiveData.value = R.string.fatal
@@ -34,14 +41,22 @@ class HomeViewModel @Inject constructor(
 
     fun getCategory() {
         viewModelScope.launch {
-            _categoryLiveData.value = repository.getCategory().toMutableList()
+            _categoryLiveData.value = productRepository.getCategory().toMutableList()
+        }
+    }
+
+    fun getCountProductInCart() {
+        viewModelScope.launch {
+            delay(300)
+            _countProductInCartLiveData.value =
+                cartRepository.getAllProductFromCart().sumOf { it.countProductInCart }
         }
     }
 
     fun getProduct(category: String) {
         _loadingLiveData.value = true
         viewModelScope.launch {
-            _liveData.value = repository.getProductByCategory(category)
+            _liveData.value = productRepository.getProductByCategory(category)
             _loadingLiveData.value = false
         }
     }
@@ -49,7 +64,7 @@ class HomeViewModel @Inject constructor(
     fun getProduct() {
         _loadingLiveData.value = true
         viewModelScope.launch {
-            _liveData.value = repository.getMenu()
+            _liveData.value = productRepository.getMenu()
             _loadingLiveData.value = false
         }
     }

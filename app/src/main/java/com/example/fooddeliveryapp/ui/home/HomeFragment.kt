@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentHomeBinding
 import com.example.fooddeliveryapp.ui.home.category.CategoryAdapter
 import com.example.fooddeliveryapp.ui.home.menu_recycler.MenuAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +23,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeViewModel>()
     private var menuAdapter = MenuAdapter(openProductItemClick())
+    private var categoryAdapter = CategoryAdapter(::itemCategoryClick)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,25 +34,41 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCountProductInCart()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupCategoryRecyclerView()
+        println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        println(categoryAdapter.lastCheckedPosition)
+
         observeLiveData()
         setupMenuRecyclerView()
-        setupCategoryRecyclerView()
+        observeCountProductInCartData()
         observeLoadingLiveData()
 
         binding.ivHomeSearch.setOnClickListener {
             openSearchItemClick()
         }
         viewModel.getCategory()
-        viewModel.getProduct()
     }
 
     private fun observeLoadingLiveData() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.loading.isVisible = it
             binding.fragment.isVisible = !it
+        }
+    }
+
+    private fun observeCountProductInCartData() {
+        viewModel.countProductInCartData.observe(viewLifecycleOwner) {
+            val bottomNavigationView =
+                requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+            val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
+            badge.number = it
         }
     }
 
@@ -62,7 +81,12 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private fun scrollRecyclerToTop() {
+        binding.rvHomeMenu.scrollToPosition(0)
+    }
+
     private fun setupCategoryRecyclerView() {
+        binding.rvHomeCategory.adapter = categoryAdapter
         binding.rvHomeCategory.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -72,7 +96,7 @@ class HomeFragment : Fragment() {
 
     private fun observeLiveData() {
         viewModel.categoryLiveData.observe(viewLifecycleOwner) {
-            binding.rvHomeCategory.adapter = CategoryAdapter(it, ::itemCategoryClick)
+            categoryAdapter.setItems(it)
         }
 
         viewModel.liveData.observe(viewLifecycleOwner) {

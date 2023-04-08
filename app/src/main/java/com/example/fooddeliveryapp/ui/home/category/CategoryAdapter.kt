@@ -7,23 +7,25 @@ import com.example.fooddeliveryapp.databinding.RvItemCategoryBinding
 import com.example.fooddeliveryapp.domain.model.CategoryData
 
 class CategoryAdapter(
-    private val categoryList: MutableList<CategoryData>,
     private val itemCategoryCLick: (String) -> Unit,
 ) :
     RecyclerView.Adapter<CategoryViewHolder>() {
+
+    private val categoryList: MutableList<CategoryData> = mutableListOf()
     private var isNewRadioButtonChecked = false
-    private var lastCheckedPosition = 0
+    var lastCheckedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val item = RvItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(item,
+        return CategoryViewHolder(
+            item,
             itemCategoryCLick,
             ::handleRadioButtonChecks,
             ::getStateNewRadioButtonChecked,
             ::setNewRadioButton,
             ::getIsSelectedByPosition,
             categoryList.first()
-            )
+        )
     }
 
     override fun getItemCount(): Int = categoryList.size
@@ -42,6 +44,15 @@ class CategoryAdapter(
 
     private fun setNewRadioButton(checked: Boolean) {
         isNewRadioButtonChecked = checked
+    }
+
+    fun setItems(newList: MutableList<CategoryData>) {
+        categoryList.clear()
+        categoryList.addAll(newList)
+        handleRadioButtonChecks(lastCheckedPosition)
+        if (lastCheckedPosition != 0) itemCategoryCLick(newList[lastCheckedPosition].categoryName)
+        else itemCategoryCLick("")
+        notifyDataSetChanged()
     }
 
     private fun getIsSelectedByPosition(position: Int): Boolean = categoryList[position].isSelected

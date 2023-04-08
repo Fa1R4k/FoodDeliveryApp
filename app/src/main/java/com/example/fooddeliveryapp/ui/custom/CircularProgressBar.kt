@@ -39,7 +39,7 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
             onProgressChangeListener?.invoke(progress)
             invalidate()
         }
-    var progressMax: Float = DEFAULT_MAX_VALUE
+    private var progressMax: Float = DEFAULT_MAX_VALUE
         set(value) {
             field = if (field >= 0) value else DEFAULT_MAX_VALUE
             invalidate()
@@ -51,7 +51,7 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
             requestLayout()
             invalidate()
         }
-    var backgroundProgressBarWidth: Float = resources.getDimension(R.dimen.default_background_stroke_width)
+    private var backgroundProgressBarWidth: Float = resources.getDimension(R.dimen.default_background_stroke_width)
         set(value) {
             field = value.dpToPx()
             backgroundPaint.strokeWidth = field
@@ -64,55 +64,55 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
             manageColor()
             invalidate()
         }
-    var progressBarColorStart: Int? = null
+    private var progressBarColorStart: Int? = null
         set(value) {
             field = value
             manageColor()
             invalidate()
         }
-    var progressBarColorEnd: Int? = null
+    private var progressBarColorEnd: Int? = null
         set(value) {
             field = value
             manageColor()
             invalidate()
         }
-    var progressBarColorDirection: GradientDirection = GradientDirection.LEFT_TO_RIGHT
+    private var progressBarColorDirection: GradientDirection = GradientDirection.LEFT_TO_RIGHT
         set(value) {
             field = value
             manageColor()
             invalidate()
         }
-    var backgroundProgressBarColor: Int = Color.GRAY
+    private var backgroundProgressBarColor: Int = Color.GRAY
         set(value) {
             field = value
             manageBackgroundProgressBarColor()
             invalidate()
         }
-    var backgroundProgressBarColorStart: Int? = null
+    private var backgroundProgressBarColorStart: Int? = null
         set(value) {
             field = value
             manageBackgroundProgressBarColor()
             invalidate()
         }
-    var backgroundProgressBarColorEnd: Int? = null
+    private var backgroundProgressBarColorEnd: Int? = null
         set(value) {
             field = value
             manageBackgroundProgressBarColor()
             invalidate()
         }
-    var backgroundProgressBarColorDirection: GradientDirection = GradientDirection.LEFT_TO_RIGHT
+    private var backgroundProgressBarColorDirection: GradientDirection = GradientDirection.LEFT_TO_RIGHT
         set(value) {
             field = value
             manageBackgroundProgressBarColor()
             invalidate()
         }
-    var roundBorder = false
+    private var roundBorder = false
         set(value) {
             field = value
             foregroundPaint.strokeCap = if (field) Paint.Cap.ROUND else Paint.Cap.BUTT
             invalidate()
         }
-    var startAngle: Float = DEFAULT_START_ANGLE
+    private var startAngle: Float = DEFAULT_START_ANGLE
         set(value) {
             var angle = value + DEFAULT_START_ANGLE
             while (angle > 360) {
@@ -121,12 +121,12 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
             field = if (angle < 0) 0f else if (angle > 360) 360f else angle
             invalidate()
         }
-    var progressDirection: ProgressDirection = ProgressDirection.TO_RIGHT
+    private var progressDirection: ProgressDirection = ProgressDirection.TO_RIGHT
         set(value) {
             field = value
             invalidate()
         }
-    var indeterminateMode = false
+    private var indeterminateMode = false
         set(value) {
             field = value
             onIndeterminateModeChangeListener?.invoke(field)
@@ -142,8 +142,8 @@ class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(
                 indeterminateModeHandler?.post(indeterminateModeRunnable)
             }
         }
-    var onProgressChangeListener: ((Float) -> Unit)? = null
-    var onIndeterminateModeChangeListener: ((Boolean) -> Unit)? = null
+    private var onProgressChangeListener: ((Float) -> Unit)? = null
+    private var onIndeterminateModeChangeListener: ((Boolean) -> Unit)? = null
 
     private var progressIndeterminateMode: Float = 0f
         set(value) {

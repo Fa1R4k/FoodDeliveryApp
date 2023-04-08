@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     <TextView
-        android:id="@+id/tvUserDate2"
+        android:id="@+id/tv_user_date_reg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

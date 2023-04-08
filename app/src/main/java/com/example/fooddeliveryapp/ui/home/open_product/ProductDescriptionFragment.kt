@@ -8,15 +8,18 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.RadioButton
+import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProductDescriptionBinding
 import com.example.fooddeliveryapp.domain.model.ProductItem
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,6 +39,7 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
         _binding = FragmentProductDescriptionBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     private var price = 0.0
     private var selectedParameter = ""
     private lateinit var productItem: ProductItem.ProductData
@@ -119,13 +123,13 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
     }
 
     private fun navigateToHomeScreen() {
-        binding.fragment.isVisible
+        binding.fragment.isVisible = false
+        binding.ivProductImage.isVisible = true
         val animation: Animation =
             AnimationUtils.loadAnimation(context, R.anim.add_to_cart_anim)
         binding.ivProductImage.startAnimation(animation)
         findNavController().popBackStack()
     }
-
 
     private fun setImage(url: String, image: ImageView) {
         Glide.with(image).load(url).into(image)
