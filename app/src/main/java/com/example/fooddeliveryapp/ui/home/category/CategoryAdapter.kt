@@ -13,7 +13,7 @@ class CategoryAdapter(
 
     private val categoryList: MutableList<CategoryData> = mutableListOf()
     private var isNewRadioButtonChecked = false
-    var lastCheckedPosition = 0
+    private var lastCheckedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val item = RvItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -50,9 +50,21 @@ class CategoryAdapter(
         categoryList.clear()
         categoryList.addAll(newList)
         handleRadioButtonChecks(lastCheckedPosition)
-        if (lastCheckedPosition != 0) itemCategoryCLick(newList[lastCheckedPosition].categoryName)
-        else itemCategoryCLick("")
         notifyDataSetChanged()
+    }
+
+    fun setSelectedItem(categoryName: String) : Int {
+        val position =
+            categoryList.indexOf(categoryList.find { categoryData -> categoryData.categoryName == categoryName })
+        handleRadioButtonChecks(position)
+        return position
+    }
+
+    fun setBackItem(categoryName: String): Int {
+        val position =
+            categoryList.indexOf(categoryList.find { categoryData -> categoryData.categoryName == categoryName }) - 1
+        handleRadioButtonChecks(position)
+        return position
     }
 
     private fun getIsSelectedByPosition(position: Int): Boolean = categoryList[position].isSelected

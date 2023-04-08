@@ -31,10 +31,6 @@ class CategoryViewHolder(
             handleRadioButtonChecks(adapterPosition)
             var categoryName = item.categoryName
 
-
-            if (item.categoryName == firstElement.categoryName) {
-                categoryName = ""
-            }
             itemCategoryCLick(categoryName)
         }
     }

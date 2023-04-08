@@ -53,14 +53,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getProduct(category: String) {
-        _loadingLiveData.value = true
-        viewModelScope.launch {
-            _liveData.value = productRepository.getProductByCategory(category)
-            _loadingLiveData.value = false
-        }
-    }
-
     fun getProduct() {
         _loadingLiveData.value = true
         viewModelScope.launch {

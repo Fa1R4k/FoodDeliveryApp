@@ -7,6 +7,7 @@ sealed class ProductItem {
         val description: String,
         val imageUrl: String,
         var price: Map<String,Double>,
+        var category: String,
     ) : ProductItem()
 
     data class ProductTitleItem(val title: String) : ProductItem()
