@@ -8,7 +8,7 @@ import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.RvItemCartBinding
 import com.example.fooddeliveryapp.domain.model.CartProduct
 
-class CartViewHolder(
+class CartHolder(
     private val binding: RvItemCartBinding,
     private val addCountForProduct: (Int, String, CartChanges) -> Unit,
     private val cartAdapter: CartAdapter,

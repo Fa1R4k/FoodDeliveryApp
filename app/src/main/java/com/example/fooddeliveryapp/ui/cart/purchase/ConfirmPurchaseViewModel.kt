@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
@@ -36,6 +37,9 @@ class ConfirmPurchaseViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val _isUserUpdateLiveData = MutableLiveData<Boolean>()
+    val isUserUpdate: LiveData<Boolean> get() = _isUserUpdateLiveData
+
     private fun deleteCart() {
         viewModelScope.launch {
             cartRepository.deleteCartsFromDataBase()
@@ -43,6 +47,7 @@ class ConfirmPurchaseViewModel @Inject constructor(
     }
 
     fun updateUser() {
+        _isUserUpdateLiveData.value = true
         viewModelScope.launch {
             val user = userRepository.getUser()
             val cartProducts = cartRepository.getAllProductFromCart()
@@ -57,6 +62,7 @@ class ConfirmPurchaseViewModel @Inject constructor(
                 orderPrise
             )
             deleteCart()
+            _isUserUpdateLiveData.value = false
         }
     }
 

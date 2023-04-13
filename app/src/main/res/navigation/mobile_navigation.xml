@@ -143,7 +143,8 @@
         tools:layout="@layout/fragment_confirm_purchase" >
         <action
             android:id="@+id/action_confirmPurchaseFragment_to_successPurchaseFragment"
-            app:destination="@id/successPurchaseFragment" />
+            app:destination="@id/successPurchaseFragment"
+            app:popUpTo="@id/navigation_cart" />
     </fragment>
     <fragment
         android:id="@+id/userAddressesFragment"
@@ -153,12 +154,27 @@
     <fragment
         android:id="@+id/userOrderHistoryFragment"
         android:name="com.example.fooddeliveryapp.ui.profile.user_history_order.UserOrderHistoryFragment"
-        android:label="UserOrderHistoryFragment" />
+        android:label="UserOrderHistoryFragment" >
+        <action
+            android:id="@+id/action_userOrderHistoryFragment_to_moreDetailedOrderFragment"
+            app:destination="@id/moreDetailedOrderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/successPurchaseFragment"
         android:name="com.example.fooddeliveryapp.ui.cart.purchase.SuccessPurchaseFragment"
         android:label="SuccessPurchaseFragment"
         tools:layout="@layout/fragment_purchase_success"
-        />
+        >
+    </fragment>
+    <fragment
+        android:id="@+id/moreDetailedOrderFragment"
+        android:name="com.example.fooddeliveryapp.ui.profile.user_history_order.more_detailed_order.MoreDetailedOrderFragment"
+        android:label="MoreDetailedOrderFragment"
+        tools:layout="@layout/fragment_more_detailed_order">
+        <argument
+            android:name="order_time"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
 
 </navigation>

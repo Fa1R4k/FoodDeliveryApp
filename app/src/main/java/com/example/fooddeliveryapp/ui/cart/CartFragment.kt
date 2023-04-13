@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentCartBinding
+import com.example.fooddeliveryapp.ui.profile.user_history_order.more_detailed_order.MoreDetailedOrderAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,6 @@ class CartFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<CartViewModel>()
     private var userIsAuthentication = false
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +56,6 @@ class CartFragment : Fragment() {
         binding.cartRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.cartRecyclerView.adapter = adapter
-
     }
 
     private fun setupButton() {

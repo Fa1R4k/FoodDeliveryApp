@@ -44,8 +44,12 @@ class ConfirmPurchaseFragment : Fragment() {
                 val arrayAdapter =
                     ArrayAdapter(requireContext(), R.layout.dropdown_item, it.address)
                 binding.autoCompleteTextView.setAdapter(arrayAdapter)
-                binding.autoCompleteTextView.setOnClickListener (null)
+                binding.autoCompleteTextView.setOnClickListener(null)
             }
+        }
+
+        viewModel.isUserUpdate.observe(viewLifecycleOwner) {
+            if (!it) navigateToSuccessPurchase() else binding.groupLoading.isVisible = true
         }
 
         viewModel.priceLiveData.observe(viewLifecycleOwner) {
@@ -62,7 +66,6 @@ class ConfirmPurchaseFragment : Fragment() {
             } else if (binding.autoCompleteTextView.text.toString() == getString(R.string.please_choose_address)) {
                 binding.tiDropdownMenu.error = getString(R.string.please_choose_address)
             } else {
-                navigateToSuccessPurchase()
                 viewModel.updateUser()
             }
         }
