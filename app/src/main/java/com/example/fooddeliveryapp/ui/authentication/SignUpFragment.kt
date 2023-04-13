@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.authentication
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,21 +13,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentSignUpBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import java.util.*
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class SignUpFragment : Fragment() {
-
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: SingUpViewModel by viewModels { factory }
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<SingUpViewModel>()
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(
             s: CharSequence?,
@@ -35,12 +38,18 @@ class SignUpFragment : Fragment() {
             after: Int,
         ) {
         }
+
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             checkButton()
         }
+
         override fun afterTextChanged(s: Editable?) {
         }
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -90,10 +99,12 @@ class SignUpFragment : Fragment() {
         with(binding) {
             button.setOnClickListener {
                 if (areAllEditTextsFilled() && isNumberRight() && isPasswordRight() && isDateRight()) {
-                    viewModel.createNewUser(etUserName.text.toString(),
+                    viewModel.createNewUser(
+                        etUserName.text.toString(),
                         etPhone.text.toString(),
                         etPassword.text.toString(),
-                        etDate.text.toString())
+                        etDate.text.toString()
+                    )
                 }
             }
             tvHaveAccount.setOnClickListener { navigateToLogIn() }

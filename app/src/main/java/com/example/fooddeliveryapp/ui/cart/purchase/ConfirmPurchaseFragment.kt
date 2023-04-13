@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.cart.purchase
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +10,26 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentConfirmPurchaseBinding
-import com.example.fooddeliveryapp.ui.cart.CartFragmentDirections
 import com.example.fooddeliveryapp.ui.custom.CustomAlertDialog
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class ConfirmPurchaseFragment : Fragment() {
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: ConfirmPurchaseViewModel by viewModels { factory }
     private var _binding: FragmentConfirmPurchaseBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<ConfirmPurchaseViewModel>()
     private lateinit var customDialog: CustomAlertDialog
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.UserRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class UserAddressesViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {
@@ -24,8 +22,8 @@ class UserAddressesViewModel @Inject constructor(
         }
     }
 
-    fun addUserAddress(address : String) {
-        viewModelScope.launch{
+    fun addUserAddress(address: String) {
+        viewModelScope.launch {
             val user = userRepository.getUser()
             user.address.add(address)
             _userAddressesLiveData.value = user.address
@@ -33,7 +31,7 @@ class UserAddressesViewModel @Inject constructor(
         }
     }
 
-    fun deleteAddress(address: String){
+    fun deleteAddress(address: String) {
         viewModelScope.launch {
             val user = userRepository.getUser()
             user.address.remove(address)

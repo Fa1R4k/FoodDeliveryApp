@@ -8,12 +8,10 @@ import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.domain.use_case.GetPriceFromCartDataBaseUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class CartViewModel @Inject constructor(
+class CartViewModelRefactor @Inject constructor(
     private val cartRepository: CartRepository,
     private val userRepository: UserRepository,
     private val getPriceFromCartDataBase: GetPriceFromCartDataBaseUseCase,
@@ -36,7 +34,6 @@ class CartViewModel @Inject constructor(
 
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
-
 
     fun getUserAuthorizationState() {
         _authorizedLiveData.value = userRepository.isAuthorized()

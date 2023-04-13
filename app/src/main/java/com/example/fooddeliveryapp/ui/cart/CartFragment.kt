@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.cart
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +11,26 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentCartBinding
-import com.example.fooddeliveryapp.ui.profile.user_history_order.more_detailed_order.MoreDetailedOrderAdapter
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class CartFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: CartViewModelRefactor by viewModels { factory }
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<CartViewModel>()
     private var userIsAuthentication = false
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

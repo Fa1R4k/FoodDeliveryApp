@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.profile.user_addresses
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,19 +8,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fooddeliveryapp.databinding.FragmentProfileBinding
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentUserAddressesBinding
 import com.example.fooddeliveryapp.ui.custom.CustomAlertDialog
-import com.example.fooddeliveryapp.ui.profile.ProfileViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class UserAddressesFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: UserAddressesViewModel by viewModels { factory }
     private var _binding: FragmentUserAddressesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<UserAddressesViewModel>()
     private val addressesAdapter = AddressesAdapter(::deleteAddress)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

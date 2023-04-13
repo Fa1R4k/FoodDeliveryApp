@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.home.open_product
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,29 +9,32 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.RadioButton
-import androidx.core.view.allViews
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProductDescriptionBinding
 import com.example.fooddeliveryapp.domain.model.ProductItem
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import javax.inject.Inject
 
 
-@AndroidEntryPoint
 class ProductDescriptionFragment : Fragment(R.layout.fragment_product_description) {
-
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: ProductDescriptionViewModel by viewModels { factory }
     private var _binding: FragmentProductDescriptionBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<ProductDescriptionViewModel>()
     private val args: ProductDescriptionFragmentArgs by navArgs()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

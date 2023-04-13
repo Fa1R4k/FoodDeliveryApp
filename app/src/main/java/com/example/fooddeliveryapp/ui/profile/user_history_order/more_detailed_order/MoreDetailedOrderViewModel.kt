@@ -6,11 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
-import com.example.fooddeliveryapp.domain.model.HistoryOrderData
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-@HiltViewModel
 class MoreDetailedOrderViewModel @Inject constructor(
     private val userRepository: UserRepository,
 ) : ViewModel() {

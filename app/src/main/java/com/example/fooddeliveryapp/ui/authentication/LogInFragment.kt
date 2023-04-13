@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.authentication
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,20 +13,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentLogInBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class LogInFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: LogInViewModel by viewModels { factory }
     private var _binding: FragmentLogInBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<LogInViewModel>()
     private val textWatcher =
         object : TextWatcher {
             override fun beforeTextChanged(
@@ -44,6 +48,11 @@ class LogInFragment : Fragment() {
             }
 
         }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +76,7 @@ class LogInFragment : Fragment() {
     }
 
     private fun observeLiveDate() {
-        viewModel.liveData.observe(viewLifecycleOwner){
+        viewModel.liveData.observe(viewLifecycleOwner) {
             binding.tvLogInError.isVisible = !it
             if (it) {
                 navigateToSuccessAuthenticationFragment()
@@ -86,7 +95,6 @@ class LogInFragment : Fragment() {
         checkEditText(binding.etPassword)
     }
 
-
     private fun decorateEditText() {
         val numberMask =
             MaskImpl.createTerminated(UnderscoreDigitSlotsParser().parseSlots(FORMAT_NUMBER))
@@ -99,7 +107,7 @@ class LogInFragment : Fragment() {
         with(binding) {
             button.setOnClickListener {
                 if (areAllEditTextsFilled() && isNumberRight() && isPasswordRight()) {
-                    viewModel.login(etNumber.text.toString(),etPassword.text.toString())
+                    viewModel.login(etNumber.text.toString(), etPassword.text.toString())
                 }
             }
             tvHaveAccount.setOnClickListener { navigateToSignUp() }
@@ -121,7 +129,6 @@ class LogInFragment : Fragment() {
         }
         return true
     }
-
 
     private fun areAllEditTextsFilled(): Boolean {
         var allFilled = true
@@ -153,7 +160,6 @@ class LogInFragment : Fragment() {
             }
         }
     }
-
 
     companion object {
         private const val REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)\\w{8,}\$"

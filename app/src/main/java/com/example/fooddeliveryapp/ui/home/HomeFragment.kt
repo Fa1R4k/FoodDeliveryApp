@@ -1,8 +1,8 @@
 package com.example.fooddeliveryapp.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -11,26 +11,33 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentHomeBinding
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import com.example.fooddeliveryapp.ui.home.category.CategoryAdapter
 import com.example.fooddeliveryapp.ui.home.menu_recycler.MenuAdapter
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
-import java.text.FieldPosition
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: HomeViewModel by viewModels { factory }
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<HomeViewModel>()
     private var menuAdapter = MenuAdapter(openProductItemClick())
     private var categoryAdapter = CategoryAdapter(::itemCategoryClick)
     private var menu = mutableListOf<ProductItem>()
     private var isSmoothScrolling = false
     private var position = 0
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

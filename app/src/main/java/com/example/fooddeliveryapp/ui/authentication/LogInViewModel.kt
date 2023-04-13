@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.use_case.HashingPasswordUseCase
 import com.example.fooddeliveryapp.domain.UserRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class LogInViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val hashingPasswordUseCase: HashingPasswordUseCase,

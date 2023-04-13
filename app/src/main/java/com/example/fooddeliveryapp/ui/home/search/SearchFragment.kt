@@ -10,17 +10,20 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentSearchBinding
 import com.example.fooddeliveryapp.ui.home.menu_recycler.MenuAdapter
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class SearchFragment : DialogFragment() {
+
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: SearchViewModel by viewModels { factory }
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<SearchViewModel>()
     private val adapter = MenuAdapter(openProductItemClick())
-
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             viewModel.getProduct(s.toString())
@@ -28,6 +31,11 @@ class SearchFragment : DialogFragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable?) {}
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
     }
 
     override fun onCreateView(
