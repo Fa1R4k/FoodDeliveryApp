@@ -41,6 +41,8 @@ class SuccessAuthenticationFragment : Fragment() {
 
         navController.popBackStack(R.id.navigation_profile, false)
         navController.popBackStack(R.id.navigation_cart, false)
+        navController.popBackStack(R.id.navigation_home, false)
+
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.menu.findItem(R.id.navigation_profile).let {
@@ -55,6 +57,7 @@ class SuccessAuthenticationFragment : Fragment() {
 
         navController.popBackStack(R.id.navigation_profile, false)
         navController.popBackStack(R.id.navigation_cart, false)
+        navController.popBackStack(R.id.navigation_home, false)
 
         val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)

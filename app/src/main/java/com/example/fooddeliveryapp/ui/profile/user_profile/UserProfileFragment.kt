@@ -32,9 +32,9 @@ class UserProfileFragment : Fragment() {
 
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             binding.tvUserName.text = it.name
+            binding.tvUserDate.text = it.date
+            binding.tvUserDateReg.text = it.dateRegistration
         }
-
-
     }
 
     override fun onDestroyView() {

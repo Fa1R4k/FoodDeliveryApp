@@ -9,7 +9,6 @@
         android:id="@+id/navigation_home"
         android:name="com.example.fooddeliveryapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        android:saveEnabled="true"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_productDescriptionFragment"
@@ -18,11 +17,14 @@
             app:exitAnim="@anim/to_invisible"
             app:popEnterAnim="@anim/to_visible"
             app:popExitAnim="@anim/slide_out_down"
-            app:popUpToSaveState="true" />
+            />
         <action
             android:id="@+id/action_navigation_home_to_searchFragment"
             app:destination="@id/searchFragment"
-            app:popUpToSaveState="true" />
+             />
+        <action
+            android:id="@+id/action_navigation_home_to_needAuthenticationFragment"
+            app:destination="@id/needAuthenticationFragment" />
     </fragment>
 
     <fragment
@@ -36,6 +38,12 @@
         <action
             android:id="@+id/action_navigation_dashboard_to_needAuthenticationFragment"
             app:destination="@id/needAuthenticationFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_userAddressesFragment"
+            app:destination="@id/userAddressesFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_userOrderHistoryFragment"
+            app:destination="@id/userOrderHistoryFragment" />
     </fragment>
 
     <fragment
@@ -56,7 +64,6 @@
             app:destination="@id/confirmPurchaseFragment" />
     </fragment>
     <fragment
-
         android:id="@+id/productDescriptionFragment"
         android:name="com.example.fooddeliveryapp.ui.home.open_product.ProductDescriptionFragment"
         android:label="fragment_product_description"
@@ -80,11 +87,7 @@
         android:id="@+id/userProfileFragment"
         android:name="com.example.fooddeliveryapp.ui.profile.user_profile.UserProfileFragment"
         android:label="UserProfileFragment"
-        tools:layout="@layout/fragment_user_profile">
-        <argument
-            android:name="user_id"
-            app:argType="string" />
-    </fragment>
+        tools:layout="@layout/fragment_user_profile"/>
     <fragment
         android:id="@+id/singUpFragment"
         android:name="com.example.fooddeliveryapp.ui.authentication.SignUpFragment"
@@ -135,7 +138,27 @@
     </fragment>
     <fragment
         android:id="@+id/confirmPurchaseFragment"
-        android:name="com.example.fooddeliveryapp.ui.cart.confirm_purchase.ConfirmPurchaseFragment"
+        android:name="com.example.fooddeliveryapp.ui.cart.purchase.ConfirmPurchaseFragment"
         android:label="ConfirmPurchaseFragment"
-        tools:layout="@layout/fragment_confirm_purchase" />
+        tools:layout="@layout/fragment_confirm_purchase" >
+        <action
+            android:id="@+id/action_confirmPurchaseFragment_to_successPurchaseFragment"
+            app:destination="@id/successPurchaseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userAddressesFragment"
+        android:name="com.example.fooddeliveryapp.ui.profile.user_addresses.UserAddressesFragment"
+        android:label="UserAddressesFragment"
+        tools:layout="@layout/fragment_user_addresses"/>
+    <fragment
+        android:id="@+id/userOrderHistoryFragment"
+        android:name="com.example.fooddeliveryapp.ui.profile.user_history_order.UserOrderHistoryFragment"
+        android:label="UserOrderHistoryFragment" />
+    <fragment
+        android:id="@+id/successPurchaseFragment"
+        android:name="com.example.fooddeliveryapp.ui.cart.purchase.SuccessPurchaseFragment"
+        android:label="SuccessPurchaseFragment"
+        tools:layout="@layout/fragment_purchase_success"
+        />
+
 </navigation>

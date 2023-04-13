@@ -10,8 +10,8 @@
 
     <com.example.fooddeliveryapp.ui.custom.CircularProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:cpb_background_progressbar_color="@color/grey"
         app:cpb_background_progressbar_width="20dp"
@@ -43,8 +43,8 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-            <!-- Первый элемент -->
             <LinearLayout
+                android:id="@+id/llNavigateToUserProfile"
                 android:layout_width="120dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
@@ -62,6 +62,7 @@
                     android:src="@drawable/user_square_svgrepo_com" />
 
                 <TextView
+                    android:id="@+id/tvUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -70,39 +71,10 @@
                     android:padding="16dp"
                     android:text="Имя пользователя"
                     android:textColor="@color/black" />
-
             </LinearLayout>
 
-            <!-- Второй элемент -->
             <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/profile_rv_item"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="1"
-                    android:text="Активные заказы"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:gravity="start"
-                    android:text="0"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <!-- Третий элемент -->
-            <LinearLayout
+                android:id="@+id/llNavigateToHistoryOrder"
                 android:layout_width="120dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
@@ -120,17 +92,17 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tvOrderHistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
                     android:text="0"
                     android:textColor="@color/black" />
-
             </LinearLayout>
 
-            <!-- Четвертый элемент -->
             <LinearLayout
+                android:id="@+id/llNavigateToUserAddresses"
                 android:layout_width="120dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
@@ -148,23 +120,22 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tvUserAddresses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
                     android:text="0"
                     android:textColor="@color/black" />
-
             </LinearLayout>
-
         </LinearLayout>
-
     </HorizontalScrollView>
 
     <TextView
         android:id="@+id/tvProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="@string/percent"
         android:textColor="@color/text_user"
         android:textSize="36sp"
@@ -365,8 +336,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/guidelineLoadingBottom"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineLoadingTop"
+        app:layout_constraintVertical_bias="0.0"
         app:lottie_autoPlay="true"
         app:lottie_fileName="loading.json"
         app:lottie_loop="true" />
@@ -389,7 +362,7 @@
         android:id="@+id/fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="ivLogout, tvProgress, tvMaxDiscount,
+        app:constraint_referenced_ids="ivLogout,scrollViewProfile, tvProgress, tvMaxDiscount,
          tvAllPrice, tvMoneyDiscount, tvUserNextDiscount, tvUserNextDiscount,
           tvUserAmountFromDiscount, tvAdvertising, progressBar, tvDiscountNow, tvFromDiscount, tvUserSpend" />
 

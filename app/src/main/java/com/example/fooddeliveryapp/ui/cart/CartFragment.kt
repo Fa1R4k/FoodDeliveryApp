@@ -111,6 +111,10 @@ class CartFragment : Fragment() {
             userIsAuthentication = it
         }
 
+        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            binding.loading.isVisible = it
+        }
+
         viewModel.changeLiveData.observe(viewLifecycleOwner) {
             if (!it) viewModel.isEmptyCart()
         }

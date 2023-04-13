@@ -31,6 +31,7 @@ class ProductItemMapper @Inject constructor() {
         val name = name.orEmpty()
         val description = description.orEmpty()
         val price = price ?: mapOf()
-        return ProductItem.ProductData(id,name, description, imageUrl, price)
+        val category = category.orEmpty()
+        return ProductItem.ProductData(id,name, description, imageUrl, price, category)
     }
 }

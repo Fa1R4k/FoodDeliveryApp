@@ -27,8 +27,10 @@ class CartViewHolder(
             tvProductCount.text = item.countProductInCart.toString()
             tvPrice.text =
                 "${
-                    String.format("%.2f",
-                        item.prise * item.countProductInCart)
+                    String.format(
+                        "%.2f",
+                        item.prise * item.countProductInCart
+                    )
                 } ${itemView.resources.getText(R.string.currency)}"
         }
     }
@@ -36,28 +38,32 @@ class CartViewHolder(
     private fun setUpListeners(item: CartProduct) {
         with(binding) {
             btnAdd.setOnClickListener {
-                clickAdd(item,
+                clickAdd(
+                    item,
                     binding.tvProductCount,
-                    binding.tvPrice)
+                    binding.tvPrice
+                )
             }
             btnRemove.setOnClickListener {
-                clickRemove(item,
+                clickRemove(
+                    item,
                     binding.tvProductCount,
-                    binding.tvPrice)
+                    binding.tvPrice
+                )
             }
         }
     }
 
     private fun clickAdd(item: CartProduct, count: TextView, price: TextView) {
-        if (item.countProductInCart != 99) {
-            addCountForProduct(item.id, item.productParameter, CartChanges.ADD)
-            count.text = item.countProductInCart.toString()
-            price.text =
-                "${
-                    String.format("%.2f",
-                        item.prise * item.countProductInCart)
-                } ${itemView.resources.getText(R.string.currency)}"
-        }
+        addCountForProduct(item.id, item.productParameter, CartChanges.ADD)
+        count.text = item.countProductInCart.toString()
+        price.text =
+            "${
+                String.format(
+                    "%.2f",
+                    item.prise * item.countProductInCart
+                )
+            } ${itemView.resources.getText(R.string.currency)}"
     }
 
     private fun clickRemove(item: CartProduct, count: TextView, price: TextView) {
@@ -70,8 +76,10 @@ class CartViewHolder(
             count.text = item.countProductInCart.toString()
             price.text =
                 "${
-                    String.format("%.2f",
-                        item.prise * item.countProductInCart)
+                    String.format(
+                        "%.2f",
+                        item.prise * item.countProductInCart
+                    )
                 } ${itemView.resources.getText(R.string.currency)}"
         }
     }

@@ -12,8 +12,7 @@ class CategoryViewHolder(
     private val handleRadioButtonChecks: (Int) -> Unit,
     private val isNewRadioButtonChecked: () -> Boolean,
     private val setNewRadioButton: (Boolean) -> Unit,
-    private val getCategoryFromList: (Int) -> Boolean,
-    private val firstElement: CategoryData,
+    private val getCategoryFromList: (Int) -> Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: CategoryData) {
         val categoryRadioButton = itemView.findViewById<Button>(R.id.rbCategory)
@@ -31,10 +30,6 @@ class CategoryViewHolder(
             handleRadioButtonChecks(adapterPosition)
             var categoryName = item.categoryName
 
-
-            if (item.categoryName == firstElement.categoryName) {
-                categoryName = ""
-            }
             itemCategoryCLick(categoryName)
         }
     }

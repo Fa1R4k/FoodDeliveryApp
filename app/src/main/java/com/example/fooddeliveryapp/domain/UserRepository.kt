@@ -11,5 +11,10 @@ interface UserRepository {
     suspend fun getUser(): User
     fun logout()
     suspend fun updateUser(user: User): Boolean
-    suspend fun updateUser(user: User, order: List<CartProduct>, date: String): Boolean
+    suspend fun updateUser(
+        user: User,
+        order: List<CartProduct>,
+        date: String,
+        totalCount: Double,
+    ): Boolean
 }

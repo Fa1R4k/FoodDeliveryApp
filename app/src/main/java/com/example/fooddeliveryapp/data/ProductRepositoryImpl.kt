@@ -7,6 +7,7 @@ import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Queue
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -23,17 +24,14 @@ class ProductRepositoryImpl @Inject constructor(
         productService.getCategories().map { categoryDataMapper(it) }
     }
 
-    override suspend fun getProductByCategory(category: String): List<ProductItem> =
-        withContext(Dispatchers.IO) {
-            if (productService.getCategories().contains(category)) {
-                productService.getProductByCategory(category).map { productItemMapper(it) }
-            } else {
-                getMenu()
-            }
-        }
 
     override suspend fun getProductById(id: Int): ProductItem.ProductData =
         withContext(Dispatchers.IO) {
             productItemMapper(productService.getProductById(id))
+        }
+
+    override suspend fun search(query: String): List<ProductItem.ProductData> =
+        withContext(Dispatchers.IO) {
+            productService.search(query).map { productItemMapper(it)}.toList()
         }
 }

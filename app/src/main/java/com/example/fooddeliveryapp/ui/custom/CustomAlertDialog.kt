@@ -10,13 +10,11 @@ import com.example.fooddeliveryapp.R
 
 class CustomAlertDialog(context: Context) : Dialog(context) {
 
-    private lateinit var streetEditText: EditText
-    private lateinit var houseEditText: EditText
-    private lateinit var apartmentEditText: EditText
-    private lateinit var addAddressButton: Button
+    private var streetEditText: EditText
+    private var houseEditText: EditText
+    private var apartmentEditText: EditText
+    private var addAddressButton: Button
     private lateinit var onAddAddressListener: () -> Unit
-    private val address = ""
-
 
     init {
         setContentView(R.layout.add_address_alert_dialog)

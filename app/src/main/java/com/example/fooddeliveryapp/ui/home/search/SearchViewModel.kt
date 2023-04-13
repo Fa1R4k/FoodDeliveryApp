@@ -22,29 +22,14 @@ class SearchViewModel @Inject constructor(
     private val _liveData = MutableLiveData<List<ProductItem>>()
     val liveData: LiveData<List<ProductItem>> get() = _liveData
 
-    private val _errorLiveData = MutableLiveData<Int>()
-    val errorLiveData: LiveData<Int> get() = _errorLiveData
-
-    private val _categoryLiveData = MutableLiveData<MutableList<CategoryData>>()
-    val categoryLiveData: LiveData<MutableList<CategoryData>> get() = _categoryLiveData
-
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        when (throwable) {
-            is SocketTimeoutException -> _errorLiveData.value = R.string.fatal
-            else -> _errorLiveData.value = R.string.unknown
-        }
-    }
-
     fun getProduct(searchString: String) {
         _loadingLiveData.value = true
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch {
             _liveData.value =
-                repository.getMenu().filterIsInstance<ProductItem.ProductData>().toMutableList()
-                    .filter { it.name.lowercase().contains(searchString.lowercase()) }
+                repository.search(searchString)
             _loadingLiveData.value = false
         }
     }
