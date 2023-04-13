@@ -1,20 +1,29 @@
 package com.example.fooddeliveryapp.ui.profile.user_profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentUserProfileBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class UserProfileFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: UserProfileViewModel by viewModels { factory }
     private var _binding: FragmentUserProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<UserProfileViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

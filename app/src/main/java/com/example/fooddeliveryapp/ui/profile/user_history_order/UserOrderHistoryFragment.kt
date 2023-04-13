@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.profile.user_history_order
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentUserOrderHistoryBinding
-import com.example.fooddeliveryapp.ui.profile.ProfileFragmentDirections
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class UserOrderHistoryFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: UserOrderHistoryViewModel by viewModels { factory }
     private var _binding: FragmentUserOrderHistoryBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<UserOrderHistoryViewModel>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +50,9 @@ class UserOrderHistoryFragment : Fragment() {
 
     private fun navigateToMoreDetailedOrder(orderTime: String) {
         val action =
-            UserOrderHistoryFragmentDirections.actionUserOrderHistoryFragmentToMoreDetailedOrderFragment(orderTime)
+            UserOrderHistoryFragmentDirections.actionUserOrderHistoryFragmentToMoreDetailedOrderFragment(
+                orderTime
+            )
         findNavController().navigate(action)
     }
 }

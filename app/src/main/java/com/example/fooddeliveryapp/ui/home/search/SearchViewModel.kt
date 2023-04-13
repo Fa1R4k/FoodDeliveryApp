@@ -4,17 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fooddeliveryapp.R
-import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import com.example.fooddeliveryapp.domain.ProductRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-@HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: ProductRepository,
 ) : ViewModel() {

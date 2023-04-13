@@ -8,12 +8,10 @@ import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.ProductRepository
 import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val cartRepository: CartRepository,

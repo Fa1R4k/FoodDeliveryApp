@@ -2,15 +2,9 @@ package com.example.fooddeliveryapp.ui.profile.user_history_order.more_detailed_
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fooddeliveryapp.R
-import com.example.fooddeliveryapp.databinding.RvItemCartBinding
 import com.example.fooddeliveryapp.databinding.RvItemMoreDetailedOrderBinding
 import com.example.fooddeliveryapp.domain.model.CartProduct
-import com.example.fooddeliveryapp.ui.cart.CartChanges
 
 class MoreDetailedOrderAdapter(
 ) : RecyclerView.Adapter<MoreDetailedOrderHolder>() {

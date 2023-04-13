@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
@@ -12,11 +11,9 @@ import com.example.fooddeliveryapp.domain.model.User
 import com.example.fooddeliveryapp.domain.use_case.GetCurrentDateUseCase
 import com.example.fooddeliveryapp.domain.use_case.GetPriceFromCartDataBaseUseCase
 import com.example.fooddeliveryapp.domain.use_case.UpdateDiscountUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class ConfirmPurchaseViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val userRepository: UserRepository,

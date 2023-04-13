@@ -7,11 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import com.example.fooddeliveryapp.domain.ProductRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class ProductDescriptionViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val cartRepository: CartRepository

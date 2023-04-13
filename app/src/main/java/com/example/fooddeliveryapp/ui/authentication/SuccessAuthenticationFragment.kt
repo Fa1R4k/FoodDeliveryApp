@@ -1,21 +1,26 @@
 package com.example.fooddeliveryapp.ui.authentication
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentAuthenticationSuccessBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class SuccessAuthenticationFragment : Fragment() {
 
     private var _binding: FragmentAuthenticationSuccessBinding? = null
     private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

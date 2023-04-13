@@ -1,5 +1,6 @@
 package com.example.fooddeliveryapp.ui.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +10,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProfileBinding
-import com.example.fooddeliveryapp.domain.model.User
-import com.example.fooddeliveryapp.ui.home.HomeFragment
 import com.example.fooddeliveryapp.ui.home.HomeFragmentDirections
+import com.example.spinnercat.di.ViewModel.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+    private val viewModel: ProfileViewModel by viewModels { factory }
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<ProfileViewModel>()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
