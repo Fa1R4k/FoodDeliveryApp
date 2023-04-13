@@ -12,20 +12,19 @@ import com.example.fooddeliveryapp.domain.model.CartProduct
 
 class CartAdapter(
     private val addCountForProduct: (Int, String, CartChanges) -> Unit,
-) : RecyclerView.Adapter<CartViewHolder>() {
+) : RecyclerView.Adapter<CartHolder>() {
 
     private val listProduct: MutableList<CartProduct> = mutableListOf()
-    private lateinit var holder: CartViewHolder
+    private lateinit var holder: CartHolder
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartHolder {
         val item = RvItemCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CartViewHolder(item, addCountForProduct, this)
+        return CartHolder(item, addCountForProduct, this)
     }
-
 
     override fun getItemCount(): Int = listProduct.size
 
-    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CartHolder, position: Int) {
         holder.onBind(listProduct[position])
         this.holder = holder
     }

@@ -14,14 +14,14 @@ import com.example.fooddeliveryapp.domain.model.HistoryOrderData
 
 class OrderHistoryAdapter(
     private val addressList: List<HistoryOrderData>,
-            private val itemCategoryCLick: Unit,
-    private val fragmentActivity: FragmentActivity
+    private val itemCategoryCLick: (String) -> Unit
 ) :
     RecyclerView.Adapter<OrderHistoryHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryHolder {
-        val item = RvItemOrderHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return OrderHistoryHolder(item,fragmentActivity)
+        val item =
+            RvItemOrderHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return OrderHistoryHolder(item,itemCategoryCLick)
     }
 
     override fun getItemCount(): Int = addressList.size

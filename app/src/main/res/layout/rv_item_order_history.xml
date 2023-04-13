@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_corner_white"
     android:layout_margin="16dp"
-    android:padding="16dp"
     android:layout_marginBottom="16dp"
-    >
+    android:background="@drawable/bg_corner_white"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tvOrderTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Дата заказа:"
-        android:textSize="16sp"
         android:textColor="@color/black"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,14 +43,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOrderTime" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <HorizontalScrollView
         android:id="@+id/rvImages"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1" />
+        app:layout_constraintTop_toBottomOf="@+id/view1">
+
+        <LinearLayout
+            android:id="@+id/llForImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="0dp"></LinearLayout>
+
+    </HorizontalScrollView>
+
 
     <View
         android:id="@+id/view2"
@@ -93,11 +103,12 @@
         app:layout_constraintTop_toBottomOf="@id/tvAmountText" />
 
     <TextView
+        android:id="@+id/tvNavigateToMoreDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:gravity="center"
         android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="8dp"
         android:text="Подробнее"
         android:textColor="@color/orange_700"
         android:textSize="15sp"
