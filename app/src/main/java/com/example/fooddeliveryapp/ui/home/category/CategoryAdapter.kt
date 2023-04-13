@@ -23,8 +23,7 @@ class CategoryAdapter(
             ::handleRadioButtonChecks,
             ::getStateNewRadioButtonChecked,
             ::setNewRadioButton,
-            ::getIsSelectedByPosition,
-            categoryList.first()
+            ::getIsSelectedByPosition
         )
     }
 

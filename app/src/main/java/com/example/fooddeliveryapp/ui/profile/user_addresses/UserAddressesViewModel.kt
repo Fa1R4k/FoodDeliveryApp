@@ -28,6 +28,15 @@ class UserAddressesViewModel @Inject constructor(
         viewModelScope.launch{
             val user = userRepository.getUser()
             user.address.add(address)
+            _userAddressesLiveData.value = user.address
+            userRepository.updateUser(user)
+        }
+    }
+
+    fun deleteAddress(address: String){
+        viewModelScope.launch {
+            val user = userRepository.getUser()
+            user.address.remove(address)
             userRepository.updateUser(user)
         }
     }

@@ -4,19 +4,16 @@
     <string name="title_profile">Профиль</string>
     <string name="title_contacts">Контакты</string>
     <string name="title_cart">Корзина</string>
-    <string name="fatal">фатал</string>
-    <string name="unknown">неизв</string>
     <string name="in_cart">В корзину за %1$s р.</string>
     <string name="buy">Купить за</string>
     <string name="min_price">от</string>
     <string name="price_currency">%1$s р.</string>
-    <string name="procent">%</string>
     <string name="currency">руб.</string>
     <string name="loading_error">Ошибка загрузки</string>
     <string name="category">Category</string>
     <string name="product">Product</string>
     <string name="product_price">Product price</string>
-    <string name="product_description">Product desription</string>
+    <string name="product_description">Product description</string>
     <string name="user_name">User Name</string>
     <string name="discount_now">Ваша текущая скидка</string>
     <string name="advertising_str">Приобретайте больше вкусной еды и получайте скидку ещё больше!</string>
@@ -59,4 +56,6 @@
     <string name="please_add_new_address">Пожалуйста добавьте новый адрес</string>
     <string name="empty_cart">Ваша корзина пуста</string>
     <string name="go_to_menu">Перейти в меню</string>
+    <string name="add_new_address">Добавить новый адрес</string>
+    <string name="please_choose_address">Пожалуйста выберите адрес.</string>
 </resources>

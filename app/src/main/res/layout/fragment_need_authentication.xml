@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_url="https://assets6.lottiefiles.com/packages/lf20_JNfP0LIyMH.json" />
+        app:lottie_fileName="register.json"/>
 
     <TextView
         android:id="@+id/textView"

@@ -7,7 +7,7 @@ data class User(
     val date: String,
     val dateRegistration: String,
     var totalSpend: Double = 0.0,
-    val orderHistory: MutableList<MutableList<CartProduct>> = mutableListOf(),
+    val orderHistory: MutableList<HistoryOrderData> = mutableListOf(),
     var orderCount: Int = 0,
     val address: MutableList<String> = mutableListOf(),
     var nextDiscountSum: Double = DISCOUNT_FIRST_PERCENT,

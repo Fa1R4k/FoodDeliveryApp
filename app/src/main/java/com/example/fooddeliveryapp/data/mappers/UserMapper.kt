@@ -1,10 +1,11 @@
 package com.example.fooddeliveryapp.data.mappers
 
 import com.example.fooddeliveryapp.data.models.UserItemResponse
+import com.example.fooddeliveryapp.domain.model.HistoryOrderData
 import com.example.fooddeliveryapp.domain.model.User
 import javax.inject.Inject
 
-class UserMapper @Inject constructor() {
+class UserMapper @Inject constructor(private val historyOrderDataMapper: HistoryOrderDataMapper) {
     operator fun invoke(response: UserItemResponse): User =
         with(response) {
             return User(
@@ -14,7 +15,7 @@ class UserMapper @Inject constructor() {
                 date = date.orEmpty(),
                 dateRegistration = dateRegistration.orEmpty(),
                 totalSpend = totalSpend ?: 0.0,
-                orderHistory = mutableListOf(),
+                orderHistory = orderHistory?.map { historyOrderDataMapper(it) }?.toMutableList() ?: mutableListOf(),
                 orderCount = orderCount ?: 0,
                 address = address?.toMutableList() ?: mutableListOf(),
                 nextDiscountSum = nextDiscountSum ?: 50.0,

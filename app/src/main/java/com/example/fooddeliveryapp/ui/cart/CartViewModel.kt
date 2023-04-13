@@ -34,15 +34,20 @@ class CartViewModel @Inject constructor(
     private val _changeLiveData = MutableLiveData<Boolean>()
     val changeLiveData: LiveData<Boolean> get() = _changeLiveData
 
+    private val _loadingLiveData = MutableLiveData<Boolean>()
+    val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
+
 
     fun getUserAuthorizationState() {
         _authorizedLiveData.value = userRepository.isAuthorized()
     }
 
     fun getCartFromData() {
+        _loadingLiveData.value = true
         viewModelScope.launch {
             _liveData.value = cartRepository.getAllProductFromCart().sortedBy { it.hashCode() }
             getCartPrice()
+            _loadingLiveData.value = false
         }
     }
 

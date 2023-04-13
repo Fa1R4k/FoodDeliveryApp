@@ -121,7 +121,7 @@ class HomeFragment : Fragment() {
             position = menu.indexOf(item)
             val layoutManager = binding.rvHomeMenu.layoutManager as LinearLayoutManager
             val visibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            if (visibleItemPosition < position) position += 3
+            if (visibleItemPosition < position) position += 2
 
             isSmoothScrolling = true
             binding.rvHomeMenu.isNestedScrollingEnabled = false

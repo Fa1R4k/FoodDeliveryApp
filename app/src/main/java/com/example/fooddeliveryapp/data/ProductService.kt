@@ -16,4 +16,8 @@ interface ProductService {
 
     @GET("product/get-product-by-category")
     suspend fun getProductByCategory(@Query("category") id: String): List<ProductItemResponse>
+
+    @GET("product/search")
+    suspend fun search(@Query("search") id: String): List<ProductItemResponse>
+
 }

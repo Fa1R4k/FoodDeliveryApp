@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.ui.cart.confirm_purchase
+package com.example.fooddeliveryapp.ui.cart.purchase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +21,7 @@ class ConfirmPurchaseViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val updateDiscountUseCase: UpdateDiscountUseCase,
     private val getPriceFromCartDataBase: GetPriceFromCartDataBaseUseCase,
-    private val getCurrentDateUseCase: GetCurrentDateUseCase
+    private val getCurrentDateUseCase: GetCurrentDateUseCase,
 ) : ViewModel() {
 
     private val _liveData = MutableLiveData<List<CartProduct>>()
@@ -33,6 +33,9 @@ class ConfirmPurchaseViewModel @Inject constructor(
     private val _userLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User> get() = _userLiveData
 
+    private val _loadingLiveData = MutableLiveData<Boolean>()
+    val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
+
     private fun deleteCart() {
         viewModelScope.launch {
             cartRepository.deleteCartsFromDataBase()
@@ -43,22 +46,33 @@ class ConfirmPurchaseViewModel @Inject constructor(
         viewModelScope.launch {
             val user = userRepository.getUser()
             val cartProducts = cartRepository.getAllProductFromCart()
-            user.totalSpend += getPriceFromCartDataBase.execute(cartProducts)
-            userRepository.updateUser(updateDiscountUseCase.execute(user), cartProducts, getCurrentDateUseCase.execute())
+            val price = getPriceFromCartDataBase.execute(cartProducts)
+            val orderPrise = price - (price * user.discount / 100)
+            user.totalSpend += orderPrise
+            println(user.totalSpend)
+            userRepository.updateUser(
+                updateDiscountUseCase.execute(user),
+                cartProducts,
+                getCurrentDateUseCase.execute(),
+                orderPrise
+            )
             deleteCart()
         }
     }
 
     fun getCartPrice() {
         viewModelScope.launch {
-            _priceLiveData.value =
-                getPriceFromCartDataBase.execute(cartRepository.getAllProductFromCart())
+            val user = userRepository.getUser().discount
+            val price = getPriceFromCartDataBase.execute(cartRepository.getAllProductFromCart())
+            _priceLiveData.value = price - (price * user / 100)
         }
     }
 
     fun getUser() {
+        _loadingLiveData.value = true
         viewModelScope.launch {
             _userLiveData.value = userRepository.getUser()
+            _loadingLiveData.value = false
         }
     }
 

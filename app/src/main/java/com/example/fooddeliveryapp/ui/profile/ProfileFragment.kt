@@ -53,14 +53,14 @@ class ProfileFragment : Fragment() {
         }
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             if (it.discount == 15) setInvisibleDiscountView()
-            binding.tvOrderHistory.text = it.orderCount.toString()
-            binding.tvUserName.text = it.name.toString()
+            binding.tvOrderHistory.text = it.orderHistory.size.toString()
+            binding.tvUserName.text = it.name
             binding.tvUserAddresses.text = it.address.size.toString()
             binding.tvUserSpend.text =
                 getString(R.string.price_currency, String.format("%.2f", it.totalSpend))
-            binding.tvProgress.text = it.discount.toString() + getString(R.string.procent)
+            binding.tvProgress.text = it.discount.toString() + getString(R.string.percent)
             binding.tvUserNextDiscount.text =
-                (it.discount + 1).toString() + getString(R.string.procent)
+                (it.discount + 1).toString() + getString(R.string.percent)
             binding.progressBar.progress = it.discount.toFloat()
             binding.tvUserAmountFromDiscount.text =
                 "${String.format("%.2f", it.nextDiscountSum)} ${getString(R.string.RUB)}"
@@ -71,17 +71,15 @@ class ProfileFragment : Fragment() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.loading.isVisible = it
             binding.fragment.isVisible = !it
-
         }
     }
 
     private fun setupButtons() {
-        binding.llNavigateToUserProfile.setOnClickListener {
-            openUserProfile()
-        }
-        binding.ivLogout.setOnClickListener {
-            logout()
-        }
+        binding.llNavigateToUserProfile.setOnClickListener { openUserProfile() }
+        binding.ivLogout.setOnClickListener { logout() }
+        binding.llNavigateToUserAddresses.setOnClickListener { navigateToUserAddresses() }
+        binding.llNavigateToHistoryOrder.setOnClickListener { navigateToUserOrderHistory() }
+
     }
 
     private fun setInvisibleDiscountView() {
@@ -104,6 +102,17 @@ class ProfileFragment : Fragment() {
 
     private fun openUserProfile() {
         val action = ProfileFragmentDirections.actionNavigationDashboardToUserProfileFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToUserAddresses() {
+        val action = ProfileFragmentDirections.actionNavigationProfileToUserAddressesFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToUserOrderHistory() {
+        val action =
+            ProfileFragmentDirections.actionNavigationProfileToUserOrderHistoryFragment()
         findNavController().navigate(action)
     }
 

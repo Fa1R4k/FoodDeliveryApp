@@ -10,8 +10,8 @@
 
     <com.example.fooddeliveryapp.ui.custom.CircularProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:cpb_background_progressbar_color="@color/grey"
         app:cpb_background_progressbar_width="20dp"
@@ -43,7 +43,6 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
-            <!-- Первый элемент -->
             <LinearLayout
                 android:id="@+id/llNavigateToUserProfile"
                 android:layout_width="120dp"
@@ -72,40 +71,8 @@
                     android:padding="16dp"
                     android:text="Имя пользователя"
                     android:textColor="@color/black" />
-
             </LinearLayout>
 
-            <!-- Второй элемент -->
-            <LinearLayout
-                android:id="@+id/llNavigateToActiveOrder"
-                android:layout_width="120dp"
-                android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/profile_rv_item"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="1"
-                    android:text="Активные заказы"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvActiveOrder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:gravity="start"
-                    android:text="0"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <!-- Третий элемент -->
             <LinearLayout
                 android:id="@+id/llNavigateToHistoryOrder"
                 android:layout_width="120dp"
@@ -132,10 +99,8 @@
                     android:gravity="start"
                     android:text="0"
                     android:textColor="@color/black" />
-
             </LinearLayout>
 
-            <!-- Четвертый элемент -->
             <LinearLayout
                 android:id="@+id/llNavigateToUserAddresses"
                 android:layout_width="120dp"
@@ -162,17 +127,15 @@
                     android:gravity="start"
                     android:text="0"
                     android:textColor="@color/black" />
-
             </LinearLayout>
-
         </LinearLayout>
-
     </HorizontalScrollView>
 
     <TextView
         android:id="@+id/tvProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="@string/percent"
         android:textColor="@color/text_user"
         android:textSize="36sp"
