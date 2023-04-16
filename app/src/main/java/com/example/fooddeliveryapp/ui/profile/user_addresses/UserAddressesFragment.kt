@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentUserAddressesBinding
-import com.example.fooddeliveryapp.ui.custom.CustomAlertDialog
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.ui.custom_view.CustomAlertDialog
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import javax.inject.Inject
 
 class UserAddressesFragment : Fragment() {
@@ -46,7 +46,7 @@ class UserAddressesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeLifeData()
         setupRecyclerView()
-        setupAddButton()
+        setupButtons()
     }
 
     private fun setupRecyclerView() {
@@ -56,8 +56,13 @@ class UserAddressesFragment : Fragment() {
         )
     }
 
-    private fun setupAddButton() {
+    private fun setupButtons() {
+        binding.ivBack.setOnClickListener { navigateBack() }
         binding.button2.setOnClickListener { openDialogAddNewAddress() }
+    }
+
+    private fun navigateBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun openDialogAddNewAddress() {

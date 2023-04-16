@@ -1,4 +1,4 @@
-package com.example.spinnercat.di.ViewModel
+package com.example.fooddeliveryapp.di.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

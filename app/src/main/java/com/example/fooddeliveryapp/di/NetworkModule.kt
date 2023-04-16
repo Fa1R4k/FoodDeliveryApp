@@ -1,5 +1,7 @@
 package com.example.fooddeliveryapp.di
 
+import android.content.Context
+import com.example.fooddeliveryapp.NetworkConnection
 import com.example.fooddeliveryapp.data.ProductService
 import com.example.fooddeliveryapp.data.UserService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -43,4 +45,9 @@ class NetworkModule {
         return retrofit.create(UserService::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun getNetworkConnection(context: Context): NetworkConnection {
+        return NetworkConnection(context)
+    }
 }

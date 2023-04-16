@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentSignUpBinding
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
 import ru.tinkoff.decoro.watchers.FormatWatcher
@@ -158,9 +158,9 @@ class SignUpFragment : Fragment() {
     private fun checkButton() {
         with(binding) {
             if (etUserName.text.isNotEmpty() && etPhone.text.isNotEmpty() && etPassword.text.isNotEmpty() && etDate.text.isNotEmpty()) {
-                button.setBackgroundResource(R.drawable.button_authentication_enabled)
+                button.setBackgroundResource(R.drawable.bg_button_authentication_enabled)
             } else {
-                button.setBackgroundResource(R.drawable.button_authentication_disabled)
+                button.setBackgroundResource(R.drawable.bg_button_authentication_disabled)
             }
         }
     }
@@ -171,12 +171,17 @@ class SignUpFragment : Fragment() {
             if (view is EditText) {
                 val text = view.text.toString().trim()
                 if (text.isEmpty()) {
-                    view.error = getString(R.string.erro_required_field)
+                    view.error = getString(R.string.error_required_field)
                     allFilled = false
                 }
             }
         }
         return allFilled
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

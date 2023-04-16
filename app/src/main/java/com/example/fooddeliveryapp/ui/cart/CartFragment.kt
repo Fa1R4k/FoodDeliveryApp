@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentCartBinding
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class CartFragment : Fragment() {
 
     @Inject
     lateinit var factory: ViewModelFactory
-    private val viewModel: CartViewModelRefactor by viewModels { factory }
+    private val viewModel: CartViewModel by viewModels { factory }
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private var userIsAuthentication = false
@@ -43,21 +43,22 @@ class CartFragment : Fragment() {
     private var purchasePrice = 0.0
     private var adapter = CartAdapter(changeCart())
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getNetworkState()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupButton()
         observeLiveData()
-        observeIsEmptyCartLiveData()
-        viewModel.isEmptyCart()
-        viewModel.getCartFromData()
     }
 
-    private fun observeIsEmptyCartLiveData() {
-        viewModel.isEmptyCartViewModel.observe(viewLifecycleOwner) {
-            binding.cartEmpty.isVisible = it
-            binding.cartNotEmpty.isVisible = !it
-        }
+    private fun initViewModel() {
+        viewModel.getUserAuthorizationState()
+        viewModel.getCartFromData()
+        viewModel.isEmptyCart()
     }
 
     private fun setupRecyclerView() {
@@ -68,7 +69,7 @@ class CartFragment : Fragment() {
 
     private fun setupButton() {
         binding.btnForBuy.setOnClickListener {
-            viewModel.getUserAuthorizationState()
+            viewModel.getNetworkState()
             if (userIsAuthentication) {
                 navigateConfirmPurchase()
             } else {
@@ -78,6 +79,10 @@ class CartFragment : Fragment() {
 
         binding.btnNavigateToMenu.setOnClickListener {
             navigateToMenu()
+        }
+        binding.btnReloadNetwork.setOnClickListener {
+            binding.groupConnectionError.isVisible = false
+            viewModel.getNetworkState()
         }
     }
 
@@ -105,15 +110,28 @@ class CartFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel.liveData.observe(viewLifecycleOwner) {
+        initViewModel()
+        viewModel.networkStateLiveData.observe(viewLifecycleOwner) {
+
+            binding.groupConnectionError.isVisible = !it
+            binding.btnForBuy.isVisible = it
+            if (it) {
+                viewModel.isEmptyCart()
+                viewModel.getCartFromData()
+            }
+        }
+
+        viewModel.cartProductsLiveData.observe(viewLifecycleOwner) {
             adapter.setItems(it)
         }
         viewModel.priceLiveData.observe(viewLifecycleOwner) {
             purchasePrice = it
-            binding.btnForBuy.text = "${resources.getText(R.string.buy)} ${
-                String.format("%.2f", it)
-            } ${resources.getText(R.string.currency)}"
+            binding.btnForBuy.text = resources.getString(R.string.buy, String.format("%.2f", it))
         }
+        viewModel.productCountLiveData.observe(viewLifecycleOwner) {
+            setBadge(it)
+        }
+
         viewModel.authorizedLiveData.observe(viewLifecycleOwner) {
             userIsAuthentication = it
         }
@@ -125,6 +143,18 @@ class CartFragment : Fragment() {
         viewModel.changeLiveData.observe(viewLifecycleOwner) {
             if (!it) viewModel.isEmptyCart()
         }
+
+        viewModel.isEmptyCartViewModel.observe(viewLifecycleOwner) {
+            binding.cartEmpty.isVisible = it
+            binding.cartNotEmpty.isVisible = !it
+        }
+    }
+
+    private fun setBadge(number: Int) {
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        val badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_cart)
+        badge.number = number
     }
 
     private fun changeCart(): (Int, String, CartChanges) -> Unit = { id, parameter, change ->

@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:background="@drawable/search_btn"
+        android:background="@drawable/bg_search_btn"
         android:drawableEnd="@drawable/ic_baseline_search_24"
         android:hint="@string/search_hint"
         android:inputType="textPersonName"

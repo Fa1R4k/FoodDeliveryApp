@@ -7,6 +7,9 @@ import retrofit2.http.*
 
 interface UserService {
 
+    @GET("UserFood/get-all-users")
+    suspend fun getAllUser(): List<UserItemResponse>
+
     @GET("UserFood/get-user-by-id")
     suspend fun getUserById(@Query("id") id: String): UserItemResponse
 

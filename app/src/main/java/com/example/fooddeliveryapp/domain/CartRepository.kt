@@ -18,4 +18,6 @@ interface CartRepository {
     suspend fun deleteCartFromDataBase(productInCart: CartProduct)
     suspend fun getProductFromDataBase(id: Int, parameter: String): CartProduct
     suspend fun isCartEmpty(): Boolean
+    suspend fun addProductToCart(productItem: List<CartProduct>)
+    suspend fun containsProductInDataBase(id: Int, parameter: String): Boolean
 }

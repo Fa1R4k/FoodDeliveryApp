@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.fooddeliveryapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yandex.mapkit.MapKitFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -14,6 +15,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
+
+        MapKitFactory.setApiKey("212ecddb-0799-443e-8d89-633034a1cb8c")
+        MapKitFactory.initialize(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,7 +36,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_cart -> {
                     navView.isVisible = true
-                    badge.isVisible = false
                 }
                 R.id.navigation_home -> {
                     navView.isVisible = true

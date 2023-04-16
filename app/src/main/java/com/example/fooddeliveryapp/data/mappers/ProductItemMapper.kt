@@ -23,8 +23,6 @@ class ProductItemMapper @Inject constructor() {
     operator fun invoke(response: ProductItemResponse): ProductItem.ProductData =
         response.toProductData()
 
-
-
     private fun ProductItemResponse.toProductData(): ProductItem.ProductData {
         val id = id ?: 0
         val imageUrl = imageUrl.orEmpty()
@@ -32,6 +30,6 @@ class ProductItemMapper @Inject constructor() {
         val description = description.orEmpty()
         val price = price ?: mapOf()
         val category = category.orEmpty()
-        return ProductItem.ProductData(id,name, description, imageUrl, price, category)
+        return ProductItem.ProductData(id, name, description, imageUrl, price, category)
     }
 }

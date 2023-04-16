@@ -11,6 +11,7 @@ import com.example.fooddeliveryapp.ui.cart.CartFragment
 import com.example.fooddeliveryapp.ui.cart.purchase.ConfirmPurchaseFragment
 import com.example.fooddeliveryapp.ui.cart.purchase.SuccessPurchaseFragment
 import com.example.fooddeliveryapp.ui.contacts.ContactsFragment
+import com.example.fooddeliveryapp.ui.contacts.MapsRestaurantsFragment
 import com.example.fooddeliveryapp.ui.home.HomeFragment
 import com.example.fooddeliveryapp.ui.home.open_product.ProductDescriptionFragment
 import com.example.fooddeliveryapp.ui.home.search.SearchFragment
@@ -48,4 +49,5 @@ interface ApplicationComponent {
     fun inject(activity: ProfileFragment)
     fun inject(activity: UserProfileFragment)
     fun inject(activity: ContactsFragment)
+    fun inject(activity: MapsRestaurantsFragment)
 }

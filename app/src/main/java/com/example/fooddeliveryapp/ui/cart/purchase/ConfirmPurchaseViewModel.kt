@@ -11,6 +11,7 @@ import com.example.fooddeliveryapp.domain.model.User
 import com.example.fooddeliveryapp.domain.use_case.GetCurrentDateUseCase
 import com.example.fooddeliveryapp.domain.use_case.GetPriceFromCartDataBaseUseCase
 import com.example.fooddeliveryapp.domain.use_case.UpdateDiscountUseCase
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,21 +38,22 @@ class ConfirmPurchaseViewModel @Inject constructor(
     private val _isUserUpdateLiveData = MutableLiveData<Boolean>()
     val isUserUpdate: LiveData<Boolean> get() = _isUserUpdateLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
     private fun deleteCart() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             cartRepository.deleteCartsFromDataBase()
         }
     }
 
     fun updateUser() {
         _isUserUpdateLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val user = userRepository.getUser()
             val cartProducts = cartRepository.getAllProductFromCart()
             val price = getPriceFromCartDataBase.execute(cartProducts)
             val orderPrise = price - (price * user.discount / 100)
             user.totalSpend += orderPrise
-            println(user.totalSpend)
             userRepository.updateUser(
                 updateDiscountUseCase.execute(user),
                 cartProducts,
@@ -64,7 +66,7 @@ class ConfirmPurchaseViewModel @Inject constructor(
     }
 
     fun getCartPrice() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val user = userRepository.getUser().discount
             val price = getPriceFromCartDataBase.execute(cartRepository.getAllProductFromCart())
             _priceLiveData.value = price - (price * user / 100)
@@ -73,14 +75,14 @@ class ConfirmPurchaseViewModel @Inject constructor(
 
     fun getUser() {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _userLiveData.value = userRepository.getUser()
             _loadingLiveData.value = false
         }
     }
 
     fun addUserAddress(address: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val user = userRepository.getUser()
             user.address.add(address)
             _userLiveData.value = user

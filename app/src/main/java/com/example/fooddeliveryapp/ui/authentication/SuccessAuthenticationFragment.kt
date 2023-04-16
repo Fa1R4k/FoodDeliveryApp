@@ -71,4 +71,9 @@ class SuccessAuthenticationFragment : Fragment() {
         }
         bottomNavigationView.selectedItemId = R.id.navigation_cart
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

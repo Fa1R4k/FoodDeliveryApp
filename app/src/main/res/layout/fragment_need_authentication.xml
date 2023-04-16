@@ -61,7 +61,7 @@
         android:id="@+id/btnSignUpUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_authentication_disabled"
+        android:background="@drawable/bg_button_authentication_disabled"
         android:text="@string/signup_auth"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

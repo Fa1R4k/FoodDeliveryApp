@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.ui.custom
+package com.example.fooddeliveryapp.ui.custom_view
 
 import android.app.Dialog
 import android.content.Context
@@ -34,7 +34,7 @@ class CustomAlertDialog(context: Context) : Dialog(context) {
     }
 
     fun getAddress(): String {
-        return context.getString(R.string.new_address,
+        return context.getString(R.string.create_address,
             "${streetEditText.text}",
             "${houseEditText.text}",
             "${apartmentEditText.text}")

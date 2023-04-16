@@ -4,21 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fooddeliveryapp.NetworkConnection
 import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
+import com.example.fooddeliveryapp.domain.use_case.CartChangesUseCase
 import com.example.fooddeliveryapp.domain.use_case.GetPriceFromCartDataBaseUseCase
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CartViewModelRefactor @Inject constructor(
+class CartViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val userRepository: UserRepository,
     private val getPriceFromCartDataBase: GetPriceFromCartDataBaseUseCase,
+    private val networkConnection: NetworkConnection,
+    private val cartChangesUseCase: CartChangesUseCase,
 ) : ViewModel() {
 
-    private val _liveData = MutableLiveData<List<CartProduct>>()
-    val liveData: LiveData<List<CartProduct>> get() = _liveData
+    private val _cartProductsLiveData = MutableLiveData<List<CartProduct>>()
+    val cartProductsLiveData: LiveData<List<CartProduct>> get() = _cartProductsLiveData
 
     private val _priceLiveData = MutableLiveData<Double>()
     val priceLiveData: LiveData<Double> get() = _priceLiveData
@@ -35,21 +40,34 @@ class CartViewModelRefactor @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
-    fun getUserAuthorizationState() {
-        _authorizedLiveData.value = userRepository.isAuthorized()
-    }
+    private val _productCountLiveData = MutableLiveData<Int>()
+    val productCountLiveData: LiveData<Int> get() = _productCountLiveData
 
-    fun getCartFromData() {
+    private val _networkStateLiveData = MutableLiveData<Boolean>()
+    val networkStateLiveData: LiveData<Boolean> get() = _networkStateLiveData
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+
+    fun getUserAuthorizationState() {
         _loadingLiveData.value = true
-        viewModelScope.launch {
-            _liveData.value = cartRepository.getAllProductFromCart().sortedBy { it.hashCode() }
-            getCartPrice()
+        viewModelScope.launch(exceptionHandler) {
+            _authorizedLiveData.value = userRepository.isAuthorized()
             _loadingLiveData.value = false
         }
     }
 
+    fun getCartFromData() {
+        viewModelScope.launch(exceptionHandler) {
+            _cartProductsLiveData.value =
+                cartRepository.getAllProductFromCart().sortedBy { it.hashCode() }
+            _productCountLiveData.value =
+                cartRepository.getAllProductFromCart().sumOf { it.countProductInCart }
+            getCartPrice()
+        }
+    }
+
     private fun getCartPrice() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _priceLiveData.value =
                 getPriceFromCartDataBase.execute(cartRepository.getAllProductFromCart())
         }
@@ -57,34 +75,25 @@ class CartViewModelRefactor @Inject constructor(
 
     fun changeCart(id: Int, parameter: String, changes: CartChanges) {
         _changeLiveData.value = true
-        viewModelScope.launch {
-            val productInCart =
-                _liveData.value?.first { it.id == id && it.productParameter == parameter }
-                    ?: CartProduct(0,
-                        "",
-                        "",
-                        1.0,
-                        "",
-                        1)
-            when (changes) {
-                CartChanges.ADD -> {
-                    productInCart.countProductInCart++
-                    cartRepository.changeCountForProduct(productInCart)
-                }
-                CartChanges.REMOVE -> {
-                    productInCart.countProductInCart--
-                    cartRepository.changeCountForProduct(productInCart)
-                }
-                CartChanges.DELETE -> cartRepository.deleteCartFromDataBase(productInCart)
-            }
+        viewModelScope.launch(exceptionHandler) {
+            cartChangesUseCase.invoke(_cartProductsLiveData.value, id, parameter, changes)
             getCartPrice()
+            _productCountLiveData.value =
+                cartRepository.getAllProductFromCart().sumOf { it.countProductInCart }
             _changeLiveData.value = false
         }
     }
 
     fun isEmptyCart() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _isEmptyCartViewModel.value = cartRepository.isCartEmpty()
+        }
+    }
+
+    fun getNetworkState() {
+        networkConnection.isNetworkAvailable().let {
+            _networkStateLiveData.value = it
+            _loadingLiveData.value = it
         }
     }
 }

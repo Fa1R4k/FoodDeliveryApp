@@ -10,15 +10,13 @@ import com.example.fooddeliveryapp.domain.model.HistoryOrderData
 
 class OrderHistoryHolder(
     private val binding: RvItemOrderHistoryBinding,
-    private val itemCategoryCLick: (String) -> Unit
+    private val itemCategoryCLick: (String) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(item: HistoryOrderData) {
         binding.tvOrderTime.text = item.orderTime
-        binding.tvOrderPrice.text = "${
-            String.format(
-                "%.2f", item.orderPrice
-            )
-        } ${itemView.resources.getText(R.string.currency)}"
+        binding.tvOrderPrice.text = itemView.resources.getString(
+            R.string.price_all_currency, String.format("%.2f", item.orderPrice)
+        )
 
         item.cartProducts.map {
             binding.llForImage.addView(
@@ -43,7 +41,8 @@ class OrderHistoryHolder(
             .load(url)
             .into(image)
     }
-    companion object{
+
+    companion object {
         private const val SIZE_FOR_IMAGE = 200
     }
 }

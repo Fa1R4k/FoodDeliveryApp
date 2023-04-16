@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentSearchBinding
 import com.example.fooddeliveryapp.ui.home.menu_recycler.MenuAdapter
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import javax.inject.Inject
 
 class SearchFragment : DialogFragment() {
@@ -80,5 +80,10 @@ class SearchFragment : DialogFragment() {
     private fun openProductItemClick(): (Int) -> Unit = { id ->
         val action = SearchFragmentDirections.actionSearchFragmentToProductDescriptionFragment(id)
         findNavController().navigate(action)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
