@@ -7,7 +7,6 @@ import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.Queue
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(

@@ -8,9 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.fooddeliveryapp.DaggerApp
+import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentPurchaseSuccessBinding
 import com.example.fooddeliveryapp.ui.DeliveryForegroundService
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SuccessPurchaseFragment : Fragment() {
     private var _binding: FragmentPurchaseSuccessBinding? = null
@@ -31,7 +34,8 @@ class SuccessPurchaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activateService()
+        startForegroundService()
+        setupButtonNavigateToMenu()
     }
 
     private fun startForegroundService() {
@@ -43,7 +47,28 @@ class SuccessPurchaseFragment : Fragment() {
         }
     }
 
-    private fun activateService() {
-        startForegroundService()
+    private fun setupButtonNavigateToMenu() {
+        binding.btnToMenu.setOnClickListener {
+            navigateToMenu()
+        }
+    }
+
+    private fun navigateToMenu() {
+        val navController =
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+
+        navController.popBackStack(R.id.navigation_cart, false)
+
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.findItem(R.id.navigation_home).let {
+            it.isChecked = true
+        }
+        bottomNavigationView.selectedItemId = R.id.navigation_home
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

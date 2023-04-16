@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.DaggerApp
+import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentMoreDetailedOrderBinding
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
 class MoreDetailedOrderFragment : Fragment() {
@@ -44,10 +47,45 @@ class MoreDetailedOrderFragment : Fragment() {
             binding.tvOrderTime.text = it
             viewModel.getUserOrder(it)
         }
+        setupButtons()
         setupRecyclerView()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
         viewModel.userOrderHistoryLiveData.observe(viewLifecycleOwner) {
             adapterMoreDetailedOrder.setItems(it)
         }
+
+        viewModel.orderRescheduledLiveData.observe(viewLifecycleOwner) {
+            if (it) navigateToCart()
+        }
+    }
+
+
+    private fun setupButtons() {
+        binding.ivBack.setOnClickListener { navigateBack() }
+        binding.btnRepeatOrder.setOnClickListener {
+            viewModel.addOrderToCart(adapterMoreDetailedOrder.getItems())
+        }
+    }
+
+    private fun navigateToCart() {
+        val navController =
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+
+        navController.popBackStack(R.id.navigation_profile, false)
+
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
+        bottomNavigationView.menu.findItem(R.id.navigation_cart).let {
+            it.isChecked = true
+        }
+        bottomNavigationView.selectedItemId = R.id.navigation_cart
+    }
+
+    private fun navigateBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun setupRecyclerView() {

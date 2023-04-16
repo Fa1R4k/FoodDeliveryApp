@@ -15,19 +15,24 @@ class MenuViewHolder(
         setImage(item.imageUrl, binding.ivProductImage)
         binding.tvProductName.text = item.name
         binding.tvProductDescription.text = item.description
-        var price = "0.0"
+        var price = "0"
+        var isItOne = false
         try {
             price = item.price.values.first().toString()
+            isItOne = item.price.values.size == 1
         } catch (_: Exception) {
         }
-        binding.btnPrice.text =
-            "${itemView.resources.getText(R.string.min_price)} $price ${itemView.resources.getText(R.string.currency)}"
+        if (isItOne) {
+            binding.btnPrice.text = itemView.resources.getString(R.string.price_all_currency, price)
+        } else {
+            binding.btnPrice.text = itemView.resources.getString(R.string.from_prise_currency, price)
+        }
 
         binding.btnPrice.setOnClickListener { openProductItemClick(item.id) }
         itemView.setOnClickListener { openProductItemClick(item.id) }
     }
+}
 
-    private fun setImage(url: String, image: ImageView) {
-        Glide.with(image).load(url).into(image)
-    }
+private fun setImage(url: String, image: ImageView) {
+    Glide.with(image).load(url).into(image)
 }

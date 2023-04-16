@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentUserOrderHistoryBinding
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import javax.inject.Inject
 
 class UserOrderHistoryFragment : Fragment() {
@@ -39,14 +39,27 @@ class UserOrderHistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getUserOrderHistory()
+        observeUserOrderHistoryLiveData()
+        setupButtons()
+        }
+
+    private fun setupButtons() {
+        binding.ivBack.setOnClickListener{ navigateBack() }
+    }
+
+    private fun navigateBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
+    }
+
+    private fun observeUserOrderHistoryLiveData() {
         viewModel.userOrderHistoryLiveData.observe(viewLifecycleOwner) {
             binding.rvOrder.adapter =
                 OrderHistoryAdapter(it, ::navigateToMoreDetailedOrder)
             binding.rvOrder.layoutManager = LinearLayoutManager(
                 requireContext(), LinearLayoutManager.VERTICAL, false
             )
-        }
     }
+}
 
     private fun navigateToMoreDetailedOrder(orderTime: String) {
         val action =

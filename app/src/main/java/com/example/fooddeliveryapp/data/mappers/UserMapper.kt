@@ -1,7 +1,6 @@
 package com.example.fooddeliveryapp.data.mappers
 
 import com.example.fooddeliveryapp.data.models.UserItemResponse
-import com.example.fooddeliveryapp.domain.model.HistoryOrderData
 import com.example.fooddeliveryapp.domain.model.User
 import javax.inject.Inject
 

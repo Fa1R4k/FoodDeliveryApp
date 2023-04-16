@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.databinding.FragmentUserProfileBinding
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import javax.inject.Inject
 
 class UserProfileFragment : Fragment() {
@@ -36,14 +36,26 @@ class UserProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getUser()
+        observeLiveData()
+        setupButtons()
+    }
 
+    private fun setupButtons() {
+        binding.ivBack.setOnClickListener { navigateBack() }
+    }
+
+    private fun observeLiveData() {
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             binding.tvUserName.text = it.name
+            binding.tvUserPhone.text = it.number
             binding.tvUserDate.text = it.date
             binding.tvUserDateReg.text = it.dateRegistration
         }
+    }
+
+    private fun navigateBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     override fun onDestroyView() {

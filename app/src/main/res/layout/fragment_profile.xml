@@ -8,7 +8,7 @@
     tools:context=".ui.profile.ProfileFragment">
 
 
-    <com.example.fooddeliveryapp.ui.custom.CircularProgressBar
+    <com.example.fooddeliveryapp.ui.custom_view.CircularProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -49,7 +49,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/profile_rv_item"
+                android:background="@drawable/bg_profile_rv_item"
                 android:orientation="vertical">
 
                 <ImageView
@@ -58,7 +58,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/user_square_svgrepo_com" />
+                    android:src="@drawable/ic_user_profile" />
 
                 <TextView
                     android:id="@+id/tvUserName"
@@ -68,7 +68,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:padding="16dp"
-                    android:text="Имя пользователя"
+                    android:text="@string/name_user"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_height="130dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/profile_rv_item"
+                android:background="@drawable/bg_profile_rv_item"
                 android:orientation="vertical">
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
-                    android:text="История заказов"
+                    android:text="@string/history_order"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -96,7 +96,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
-                    android:text="0"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -106,7 +105,7 @@
                 android:layout_height="130dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/profile_rv_item"
+                android:background="@drawable/bg_profile_rv_item"
                 android:orientation="vertical">
 
                 <TextView
@@ -115,7 +114,7 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
-                    android:text="Адрес доставки"
+                    android:text="@string/delivery_addresses"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -124,7 +123,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="start"
-                    android:text="0"
                     android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
@@ -162,8 +160,9 @@
         android:id="@+id/ivLogout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="26dp"
         android:layout_marginTop="10dp"
+        android:foregroundGravity="right"
+        android:padding="4dp"
         android:src="@drawable/icon_logout"
         app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toEndOf="parent"
@@ -265,6 +264,19 @@
         app:layout_constraintStart_toStartOf="@+id/tvMoneyDiscount"
         app:layout_constraintTop_toBottomOf="@+id/tvMoneyDiscount" />
 
+    <View
+        android:id="@+id/bgConnectionError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_back"
+        android:elevation="2dp" />
+
+    <View
+        android:id="@+id/bgLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_back" />
+
     <TextView
         android:id="@+id/tvUserSpend"
         android:layout_width="wrap_content"
@@ -326,7 +338,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.9" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loadingLottie"
@@ -368,14 +380,57 @@
         android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="loadingLottie" />
+        app:constraint_referenced_ids="loadingLottie,bgLoading" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="41dp" />
+        app:layout_constraintGuide_percent="0.062215477" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animConnectionError"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="8dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineLoadingBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline21"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="connection_error.json"
+        app:lottie_loop="false" />
 
+    <TextView
+        android:id="@+id/tvConnectionError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:text="@string/no_network_connection_massage"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnReloadNetwork"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineLoadingBottom" />
+
+    <Button
+        android:id="@+id/btnReloadNetwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:text="@string/retry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupConnectionError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="btnReloadNetwork,bgConnectionError, tvConnectionError, animConnectionError" />
 </androidx.constraintlayout.widget.ConstraintLayout>

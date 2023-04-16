@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProfileBinding
 import com.example.fooddeliveryapp.ui.home.HomeFragmentDirections
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
 
@@ -30,6 +32,7 @@ class ProfileFragment : Fragment() {
         super.onAttach(context)
         (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,39 +44,53 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getUserAuthorizationState()
+        viewModel.getNetworkState()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeLoadingLiveData()
         observeLiveData()
         setupButtons()
     }
 
     private fun observeLiveData() {
-        viewModel.authorizedLiveData.observe(viewLifecycleOwner) {
-            if (it) viewModel.getUser() else {
-                navigateToNeedAuthentication()
+        viewModel.networkStateLiveData.observe(viewLifecycleOwner) {
+            binding.groupConnectionError.isVisible = !it
+            if (it) viewModel.getUserAuthorizationState()
+        }
+
+        val mediatorLiveData = MediatorLiveData<Boolean>()
+
+        mediatorLiveData.addSource(viewModel.loadingAuthorizedLiveData) { loadingAuthorized ->
+            if (!loadingAuthorized) {
+                mediatorLiveData.addSource(viewModel.authorizedLiveData) { authorized ->
+                    if (authorized) {
+                        viewModel.getUser()
+                    } else {
+                        navigateToNeedAuthentication()
+                    }
+                }
             }
         }
-        viewModel.userLiveData.observe(viewLifecycleOwner) {
-            if (it.discount == 15) setInvisibleDiscountView()
-            binding.tvOrderHistory.text = it.orderHistory.size.toString()
-            binding.tvUserName.text = it.name
-            binding.tvUserAddresses.text = it.address.size.toString()
-            binding.tvUserSpend.text =
-                getString(R.string.price_currency, String.format("%.2f", it.totalSpend))
-            binding.tvProgress.text = it.discount.toString() + getString(R.string.percent)
-            binding.tvUserNextDiscount.text =
-                (it.discount + 1).toString() + getString(R.string.percent)
-            binding.progressBar.progress = it.discount.toFloat()
-            binding.tvUserAmountFromDiscount.text =
-                "${String.format("%.2f", it.nextDiscountSum)} ${getString(R.string.RUB)}"
-        }
-    }
 
-    private fun observeLoadingLiveData() {
+        mediatorLiveData.observe(viewLifecycleOwner, Observer { })
+
+        viewModel.userLiveData.observe(viewLifecycleOwner) {
+            with(binding) {
+                if (it.discount == getString(R.string.max_discount_int).toInt()) setInvisibleDiscountView()
+                tvOrderHistory.text = it.orderHistory.size.toString()
+                tvUserName.text = it.name
+                tvUserAddresses.text = it.address.size.toString()
+                tvUserSpend.text =
+                    getString(R.string.price_currency, String.format("%.2f", it.totalSpend))
+                tvProgress.text = getString(R.string.price_percent, it.discount)
+                tvUserNextDiscount.text =
+                    getString(R.string.price_percent, it.discount + 1)
+                progressBar.progress = it.discount.toFloat()
+                tvUserAmountFromDiscount.text =
+                    getString(R.string.RUB, String.format("%.2f", it.nextDiscountSum))
+            }
+        }
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.loading.isVisible = it
             binding.fragment.isVisible = !it
@@ -85,19 +102,21 @@ class ProfileFragment : Fragment() {
         binding.ivLogout.setOnClickListener { logout() }
         binding.llNavigateToUserAddresses.setOnClickListener { navigateToUserAddresses() }
         binding.llNavigateToHistoryOrder.setOnClickListener { navigateToUserOrderHistory() }
-
+        binding.btnReloadNetwork.setOnClickListener { viewModel.getNetworkState() }
     }
 
     private fun setInvisibleDiscountView() {
         val color = requireContext().getColor(R.color.white_back)
         color.let {
-            binding.tvAdvertising.setTextColor(color)
-            binding.tvUserNextDiscount.setTextColor(color)
-            binding.tvFromDiscount.setTextColor(color)
-            binding.tvFromDiscount.setTextColor(color)
-            binding.tvFromDiscount.setTextColor(color)
-            binding.tvMoneyDiscount.setTextColor(color)
-            binding.tvUserAmountFromDiscount.setTextColor(color)
+            with(binding) {
+                tvAdvertising.setTextColor(it)
+                tvUserNextDiscount.setTextColor(it)
+                tvFromDiscount.setTextColor(it)
+                tvFromDiscount.setTextColor(it)
+                tvFromDiscount.setTextColor(it)
+                tvMoneyDiscount.setTextColor(it)
+                tvUserAmountFromDiscount.setTextColor(it)
+            }
         }
     }
 

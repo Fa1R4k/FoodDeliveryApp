@@ -3,7 +3,7 @@ package com.example.fooddeliveryapp.di.viewModel
 import androidx.lifecycle.ViewModel
 import com.example.fooddeliveryapp.ui.authentication.LogInViewModel
 import com.example.fooddeliveryapp.ui.authentication.SingUpViewModel
-import com.example.fooddeliveryapp.ui.cart.CartViewModelRefactor
+import com.example.fooddeliveryapp.ui.cart.CartViewModel
 import com.example.fooddeliveryapp.ui.cart.purchase.ConfirmPurchaseViewModel
 import com.example.fooddeliveryapp.ui.home.HomeViewModel
 import com.example.fooddeliveryapp.ui.home.open_product.ProductDescriptionViewModel
@@ -13,7 +13,6 @@ import com.example.fooddeliveryapp.ui.profile.user_addresses.UserAddressesViewMo
 import com.example.fooddeliveryapp.ui.profile.user_history_order.UserOrderHistoryViewModel
 import com.example.fooddeliveryapp.ui.profile.user_history_order.more_detailed_order.MoreDetailedOrderViewModel
 import com.example.fooddeliveryapp.ui.profile.user_profile.UserProfileViewModel
-import com.example.spinnercat.di.ViewModel.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -37,8 +36,8 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CartViewModelRefactor::class)
-    fun bindCartViewModelRefactor(viewModel: CartViewModelRefactor): ViewModel
+    @ViewModelKey(CartViewModel::class)
+    fun bindCartViewModelRefactor(viewModel: CartViewModel): ViewModel
 
     @Binds
     @IntoMap

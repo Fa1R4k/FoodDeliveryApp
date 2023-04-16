@@ -20,19 +20,13 @@ class MoreDetailedOrderHolder(
             tvProductName.text = item.name
             tvParameter.text = item.productParameter
             tvProductCount.text = item.countProductInCart.toString()
-            tvPrice.text =
-                "${
-                    String.format(
-                        "%.2f",
-                        item.prise * item.countProductInCart
-                    )
-                } ${itemView.resources.getText(R.string.currency)}"
+            tvPrice.text = itemView.resources.getString(
+                R.string.price_all_currency, String.format("%.2f", item.prise * item.countProductInCart)
+            )
         }
     }
 
     private fun setImage(url: String, image: ImageView) {
-        Glide.with(image)
-            .load(url)
-            .into(image)
+        Glide.with(image).load(url).into(image)
     }
 }

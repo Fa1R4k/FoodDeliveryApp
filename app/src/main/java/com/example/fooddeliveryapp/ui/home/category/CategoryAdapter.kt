@@ -7,23 +7,23 @@ import com.example.fooddeliveryapp.databinding.RvItemCategoryBinding
 import com.example.fooddeliveryapp.domain.model.CategoryData
 
 class CategoryAdapter(
-    private val itemCategoryCLick: (String) -> Unit,
-) :
-    RecyclerView.Adapter<CategoryViewHolder>() {
+    private val itemCategoryClick: (String) -> Unit,
+) : RecyclerView.Adapter<CategoryViewHolder>() {
 
     private val categoryList: MutableList<CategoryData> = mutableListOf()
     private var isNewRadioButtonChecked = false
     private var lastCheckedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val item = RvItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding =
+            RvItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CategoryViewHolder(
-            item,
-            itemCategoryCLick,
-            ::handleRadioButtonChecks,
-            ::getStateNewRadioButtonChecked,
-            ::setNewRadioButton,
-            ::getIsSelectedByPosition
+            itemBinding,
+            itemCategoryClick,
+            this::handleRadioButtonChecks,
+            this::getStateNewRadioButtonChecked,
+            this::setNewRadioButton,
+            this::getIsSelectedByPosition
         )
     }
 
@@ -34,11 +34,13 @@ class CategoryAdapter(
     }
 
     private fun handleRadioButtonChecks(adapterPosition: Int) {
-        categoryList[lastCheckedPosition].isSelected = false
-        categoryList[adapterPosition].isSelected = true
-        notifyItemChanged(adapterPosition)
-        notifyItemChanged(lastCheckedPosition)
-        lastCheckedPosition = adapterPosition
+        if (categoryList.isNotEmpty()) {
+            categoryList[lastCheckedPosition].isSelected = false
+            categoryList[adapterPosition].isSelected = true
+            notifyItemChanged(adapterPosition)
+            notifyItemChanged(lastCheckedPosition)
+            lastCheckedPosition = adapterPosition
+        }
     }
 
     private fun setNewRadioButton(checked: Boolean) {
@@ -52,16 +54,9 @@ class CategoryAdapter(
         notifyDataSetChanged()
     }
 
-    fun setSelectedItem(categoryName: String) : Int {
+    fun setSelectedItem(categoryName: String): Int {
         val position =
-            categoryList.indexOf(categoryList.find { categoryData -> categoryData.categoryName == categoryName })
-        handleRadioButtonChecks(position)
-        return position
-    }
-
-    fun setBackItem(categoryName: String): Int {
-        val position =
-            categoryList.indexOf(categoryList.find { categoryData -> categoryData.categoryName == categoryName }) - 1
+            categoryList.indexOfFirst { categoryData -> categoryData.categoryName == categoryName }
         handleRadioButtonChecks(position)
         return position
     }

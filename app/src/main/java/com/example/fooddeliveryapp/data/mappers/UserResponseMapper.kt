@@ -8,17 +8,18 @@ class UserResponseMapper @Inject constructor(
     private val historyOrderResponseMapper : HistoryOrderResponseMapper
 ) {
     operator fun invoke(response: User): UserItemResponse = with(response) {
-        return UserItemResponse(name = name.orEmpty(),
-            number = number.orEmpty(),
-            hashPassword = hashPassword.orEmpty(),
-            date = date.orEmpty(),
-            dateRegistration = dateRegistration.orEmpty(),
-            totalSpend = totalSpend ?: 0.0,
+        return UserItemResponse(name = name,
+            number = number,
+            hashPassword = hashPassword,
+            date = date,
+            dateRegistration = dateRegistration,
+            totalSpend = totalSpend,
             orderHistory = orderHistory.map { historyOrderResponseMapper(it) },
-            orderCount = orderCount ?: 0,
-            address = address ?: emptyList(),
-            nextDiscountSum = nextDiscountSum ?: 500.0,
-            discount = discount ?: 0,
-            id = id.orEmpty())
+            orderCount = orderCount,
+            address = address,
+            nextDiscountSum = nextDiscountSum,
+            discount = discount,
+            id = id
+        )
     }
 }

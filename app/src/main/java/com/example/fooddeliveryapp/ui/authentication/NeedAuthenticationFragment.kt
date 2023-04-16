@@ -53,4 +53,9 @@ class NeedAuthenticationFragment : Fragment() {
     private fun back() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

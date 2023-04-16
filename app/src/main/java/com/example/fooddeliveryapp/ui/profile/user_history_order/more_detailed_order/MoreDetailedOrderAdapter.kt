@@ -13,7 +13,11 @@ class MoreDetailedOrderAdapter(
     private lateinit var holder: MoreDetailedOrderHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoreDetailedOrderHolder {
-        val item = RvItemMoreDetailedOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val item = RvItemMoreDetailedOrderBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return MoreDetailedOrderHolder(item)
     }
 
@@ -28,5 +32,9 @@ class MoreDetailedOrderAdapter(
         listProduct.clear()
         listProduct.addAll(newListProductData)
         notifyDataSetChanged()
+    }
+
+    fun getItems(): List<CartProduct> {
+        return listProduct
     }
 }

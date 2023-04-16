@@ -13,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentConfirmPurchaseBinding
-import com.example.fooddeliveryapp.ui.custom.CustomAlertDialog
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.ui.custom_view.CustomAlertDialog
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import javax.inject.Inject
 
 class ConfirmPurchaseFragment : Fragment() {
@@ -40,10 +40,37 @@ class ConfirmPurchaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
+        setupButtons()
+        observeViewModel()
+    }
+
+    private fun initViewModel() {
         viewModel.getCartPrice()
         viewModel.getUser()
-        binding.btnAddAddress.setOnClickListener { openDialogAddNewAddress() }
+    }
 
+    private fun setupButtons() {
+        with(binding) {
+            btnAddAddress.setOnClickListener { openDialogAddNewAddress() }
+
+            ivBack.setOnClickListener { navigateBack() }
+
+            btnConfirmOrder.setOnClickListener {
+                when (autoCompleteTextView.text.toString()) {
+                    getString(R.string.please_add_new_address) ->
+                        tiDropdownMenu.error = getString(R.string.please_add_new_address)
+
+                    getString(R.string.please_choose_address) ->
+                        tiDropdownMenu.error = getString(R.string.please_choose_address)
+
+                    else -> viewModel.updateUser()
+                }
+            }
+        }
+    }
+
+    private fun observeViewModel() {
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             binding.discount.isVisible = it.discount > 0
             if (it.address.isEmpty()) {
@@ -68,16 +95,10 @@ class ConfirmPurchaseFragment : Fragment() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner) {
             binding.groupLoading.isVisible = it
         }
+    }
 
-        binding.btnConfirmOrder.setOnClickListener {
-            if (binding.autoCompleteTextView.text.toString() == getString(R.string.please_add_new_address)) {
-                binding.tiDropdownMenu.error = getString(R.string.please_add_new_address)
-            } else if (binding.autoCompleteTextView.text.toString() == getString(R.string.please_choose_address)) {
-                binding.tiDropdownMenu.error = getString(R.string.please_choose_address)
-            } else {
-                viewModel.updateUser()
-            }
-        }
+    private fun navigateBack() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun navigateToSuccessPurchase() {
@@ -95,5 +116,10 @@ class ConfirmPurchaseFragment : Fragment() {
             binding.autoCompleteTextView.setText(address)
         }
         customDialog.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

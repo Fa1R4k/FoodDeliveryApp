@@ -12,7 +12,6 @@
         android:ellipsize="end"
         android:lines="1"
         android:layout_margin="16dp"
-        android:text="Address"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

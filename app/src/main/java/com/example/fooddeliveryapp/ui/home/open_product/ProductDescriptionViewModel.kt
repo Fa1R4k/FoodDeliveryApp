@@ -7,12 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.CartRepository
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import com.example.fooddeliveryapp.domain.ProductRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProductDescriptionViewModel @Inject constructor(
     private val productRepository: ProductRepository,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
 
     private val _liveData = MutableLiveData<ProductItem.ProductData>()
@@ -27,36 +28,35 @@ class ProductDescriptionViewModel @Inject constructor(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> get() = _loadingLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
     fun getProduct(id: Int) {
         _loadingLiveData.value = true
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _liveData.value = productRepository.getProductById(id)
             _loadingLiveData.value = false
             _parametersLiveData.value = _liveData.value?.price?.keys?.toList()
         }
     }
 
-    fun addToCard(
-        productItem: ProductItem.ProductData,
-        productPrise: Double,
-        productCount: Int,
-        productParameter: String,
-    ) {
-        viewModelScope.launch {
-            val product = cartRepository.getProductFromDataBase(productItem.id, productParameter)
-            if (product.id == -1) {
-                cartRepository.addProductToCart(productItem,
-                    productPrise,
-                    productCount,
-                    productParameter)
+    fun addToCard(productItem: ProductItem.ProductData, prise: Double, parameter: String) {
+        viewModelScope.launch(exceptionHandler) {
+            val productExistsInCart =
+                cartRepository.containsProductInDataBase(productItem.id, parameter)
+
+            val countForFirstElemInCart = 1
+            val addElementInCard = 1
+
+            val addProductCount = if (productExistsInCart) {
+                cartRepository.getProductFromDataBase(
+                    productItem.id, parameter
+                ).countProductInCart + addElementInCard
             } else {
-                val addProductCount = product.countProductInCart + 1
-                cartRepository.addProductToCart(productItem,
-                    productPrise,
-                    addProductCount,
-                    productParameter)
+                countForFirstElemInCart
             }
+            cartRepository.addProductToCart(
+                productItem, prise, addProductCount, parameter
+            )
         }
     }
 }

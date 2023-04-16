@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.ui.custom
+package com.example.fooddeliveryapp.ui.custom_view
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator

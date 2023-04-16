@@ -16,17 +16,16 @@ class CartRepositoryImpl @Inject constructor(
     private val productInCartMapper: CartProductMapper,
 ) : CartRepository {
 
-    override suspend fun getProductFromDataBase(id: Int, parameter: String): CartProduct {
-        var productInCart = CartProduct(-1, "", "", 0.0, "", 0)
+    override suspend fun getProductFromDataBase(id: Int, parameter: String): CartProduct =
         withContext(Dispatchers.IO) {
-            try {
-                productInCart = productInCartMapper(cartDataBase.getAll()
-                    .first { it.productId == id && it.productParameter == parameter })
-            } catch (_: Exception) {
-            }
+            productInCartMapper(cartDataBase.getAll()
+                .first { it.productId == id && it.productParameter == parameter })
         }
-        return productInCart
-    }
+
+    override suspend fun containsProductInDataBase(id: Int, parameter: String): Boolean =
+        withContext(Dispatchers.IO) {
+            cartDataBase.getAll().firstNotNullOfOrNull{ it.productId == id && it.productParameter == parameter } == true
+        }
 
     override suspend fun addProductToCart(
         productItem: ProductItem.ProductData,
@@ -35,10 +34,20 @@ class CartRepositoryImpl @Inject constructor(
         productParameter: String,
     ) {
         withContext(Dispatchers.IO) {
-            cartDataBase.insert(cartEntityMapper(productItem,
-                productPrice,
-                productCount,
-                productParameter))
+            cartDataBase.insert(
+                cartEntityMapper(
+                    productItem,
+                    productPrice,
+                    productCount,
+                    productParameter
+                )
+            )
+        }
+    }
+
+    override suspend fun addProductToCart(productItem: List<CartProduct>) {
+        withContext(Dispatchers.IO) {
+            productItem.map { cartDataBase.insert(cartEntityMapper(it)) }
         }
     }
 

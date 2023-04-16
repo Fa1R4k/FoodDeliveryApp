@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.domain.UserRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,15 +16,16 @@ class UserAddressesViewModel @Inject constructor(
     private val _userAddressesLiveData = MutableLiveData<List<String>>()
     val userAddressesLiveData: LiveData<List<String>> get() = _userAddressesLiveData
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
     fun getUserAddresses() {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _userAddressesLiveData.value = userRepository.getUser().address
         }
     }
 
     fun addUserAddress(address: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val user = userRepository.getUser()
             user.address.add(address)
             _userAddressesLiveData.value = user.address
@@ -32,7 +34,7 @@ class UserAddressesViewModel @Inject constructor(
     }
 
     fun deleteAddress(address: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val user = userRepository.getUser()
             user.address.remove(address)
             userRepository.updateUser(user)

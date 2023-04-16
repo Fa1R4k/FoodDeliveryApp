@@ -1,7 +1,6 @@
 package com.example.fooddeliveryapp.data
 
 import com.example.fooddeliveryapp.data.mappers.*
-import com.example.fooddeliveryapp.data.models.HistoryOrderResponse
 import com.example.fooddeliveryapp.data.models.LoginResponse
 import com.example.fooddeliveryapp.data.source.UserDataSource
 import com.example.fooddeliveryapp.domain.UserRepository
@@ -17,9 +16,11 @@ class UserRepositoryImpl @Inject constructor(
     private val userResponseMapper: UserResponseMapper,
     private val userMapper: UserMapper,
     private val userService: UserService,
-    private val cartProductItemMapper: CartProductItemMapper,
 ) : UserRepository {
-    override fun isAuthorized(): Boolean = sharedPreferences.getUserToken().isNotEmpty()
+    override suspend fun isAuthorized(): Boolean =
+        withContext(Dispatchers.IO) {
+            userService.getAllUser().map { it.id }.contains(sharedPreferences.getUserToken())
+        }
 
     override suspend fun createUser(user: User): Boolean = withContext(Dispatchers.IO) {
         val isSuccess = userService.createUser(userResponseMapper(user)).isSuccess
@@ -38,13 +39,13 @@ class UserRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getUser(): User = withContext(Dispatchers.IO) {
-        println(sharedPreferences.getUserToken())
         userMapper(userService.getUserById(sharedPreferences.getUserToken()))
     }
 
     override suspend fun updateUser(user: User): Boolean = withContext(Dispatchers.IO) {
         userService.updateUser(userResponseMapper(user))
     }
+
     override suspend fun updateUser(
         user: User,
         order: List<CartProduct>,

@@ -27,7 +27,7 @@ class MenuAdapter(
                         false)
                 TitleViewHolder(item)
             }
-            else -> throw Exception("Invalid Type!")
+            else -> throw Exception()
         }
 
     override fun getItemCount(): Int = listProductItem.size

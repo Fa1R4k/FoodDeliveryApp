@@ -19,9 +19,8 @@ import com.example.fooddeliveryapp.DaggerApp
 import com.example.fooddeliveryapp.R
 import com.example.fooddeliveryapp.databinding.FragmentProductDescriptionBinding
 import com.example.fooddeliveryapp.domain.model.ProductItem
-import com.example.spinnercat.di.ViewModel.ViewModelFactory
+import com.example.fooddeliveryapp.di.viewModel.ViewModelFactory
 import javax.inject.Inject
-
 
 class ProductDescriptionFragment : Fragment(R.layout.fragment_product_description) {
     @Inject
@@ -35,6 +34,7 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
         super.onAttach(context)
         (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,10 +50,10 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getProduct(args.productId)
         observeLoadingLiveData()
         observeLiveData()
         setUpListeners()
-        viewModel.getProduct(args.productId)
     }
 
     private fun observeLoadingLiveData() {
@@ -66,7 +66,7 @@ class ProductDescriptionFragment : Fragment(R.layout.fragment_product_descriptio
     private fun setUpListeners() {
         binding.btnToCart.setOnClickListener {
             viewModel.liveData.value?.let { product ->
-                viewModel.addToCard(product, price, 1, selectedParameter)
+                viewModel.addToCard(product, price, selectedParameter)
             }
             backToHomeWithAnimateToCart()
         }
