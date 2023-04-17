@@ -8,6 +8,4 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MapKey
-annotation class ViewModelKey(val value: KClass<out ViewModel>) {
-
-}
+annotation class ViewModelKey(val value: KClass<out ViewModel>)

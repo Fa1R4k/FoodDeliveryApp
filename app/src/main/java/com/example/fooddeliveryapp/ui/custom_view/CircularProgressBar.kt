@@ -11,7 +11,6 @@ import android.view.View
 import com.example.fooddeliveryapp.R
 import kotlin.math.min
 
-
 class CircularProgressBar(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     companion object {

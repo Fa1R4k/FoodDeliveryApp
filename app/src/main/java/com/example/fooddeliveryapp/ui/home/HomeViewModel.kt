@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fooddeliveryapp.NetworkConnection
-import com.example.fooddeliveryapp.domain.CartRepository
-import com.example.fooddeliveryapp.domain.ProductRepository
+import com.example.fooddeliveryapp.domain.repositories.CartRepository
+import com.example.fooddeliveryapp.domain.repositories.ProductRepository
 import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import kotlinx.coroutines.CoroutineExceptionHandler

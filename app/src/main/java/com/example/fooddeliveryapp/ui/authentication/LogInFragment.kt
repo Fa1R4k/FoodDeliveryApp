@@ -166,7 +166,7 @@ class LogInFragment : Fragment() {
     }
 
     companion object {
-        private const val REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)\\w{8,}\$"
+        private const val REGEX_PASSWORD = "^(?=.*[A-zА-я])(?=.*\\d).{8,16}\$"
         private const val REGEX_NUMBER = "^\\+375 (25|44|33|29)\\s\\d{3}-\\d{2}-\\d{2}\$"
         private const val FORMAT_NUMBER = "+375 __ ___-__-__"
     }

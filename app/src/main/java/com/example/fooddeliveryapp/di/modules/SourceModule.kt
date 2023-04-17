@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.di
+package com.example.fooddeliveryapp.di.modules
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

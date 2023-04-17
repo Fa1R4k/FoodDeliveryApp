@@ -26,6 +26,7 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private var userIsAuthentication = false
+    private val adapter = CartAdapter(changeCart())
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,9 +40,6 @@ class CartFragment : Fragment() {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }
-
-    private var purchasePrice = 0.0
-    private var adapter = CartAdapter(changeCart())
 
     override fun onStart() {
         super.onStart()
@@ -125,7 +123,6 @@ class CartFragment : Fragment() {
             adapter.setItems(it)
         }
         viewModel.priceLiveData.observe(viewLifecycleOwner) {
-            purchasePrice = it
             binding.btnForBuy.text = resources.getString(R.string.buy, String.format("%.2f", it))
         }
         viewModel.productCountLiveData.observe(viewLifecycleOwner) {

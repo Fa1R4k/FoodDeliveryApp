@@ -12,15 +12,13 @@ import com.example.fooddeliveryapp.R
 class DeliveryForegroundService() : Service() {
 
     private var countDownTimer: CountDownTimer? = null
-    private var notificationManager: NotificationManager? = null
-    private var notificationBuilder: NotificationCompat.Builder? = null
+    private val notificationManager: NotificationManager by lazy { getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+    private val notificationBuilder: NotificationCompat.Builder by lazy { buildNotification() }
 
     override fun onCreate() {
         super.onCreate()
         startTimer()
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationBuilder = buildNotification()
-        startForeground(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
+        startForeground(NOTIFICATION_SERVICE_ID, notificationBuilder.build())
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -33,7 +31,9 @@ class DeliveryForegroundService() : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        }
         countDownTimer?.cancel()
         countDownTimer = null
     }
@@ -45,7 +45,7 @@ class DeliveryForegroundService() : Service() {
                 NOTIFICATION_SERVICE_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT
             )
-            notificationManager?.createNotificationChannel(channel)
+            notificationManager.createNotificationChannel(channel)
         }
         return NotificationCompat.Builder(this, NOTIFICATION_SERVICE_CHANNEL_ID)
             .setContentTitle(applicationContext.getString(R.string.delivery))
@@ -80,8 +80,8 @@ class DeliveryForegroundService() : Service() {
 
 
             private fun updateNotificationText(notificationText: String) {
-                notificationBuilder?.setContentText(notificationText)
-                notificationManager?.notify(NOTIFICATION_SERVICE_ID, notificationBuilder?.build())
+                notificationBuilder.setContentText(notificationText)
+                notificationManager.notify(NOTIFICATION_SERVICE_ID, notificationBuilder.build())
             }
 
             override fun onFinish() {
@@ -106,7 +106,9 @@ class DeliveryForegroundService() : Service() {
                     getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
 
-                stopForeground(STOP_FOREGROUND_REMOVE)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                }
                 stopSelf()
             }
         }

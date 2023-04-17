@@ -28,7 +28,6 @@ class MapsRestaurantsFragment : Fragment() {
     private lateinit var mapObjects: MapObjectCollection
     private val locationMinsk = Point(53.9045, 27.5615)
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().applicationContext as DaggerApp).appComponent.inject(this)

@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.domain
+package com.example.fooddeliveryapp.domain.repositories
 
 import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem

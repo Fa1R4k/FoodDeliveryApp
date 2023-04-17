@@ -24,12 +24,13 @@ class ProductItemMapper @Inject constructor() {
         response.toProductData()
 
     private fun ProductItemResponse.toProductData(): ProductItem.ProductData {
-        val id = id ?: 0
-        val imageUrl = imageUrl.orEmpty()
-        val name = name.orEmpty()
-        val description = description.orEmpty()
-        val price = price ?: mapOf()
-        val category = category.orEmpty()
-        return ProductItem.ProductData(id, name, description, imageUrl, price, category)
+        return ProductItem.ProductData(
+            id = id ?: 0,
+            imageUrl = imageUrl.orEmpty(),
+            name = name.orEmpty(),
+            description = description.orEmpty(),
+            price = price ?: mapOf(),
+            category = category.orEmpty(),
+        )
     }
 }

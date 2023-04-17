@@ -1,9 +1,7 @@
-package com.example.fooddeliveryapp.di
+package com.example.fooddeliveryapp.di.modules
 
-import android.content.Context
-import com.example.fooddeliveryapp.NetworkConnection
-import com.example.fooddeliveryapp.data.ProductService
-import com.example.fooddeliveryapp.data.UserService
+import com.example.fooddeliveryapp.data.network.ProductService
+import com.example.fooddeliveryapp.data.network.UserService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -43,11 +41,5 @@ class NetworkModule {
     @Singleton
     fun getUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun getNetworkConnection(context: Context): NetworkConnection {
-        return NetworkConnection(context)
     }
 }

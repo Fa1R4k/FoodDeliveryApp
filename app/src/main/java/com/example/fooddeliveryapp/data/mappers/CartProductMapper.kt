@@ -7,28 +7,34 @@ import javax.inject.Inject
 
 class CartProductMapper @Inject constructor() {
     operator fun invoke(
-        response: CartEntity,
-    ): CartProduct {
+        cartEntity: CartEntity,
+    ): CartProduct = with(cartEntity)
+    {
         return CartProduct(
-            id = response.productId,
-            name = response.productName,
-            imageUrl = response.productImageLink,
-            prise = response.productPrice,
-            productParameter = response.productParameter,
-            countProductInCart = response.countProductInCart,
+            id = productId,
+            name = productName,
+            imageUrl = productImageLink,
+            prise = productPrice,
+            productParameter = productParameter,
+            countProductInCart = countProductInCart,
         )
     }
 
     operator fun invoke(
         response: CartProductItemResponse,
-    ): CartProduct {
+    ): CartProduct = with(response) {
         return CartProduct(
-            id = response.id,
-            name = response.name,
-            imageUrl = response.imageUrl,
-            prise = response.prise,
-            productParameter = response.productParameter,
-            countProductInCart = response.countProductInCart,
+            id = id ?: idIsNull,
+            name = name.orEmpty(),
+            imageUrl = imageUrl.orEmpty(),
+            prise = prise ?: priseIsNull,
+            productParameter = productParameter.orEmpty(),
+            countProductInCart = countProductInCart ?: countProductInCartIsNull,
         )
+    }
+    companion object{
+        private const val idIsNull = -1
+        private const val priseIsNull = 0.0
+        private const val countProductInCartIsNull = 0
     }
 }

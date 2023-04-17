@@ -2,7 +2,11 @@ package com.example.fooddeliveryapp.di
 
 import android.content.Context
 import com.example.fooddeliveryapp.MainActivity
-import com.example.fooddeliveryapp.di.viewModel.ViewModelModule
+import com.example.fooddeliveryapp.di.modules.DataBaseModule
+import com.example.fooddeliveryapp.di.modules.DataModule
+import com.example.fooddeliveryapp.di.modules.NetworkModule
+import com.example.fooddeliveryapp.di.modules.SourceModule
+import com.example.fooddeliveryapp.di.modules.ViewModelModule
 import com.example.fooddeliveryapp.ui.authentication.LogInFragment
 import com.example.fooddeliveryapp.ui.authentication.NeedAuthenticationFragment
 import com.example.fooddeliveryapp.ui.authentication.SignUpFragment

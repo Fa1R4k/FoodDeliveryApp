@@ -1,6 +1,7 @@
-package com.example.fooddeliveryapp.di.viewModel
+package com.example.fooddeliveryapp.di.modules
 
 import androidx.lifecycle.ViewModel
+import com.example.fooddeliveryapp.di.viewModel.ViewModelKey
 import com.example.fooddeliveryapp.ui.authentication.LogInViewModel
 import com.example.fooddeliveryapp.ui.authentication.SingUpViewModel
 import com.example.fooddeliveryapp.ui.cart.CartViewModel

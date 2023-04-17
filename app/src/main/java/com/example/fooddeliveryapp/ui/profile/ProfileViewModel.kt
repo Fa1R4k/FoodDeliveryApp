@@ -2,7 +2,7 @@ package com.example.fooddeliveryapp.ui.profile
 
 import androidx.lifecycle.*
 import com.example.fooddeliveryapp.NetworkConnection
-import com.example.fooddeliveryapp.domain.UserRepository
+import com.example.fooddeliveryapp.domain.repositories.UserRepository
 import com.example.fooddeliveryapp.domain.model.User
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

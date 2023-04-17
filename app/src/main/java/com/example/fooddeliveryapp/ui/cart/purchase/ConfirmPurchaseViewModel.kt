@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fooddeliveryapp.domain.CartRepository
-import com.example.fooddeliveryapp.domain.UserRepository
+import com.example.fooddeliveryapp.domain.repositories.CartRepository
+import com.example.fooddeliveryapp.domain.repositories.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.domain.model.User
 import com.example.fooddeliveryapp.domain.use_case.GetCurrentDateUseCase

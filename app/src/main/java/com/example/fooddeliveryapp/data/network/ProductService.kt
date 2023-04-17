@@ -1,4 +1,4 @@
-package com.example.fooddeliveryapp.data
+package com.example.fooddeliveryapp.data.network
 
 import com.example.fooddeliveryapp.data.models.ProductItemResponse
 import retrofit2.http.GET

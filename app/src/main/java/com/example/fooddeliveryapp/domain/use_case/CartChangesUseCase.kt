@@ -1,6 +1,6 @@
 package com.example.fooddeliveryapp.domain.use_case
 
-import com.example.fooddeliveryapp.domain.CartRepository
+import com.example.fooddeliveryapp.domain.repositories.CartRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.ui.cart.CartChanges
 import javax.inject.Inject

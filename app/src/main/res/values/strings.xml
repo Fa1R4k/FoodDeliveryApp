@@ -19,7 +19,7 @@
     <string name="advertising_str">Приобретайте больше вкусной еды и получайте скидку ещё больше!</string>
     <string name="error_required_field">Обязательное поле</string>
     <string name="need_authentication">Вам необходимо создать или войти в существующий аккаунт.</string>
-    <string name="password_error">Пароль должен содержать хотя бы одну большую букву, одну маленькую букву и одну цифру.</string>
+    <string name="password_error">Пароль должен содержать 8\-16 символов и состоять из цифр и букв.</string>
     <string name="data_error">Некорректная дата</string>
     <string name="number_error">Несуществующий номер телефона</string>
     <string name="SignUp">Регистрация</string>

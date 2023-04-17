@@ -132,14 +132,7 @@
         android:id="@+id/successAuthenticationFragment"
         android:name="com.example.fooddeliveryapp.ui.authentication.SuccessAuthenticationFragment"
         android:label="SuccessAuthenticationFragment"
-        tools:layout="@layout/fragment_authentication_success">
-        <action
-            android:id="@+id/action_successAuthenticationFragment_to_navigation_profile"
-            app:destination="@id/navigation_profile" />
-        <action
-            android:id="@+id/action_successAuthenticationFragment_to_navigation_cart"
-            app:destination="@id/navigation_cart" />
-    </fragment>
+        tools:layout="@layout/fragment_authentication_success"/>
     <fragment
         android:id="@+id/confirmPurchaseFragment"
         android:name="com.example.fooddeliveryapp.ui.cart.purchase.ConfirmPurchaseFragment"
@@ -184,6 +177,7 @@
     <fragment
         android:id="@+id/mapsRestaurantsFragment"
         android:name="com.example.fooddeliveryapp.ui.contacts.MapsRestaurantsFragment"
-        android:label="MapsRestaurantsFragment" />
+        android:label="MapsRestaurantsFragment"
+        tools:layout="@layout/fragment_restaurants_map"/>
 
 </navigation>

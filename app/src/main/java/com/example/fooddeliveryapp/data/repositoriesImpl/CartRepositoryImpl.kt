@@ -1,9 +1,10 @@
-package com.example.fooddeliveryapp.data
+package com.example.fooddeliveryapp.data.repositoriesImpl
 
+import com.example.fooddeliveryapp.data.database.CartEntity
 import com.example.fooddeliveryapp.data.mappers.CartEntityMapper
 import com.example.fooddeliveryapp.data.mappers.CartProductMapper
 import com.example.fooddeliveryapp.data.source.DataBaseSource
-import com.example.fooddeliveryapp.domain.CartRepository
+import com.example.fooddeliveryapp.domain.repositories.CartRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +20,15 @@ class CartRepositoryImpl @Inject constructor(
     override suspend fun getProductFromDataBase(id: Int, parameter: String): CartProduct =
         withContext(Dispatchers.IO) {
             productInCartMapper(cartDataBase.getAll()
-                .first { it.productId == id && it.productParameter == parameter })
+                .firstOrNull{ it.productId == id && it.productParameter == parameter }
+                ?: CartEntity(1, "", "", 0.0, "", 1)
+            )
         }
 
     override suspend fun containsProductInDataBase(id: Int, parameter: String): Boolean =
         withContext(Dispatchers.IO) {
-            cartDataBase.getAll().firstNotNullOfOrNull{ it.productId == id && it.productParameter == parameter } == true
+            cartDataBase.getAll()
+                .firstNotNullOfOrNull { it.productId == id && it.productParameter == parameter } == true
         }
 
     override suspend fun addProductToCart(

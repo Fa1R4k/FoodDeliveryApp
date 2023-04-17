@@ -1,8 +1,9 @@
-package com.example.fooddeliveryapp.data
+package com.example.fooddeliveryapp.data.repositoriesImpl
 
 import com.example.fooddeliveryapp.data.mappers.CategoryDataMapper
 import com.example.fooddeliveryapp.data.mappers.ProductItemMapper
-import com.example.fooddeliveryapp.domain.ProductRepository
+import com.example.fooddeliveryapp.data.network.ProductService
+import com.example.fooddeliveryapp.domain.repositories.ProductRepository
 import com.example.fooddeliveryapp.domain.model.CategoryData
 import com.example.fooddeliveryapp.domain.model.ProductItem
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,6 @@ class ProductRepositoryImpl @Inject constructor(
         productService.getCategories().map { categoryDataMapper(it) }
     }
 
-
     override suspend fun getProductById(id: Int): ProductItem.ProductData =
         withContext(Dispatchers.IO) {
             productItemMapper(productService.getProductById(id))
@@ -31,6 +31,6 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun search(query: String): List<ProductItem.ProductData> =
         withContext(Dispatchers.IO) {
-            productService.search(query).map { productItemMapper(it)}.toList()
+            productService.search(query).map { productItemMapper(it) }
         }
 }

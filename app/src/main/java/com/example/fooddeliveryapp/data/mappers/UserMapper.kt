@@ -1,11 +1,11 @@
 package com.example.fooddeliveryapp.data.mappers
 
-import com.example.fooddeliveryapp.data.models.UserItemResponse
+import com.example.fooddeliveryapp.data.models.UserItemRequest
 import com.example.fooddeliveryapp.domain.model.User
 import javax.inject.Inject
 
 class UserMapper @Inject constructor(private val historyOrderDataMapper: HistoryOrderDataMapper) {
-    operator fun invoke(response: UserItemResponse): User =
+    operator fun invoke(response: UserItemRequest): User =
         with(response) {
             return User(
                 name = name.orEmpty(),

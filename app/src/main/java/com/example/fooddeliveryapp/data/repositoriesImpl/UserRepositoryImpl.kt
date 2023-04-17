@@ -1,9 +1,10 @@
-package com.example.fooddeliveryapp.data
+package com.example.fooddeliveryapp.data.repositoriesImpl
 
 import com.example.fooddeliveryapp.data.mappers.*
 import com.example.fooddeliveryapp.data.models.LoginResponse
+import com.example.fooddeliveryapp.data.network.UserService
 import com.example.fooddeliveryapp.data.source.UserDataSource
-import com.example.fooddeliveryapp.domain.UserRepository
+import com.example.fooddeliveryapp.domain.repositories.UserRepository
 import com.example.fooddeliveryapp.domain.model.CartProduct
 import com.example.fooddeliveryapp.domain.model.HistoryOrderData
 import com.example.fooddeliveryapp.domain.model.User
@@ -15,7 +16,7 @@ class UserRepositoryImpl @Inject constructor(
     private val sharedPreferences: UserDataSource,
     private val userResponseMapper: UserResponseMapper,
     private val userMapper: UserMapper,
-    private val userService: UserService,
+    private val userService: UserService
 ) : UserRepository {
     override suspend fun isAuthorized(): Boolean =
         withContext(Dispatchers.IO) {
@@ -24,18 +25,18 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun createUser(user: User): Boolean = withContext(Dispatchers.IO) {
         val isSuccess = userService.createUser(userResponseMapper(user)).isSuccess
-        if (isSuccess) sharedPreferences.setUserToken(user.id)
-        isSuccess
+        if (isSuccess == true) sharedPreferences.setUserToken(user.id)
+        isSuccess == true
     }
 
 
     override suspend fun loginUser(userNumber: String, password: String): Boolean =
         withContext(Dispatchers.IO) {
             val authenticationResponse = userService.login(LoginResponse(userNumber, password))
-            if (authenticationResponse.isSuccess) sharedPreferences.setUserToken(
+            if (authenticationResponse.isSuccess == true) sharedPreferences.setUserToken(
                 authenticationResponse.user?.id.toString()
             )
-            authenticationResponse.isSuccess
+            authenticationResponse.isSuccess == true
         }
 
     override suspend fun getUser(): User = withContext(Dispatchers.IO) {
@@ -57,6 +58,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun logout() {
-        sharedPreferences.setUserToken("")
+        sharedPreferences.setUserToken(EMPTY_STRING)
+    }
+
+    companion object{
+        private const val EMPTY_STRING = ""
     }
 }
